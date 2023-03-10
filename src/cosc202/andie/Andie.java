@@ -18,6 +18,8 @@ import javax.imageio.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
+ *  Changed by the x-files!
+ * 
  * @author Steven Mills
  * @version 1.0
  */
