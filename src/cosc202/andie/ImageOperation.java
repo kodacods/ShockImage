@@ -26,7 +26,7 @@ import java.awt.image.BufferedImage;
  * @author Steven Mills
  * @version 1.0
  */
-public interface ImageOperation {
+public interface ImageOperation { // adding a comment
 
     /**
      * Apply the operation to an image.
