@@ -8,9 +8,7 @@ import java.awt.image.*;
  * </p>
  * 
  * <p>
- * The images produced by this operation are still technically colour images,
- * in that they have red, green, and blue values, but each pixel has equal
- * values for red, green, and blue giving a shade of grey.
+ * Independantly changes rgb in pixels of the image to adjust the contrast of the overall image using the equation v = (1+ c/100)*(v−127.5) + (127.5*(1+ b/100)) .
  * </p>
  * 
  * <p>
@@ -26,6 +24,7 @@ public class Contrast implements ImageOperation, java.io.Serializable {
     /**
      * <p>
      * Create a new increaseContrast operation.
+     * 
      * </p>
      */
     Contrast() {
@@ -44,7 +43,7 @@ public class Contrast implements ImageOperation, java.io.Serializable {
                 
                 //int grey = (int) Math.round(0.3*r + 0.6*g + 0.1*b);
 
-                //Increasing the contrast of rgb by 25%
+                //Decreasing the contrast of rgb by 25%
                 int cr = (int) Math.round(0.75 * (r-127.5)+ (127.5 * (1+0/100)));
                 int cg = (int) Math.round(0.75 * (g-127.5)+ (127.5 * (1+0/100)));
                 int cb = (int) Math.round(0.75 * (b-127.5)+ (127.5 * (1+0/100)));

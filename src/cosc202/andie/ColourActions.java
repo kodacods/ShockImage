@@ -38,6 +38,7 @@ public class ColourActions {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
         actions.add(new ContrastAction("Contrast", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new BrightnessAction("Brightness", null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
     }
 
     /**
@@ -102,16 +103,16 @@ public class ColourActions {
 
     /**
      * <p>
-     * Action to convert an image to greyscale.
+     * Action to adjust the contrast of an image.
      * </p>
      * 
-     * @see ConvertToGrey
+     * @see Contrast
      */
     public class ContrastAction extends ImageAction {
 
         /**
          * <p>
-         * Create a new convert-to-grey action.
+         * Create a new contrast action.
          * </p>
          * 
          * @param name The name of the action (ignored if null).
@@ -125,12 +126,11 @@ public class ColourActions {
 
         /**
          * <p>
-         * Callback for when the convert-to-grey action is triggered.
+         * Callback for when the contrast action is triggered.
          * </p>
          * 
          * <p>
-         * This method is called whenever the ConvertToGreyAction is triggered.
-         * It changes the image to greyscale.
+         * This method is called whenever the Contrast is triggered.
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -143,5 +143,46 @@ public class ColourActions {
 
     }
 
+    /**
+     * <p>
+     * Action to adjust brightness of image.
+     * </p>
+     * 
+     * @see Brightness
+     */
+    public class BrightnessAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new convert-to-grey action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        BrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the brightness action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the Brightness is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new Brightness());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
 
 }
