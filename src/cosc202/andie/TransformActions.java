@@ -48,5 +48,15 @@ public class TransformActions {
         return fileMenu;
      }
 
-     
+     public class ResizeTransformAction extends ImageAction{
+        //baller .
+        ResizeTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e){
+
+        }
+
+     }
 }
