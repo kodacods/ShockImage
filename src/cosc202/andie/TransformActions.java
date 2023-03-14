@@ -31,6 +31,7 @@ public class TransformActions {
     public TransformActions(){
         actions = new ArrayList<Action>();
         actions.add(new ResizeTransformAction("Resize", null, "Resize image", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new ResizeTransformAction("Flip", null, "Flip image", Integer.valueOf(KeyEvent.VK_M)));
     }
 
     /**
@@ -57,6 +58,20 @@ public class TransformActions {
 
         public void actionPerformed(ActionEvent e){
             target.getImage().apply(new ResizeTransform());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+     }
+
+     public class FlipTransformAction extends ImageAction{
+        //hmm
+        FlipTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e){
+            target.getImage().apply(new FlipTransform());
             target.repaint();
             target.getParent().revalidate();
         }
