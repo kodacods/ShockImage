@@ -30,6 +30,7 @@ public class TransformActions {
 
     public TransformActions(){
         actions = new ArrayList<Action>();
+        actions.add(new ResizeTransformAction("Resize", null, "Resize image", Integer.valueOf(KeyEvent.VK_M)));
     }
 
     /**
@@ -55,7 +56,9 @@ public class TransformActions {
         }
 
         public void actionPerformed(ActionEvent e){
-
+            target.getImage().apply(new ResizeTransform());
+            target.repaint();
+            target.getParent().revalidate();
         }
 
      }
