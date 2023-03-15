@@ -4,7 +4,7 @@ import java.awt.image.*;
 
 /**
  * <p>
- * ImageOperation to adjust the contrast of the image
+ * ImageOperation to increase contrast of the image by 25%
  * </p>
  * 
  * <p>
@@ -19,7 +19,7 @@ import java.awt.image.*;
  * @version 1.0
  */
 
-public class Contrast implements ImageOperation, java.io.Serializable {
+public class IncreaseContrast implements ImageOperation, java.io.Serializable {
 
     /**
      * <p>
@@ -27,26 +27,26 @@ public class Contrast implements ImageOperation, java.io.Serializable {
      * 
      * </p>
      */
-    Contrast() {
+    IncreaseContrast() {
     }
 
     public BufferedImage apply(BufferedImage input) {
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
                 int argb = input.getRGB(x, y);
-                int a = inRange((argb & 0xFF000000) >> 24);
-                int r = inRange((argb & 0x00FF0000) >> 16);
-                int g = inRange((argb & 0x0000FF00) >> 8);
-                int b = inRange((argb & 0x000000FF));
+                int a = (argb & 0xFF000000) >> 24;
+                int r = (argb & 0x00FF0000) >> 16;
+                int g = (argb & 0x0000FF00) >> 8;
+                int b = (argb & 0x000000FF);
 
 
                 
                 //int grey = (int) Math.round(0.3*r + 0.6*g + 0.1*b);
 
                 //Decreasing the contrast of rgb by 25%
-                int cr = (int) Math.round(0.75 * (r-127.5)+ (127.5 * (1+0/100)));
-                int cg = (int) Math.round(0.75 * (g-127.5)+ (127.5 * (1+0/100)));
-                int cb = (int) Math.round(0.75 * (b-127.5)+ (127.5 * (1+0/100)));
+                int cr = (int) Math.round(1.25 * (r-127.5)+ (127.5 * (1+0/100)));
+                int cg = (int) Math.round(1.25 * (g-127.5)+ (127.5 * (1+0/100)));
+                int cb = (int) Math.round(1.25 * (b-127.5)+ (127.5 * (1+0/100)));
 
                 argb = (a << 24) | (cr << 16) | (cg << 8) | cb;
                 input.setRGB(x, y, argb);
@@ -57,8 +57,13 @@ public class Contrast implements ImageOperation, java.io.Serializable {
     }
 
     public static int inRange (int value){
-        if (value < 0) value = 0;
-        if (value > 255) value = 255;
+        if (value < 0) {
+            return value = 0;
+        }
+         else if (value > 255) { 
+            return value = 255;
+        } else {
         return value;
+        }
     }
 }
