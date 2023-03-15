@@ -26,11 +26,21 @@ public class FlipHorzTransform implements ImageOperation, java.io.Serializable {
                 input.setRGB(i, h - j, set[i][h - j]);
             }
         } */ //it doesn't.
+        //Swapping horizontally...
 
-        
+        for(int j = 0; j < h; j++){
+            for(int i = 1; i < w / 2; i++){
+               int temp = set[i][j];
+               set[i][j] = set[w - i][j];
+               set[w - i][j] = temp; 
+               
+               input.setRGB(i, j, set[i][j]); 
+               input.setRGB(w - i, j, set[w - i][j]);
+            }
+         }
+
 
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         return output;
-// casting issue more like skill issue <-
     }  
 }

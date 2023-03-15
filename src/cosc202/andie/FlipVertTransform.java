@@ -7,7 +7,7 @@ public class FlipVertTransform implements ImageOperation, java.io.Serializable {
 
     }
     public BufferedImage apply(BufferedImage input) { 
-        System.out.println("Working");
+        
         int w = input.getWidth();
         int h = input.getHeight(); 
         int set[][] = new int[w][h];
@@ -16,7 +16,7 @@ public class FlipVertTransform implements ImageOperation, java.io.Serializable {
                 set[i][j] = input.getRGB(i, j); 
             }
         }
-        System.out.println("Created Array");
+
         for(int i = 0; i < w; i++){ 
             for(int j = 1; j < h / 2; j++){ 
                 int temp = set[i][j];
@@ -26,7 +26,7 @@ public class FlipVertTransform implements ImageOperation, java.io.Serializable {
                 input.setRGB(i, h - j, set[i][h - j]);
             }
         }
-        System.out.println("Flipped");
+
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         return output;
 // casting issue more like skill issue <-
