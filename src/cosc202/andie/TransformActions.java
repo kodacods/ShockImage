@@ -31,7 +31,8 @@ public class TransformActions {
     public TransformActions(){
         actions = new ArrayList<Action>();
         actions.add(new ResizeTransformAction("Resize", null, "Resize image", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new ResizeTransformAction("Flip", null, "Flip image", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new FlipVertTransformAction("Flip Vertical", null, "Flip image vertically", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new FlipHorzTransformAction("Flip Horizontal", null, "Flip image horizontally", Integer.valueOf(KeyEvent.VK_M)));
     }
 
     /**
@@ -41,13 +42,12 @@ public class TransformActions {
      */
 
      public JMenu createMenu(){
-        JMenu fileMenu = new JMenu("Transform");
+        JMenu transformMenu = new JMenu("Transform");
 
-        for(Action action : actions){
-            fileMenu.add(new JMenuItem(action));
+        for(Action action: actions){
+            transformMenu.add(new JMenuItem(action));
         }
-
-        return fileMenu;
+        return transformMenu;
      }
 
      public class ResizeTransformAction extends ImageAction{
@@ -64,17 +64,29 @@ public class TransformActions {
 
      }
 
-     public class FlipTransformAction extends ImageAction{
-        //hmm
-        FlipTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+     public class FlipVertTransformAction extends ImageAction{
+        
+        FlipVertTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
-        public void actionPerformed(ActionEvent e){
-            target.getImage().apply(new FlipTransform());
+        public void actionPerformed(ActionEvent e){ 
+            target.getImage().apply(new FlipVertTransform());
             target.repaint();
-            target.getParent().revalidate();
+            target.getParent().revalidate(); 
+        }
+     }
+
+     public class FlipHorzTransformAction extends ImageAction{
+        
+        FlipHorzTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
         }
 
+        public void actionPerformed(ActionEvent e){ 
+            target.getImage().apply(new FlipHorzTransform());
+            target.repaint();
+            target.getParent().revalidate(); 
+        }
      }
 }

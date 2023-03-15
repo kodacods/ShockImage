@@ -1,8 +1,6 @@
 package cosc202.andie;
 
 import java.awt.image.*;
-import java.awt.Image;
-import java.util.*;
 
 public class ResizeTransform implements ImageOperation, java.io.Serializable { //this should probably be the easiest one?
     public ResizeTransform(){
@@ -21,8 +19,8 @@ public class ResizeTransform implements ImageOperation, java.io.Serializable { /
 
         
 
-        Image result = input.getScaledInstance(2*input.getWidth(), 2*input.getHeight(), Image.SCALE_AREA_AVERAGING);
-        BufferedImage output = (BufferedImage)result;
-        return output;
+        // Image result = input.getScaledInstance(2*input.getWidth(), 2*input.getHeight(), Image.SCALE_AREA_AVERAGING);
+        // BufferedImage output = (BufferedImage)result;
+        return input;
     }
 }
