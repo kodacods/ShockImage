@@ -37,8 +37,10 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ContrastAction("Contrast", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new IncreaseContrastAction("Contrast +25%", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new DecreaseContrastAction("Contrast -25%", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
         actions.add(new BrightnessAction("Brightness", null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
+
     }
 
     /**
@@ -108,11 +110,11 @@ public class ColourActions {
      * 
      * @see Contrast
      */
-    public class ContrastAction extends ImageAction {
+    public class DecreaseContrastAction extends ImageAction {
 
         /**
          * <p>
-         * Create a new contrast action.
+         * Create a new DecreaseContrast action.
          * </p>
          * 
          * @param name The name of the action (ignored if null).
@@ -120,23 +122,58 @@ public class ColourActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        ContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        DecreaseContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
         /**
          * <p>
-         * Callback for when the contrast action is triggered.
+         * Callback for when the decrease-contrast action is triggered.
          * </p>
          * 
          * <p>
-         * This method is called whenever the Contrast is triggered.
+         * This method is called whenever the DecreaseContrast is triggered.
          * </p>
          * 
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new Contrast());
+            target.getImage().apply(new DecreaseContrast());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+
+    public class IncreaseContrastAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new IncreaseContrast action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        IncreaseContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the increase-contrast action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the IncreaseContrast is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new IncreaseContrast());
             target.repaint();
             target.getParent().revalidate();
         }
