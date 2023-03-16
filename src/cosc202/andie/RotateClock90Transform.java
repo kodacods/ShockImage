@@ -1,9 +1,9 @@
 package cosc202.andie;
 
 import java.awt.image.*;
-
-public class RotateAntiClock90Transform implements ImageOperation, java.io.Serializable { //work on lator
-    public RotateAntiClock90Transform(){
+public class RotateClock90Transform implements ImageOperation, java.io.Serializable{
+    
+    public RotateClock90Transform(){
         
     }
     public BufferedImage apply(BufferedImage input) { 
@@ -17,10 +17,10 @@ public class RotateAntiClock90Transform implements ImageOperation, java.io.Seria
             } 
         }
         
-        int[][] setOut = new int[h][w]; //rotate ANTIclockwise
+        int[][] setOut = new int[h][w]; //rotate clockwise
         for(int i = 0; i < h; i++){
             for(int j = 0; j < w; j++){
-                setOut[i][j] = set[w - 1 - j][i];
+                setOut[i][j] = set[j][h - 1 - i];
             } 
         }
         
@@ -38,3 +38,5 @@ public class RotateAntiClock90Transform implements ImageOperation, java.io.Seria
     }   
     
 }
+
+
