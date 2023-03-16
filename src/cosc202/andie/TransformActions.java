@@ -31,6 +31,7 @@ public class TransformActions {
     public TransformActions(){
         actions = new ArrayList<Action>();
         actions.add(new ResizeTransformAction("Resize", null, "Resize image", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new RotateAntiClock90TransformAction("Rotate Anticlockwise 90", null, "Rotate image anticlockwise by 90 degrees", Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new FlipVertTransformAction("Flip Vertical", null, "Flip image vertically", Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new FlipHorzTransformAction("Flip Horizontal", null, "Flip image horizontally", Integer.valueOf(KeyEvent.VK_M)));
     }
@@ -58,6 +59,20 @@ public class TransformActions {
 
         public void actionPerformed(ActionEvent e){
             target.getImage().apply(new ResizeTransform());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+     }
+
+     public class RotateAntiClock90TransformAction extends ImageAction{
+        //baller .
+        RotateAntiClock90TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e){
+            target.getImage().apply(new RotateAntiClock90Transform());
             target.repaint();
             target.getParent().revalidate();
         }
