@@ -33,6 +33,7 @@ public class TransformActions {
         actions.add(new ResizeTransformAction("Resize", null, "Resize image", Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new RotateAntiClock90TransformAction("Rotate Anticlockwise 90", null, "Rotate image anticlockwise by 90 degrees", Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new RotateClock90TransformAction("Rotate Clockwise 90", null, "Rotate image clockwise by 90 degrees", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new Rotate180TransformAction("Rotate 180", null, "Rotate image by 180 degrees", Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new FlipVertTransformAction("Flip Vertical", null, "Flip image vertically", Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new FlipHorzTransformAction("Flip Horizontal", null, "Flip image horizontally", Integer.valueOf(KeyEvent.VK_M)));
     }
@@ -88,6 +89,20 @@ public class TransformActions {
 
         public void actionPerformed(ActionEvent e){
             target.getImage().apply(new RotateClock90Transform());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+     }
+
+     public class Rotate180TransformAction extends ImageAction{
+        //baller .
+        Rotate180TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e){
+            target.getImage().apply(new Rotate180Transform());
             target.repaint();
             target.getParent().revalidate();
         }
