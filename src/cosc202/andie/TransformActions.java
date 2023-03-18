@@ -60,7 +60,20 @@ public class TransformActions {
         }
 
         public void actionPerformed(ActionEvent e){
-            target.getImage().apply(new ResizeTransform());
+            double scaleFactor = 1.0;
+
+            SpinnerNumberModel scaleModel = new SpinnerNumberModel(1.0, 0.0, 10.0, 0.1);
+            JSpinner scaleSpinner = new JSpinner(scaleModel);
+            int option = JOptionPane.showOptionDialog(null, scaleSpinner, "Enter scale factor", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            if (option == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                scaleFactor = scaleModel.getNumber().doubleValue();
+                System.out.println(scaleFactor);
+            }
+
+            target.getImage().apply(new ResizeTransform(scaleFactor));
             target.repaint();
             target.getParent().revalidate();
         }
