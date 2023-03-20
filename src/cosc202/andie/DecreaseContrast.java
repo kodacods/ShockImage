@@ -39,14 +39,12 @@ public class DecreaseContrast implements ImageOperation, java.io.Serializable {
                 int g = inRange((argb & 0x0000FF00) >> 8);
                 int b = inRange((argb & 0x000000FF));
 
-
-                
-                //int grey = (int) Math.round(0.3*r + 0.6*g + 0.1*b);
-
+                double c = -25;
+                double bt = 0;
                 //Decreasing the contrast of rgb by 25%
-                int cr = (int) Math.round(0.75 * (r-127.5)+ (127.5 * (1+0/100)));
-                int cg = (int) Math.round(0.75 * (g-127.5)+ (127.5 * (1+0/100)));
-                int cb = (int) Math.round(0.75 * (b-127.5)+ (127.5 * (1+0/100)));
+                int cr = (int) Math.round((1 + c/100) * (r-127.5) + 127.5 * (1 + bt/100));
+                int cg = (int) Math.round((1 + c/100) * (g-127.5) + 127.5 * (1 + bt/100));
+                int cb = (int) Math.round((1 + c/100) * (b-127.5) + 127.5 * (1 + bt/100));
 
                 argb = (a << 24) | (cr << 16) | (cg << 8) | cb;
                 input.setRGB(x, y, argb);
@@ -57,8 +55,8 @@ public class DecreaseContrast implements ImageOperation, java.io.Serializable {
     }
 
     public static int inRange (int value){
-        if (value < 0) value = 0;
-        if (value > 255) value = 255;
+        if (value < 0) return value = 0;
+        if (value > 255) return value = 255;
         return value;
     }
 }

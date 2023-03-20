@@ -34,16 +34,12 @@ public class IncreaseContrast implements ImageOperation, java.io.Serializable {
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
                 int argb = input.getRGB(x, y);
-                int a = (argb & 0xFF000000) >> 24;
-                int r = (argb & 0x00FF0000) >> 16;
-                int g = (argb & 0x0000FF00) >> 8;
-                int b = (argb & 0x000000FF);
+                int a = inRange((argb & 0xFF000000) >> 24);
+                int r = inRange((argb & 0x00FF0000) >> 16);
+                int g = inRange((argb & 0x0000FF00) >> 8);
+                int b = inRange((argb & 0x000000FF));
 
-
-                
-                //int grey = (int) Math.round(0.3*r + 0.6*g + 0.1*b);
-
-                //Decreasing the contrast of rgb by 25%
+                //Increasing the contrast of rgb by 25%
                 int cr = (int) Math.round(1.25 * (r-127.5)+ (127.5 * (1+0/100)));
                 int cg = (int) Math.round(1.25 * (g-127.5)+ (127.5 * (1+0/100)));
                 int cb = (int) Math.round(1.25 * (b-127.5)+ (127.5 * (1+0/100)));
@@ -56,14 +52,16 @@ public class IncreaseContrast implements ImageOperation, java.io.Serializable {
         return input;
     }
 
+    /**
+     * Takes the pixel value as an argument.
+     * If the pixel value is <0 or >255 then the amended value will be returned.
+     * 
+     * @param value
+     * @return value
+     */
     public static int inRange (int value){
-        if (value < 0) {
-            return value = 0;
-        }
-         else if (value > 255) { 
-            return value = 255;
-        } else {
+        if (value < 0) return value = 0;
+        if (value > 255) return value = 255;
         return value;
-        }
     }
 }
