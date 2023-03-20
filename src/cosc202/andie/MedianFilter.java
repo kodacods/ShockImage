@@ -89,14 +89,15 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                Arrays.sort(R);
                Arrays.sort(G);
                Arrays.sort(B);
-               input.setRGB(x,y,new Color(R[4],B[4],G[4]).getRGB());
+               input.setRGB(x,y,new Color(R[4], G[4], B[4]).getRGB());
+               
 
                
                // input.setRGB(x, y, argb);
             }
         }
         //copying edited input image to new output image
-        Kernel kernel = new Kernel(2*radius+1, 2*radius+1, pixelArray);
+        Kernel kernel = new Kernel(2*radius+1, 2*radius+1, pixelArray); //which array do i put in here
         ConvolveOp convOp = new ConvolveOp(kernel);
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         convOp.filter(input, output);
