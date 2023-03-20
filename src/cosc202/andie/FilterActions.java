@@ -220,7 +220,7 @@ public class FilterActions {
     
         /**
          * <p>
-         * This method is called whenever the GuassianBlurAction is triggered.
+         * This method is called whenever the MedianFilterAction is triggered.
          * </p>
          * 
          * @param e The event triggering this callback.
