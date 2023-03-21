@@ -2,32 +2,21 @@ package cosc202.andie;
 
 import java.awt.image.*;
 
-/**
- * <p>
- * ImageOperation to increase contrast of the image by 25%
- * </p>
- * 
- * <p>
- * Independantly changes rgb in pixels of the image to adjust the contrast of the overall image using the equation v = (1+ c/100)*(v−127.5) + (127.5*(1+ b/100)) .
- * </p>
- * 
- * <p>
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
- * </p>
- * 
- * @author Beka Rolleston
- * @version 1.0
- */
+public class Brightness implements ImageOperation, java.io.Serializable {
 
-public class IncreaseContrast implements ImageOperation, java.io.Serializable {
+    private int percentage=0;
 
     /**
      * <p>
-     * Create a new increaseContrast operation.
+     * Create a new decrease brightness operation.
      * 
      * </p>
      */
-    IncreaseContrast() {
+    Brightness() {
+    }
+
+    Brightness(int percentage){
+        this.percentage = percentage;
     }
 
     public BufferedImage apply(BufferedImage input) {
@@ -39,16 +28,18 @@ public class IncreaseContrast implements ImageOperation, java.io.Serializable {
                 int g = (argb & 0x0000FF00) >> 8;
                 int b = (argb & 0x000000FF);
 
-                //Increasing the contrast of rgb by 25%
-                int cr = truncate( (int) Math.round(1.25 * (r-127.5)+ (127.5 * (1+0/100))) );
-                int cg = truncate( (int) Math.round(1.25 * (g-127.5)+ (127.5 * (1+0/100))) );
-                int cb = truncate( (int) Math.round(1.25 * (b-127.5)+ (127.5 * (1+0/100))) );
+                double c = 0;
+                double bt = percentage;
 
-                argb = (a << 24) | (cr << 16) | (cg << 8) | cb;
+                //Decreasing the brightness of rgb by 25%
+                int br = truncate( (int) Math.round((1 + c/100) * (r-127.5) + 127.5 * (1 + bt/100)) );
+                int bg = truncate( (int) Math.round((1 + c/100) * (g-127.5) + 127.5 * (1 + bt/100)) );
+                int bb = truncate( (int) Math.round((1 + c/100) * (b-127.5) + 127.5 * (1 + bt/100)) );
+
+                argb = (a << 24) | (br << 16) | (bg << 8) | bb;
                 input.setRGB(x, y, argb);
             }
         }
-        
         return input;
     }
 
@@ -69,4 +60,5 @@ public class IncreaseContrast implements ImageOperation, java.io.Serializable {
         return value;
         }
     }
+    
 }

@@ -37,11 +37,8 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new IncreaseContrastAction("Contrast +25%", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new DecreaseContrastAction("Contrast -25%", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new IncreaseBrightnessAction("Brightness +25%", null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new DecreaseBrightnessAction("Brightness -25%", null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
-
+        actions.add(new ContrastAction("Contrast", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new BrightnessAction("Brightness", null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
     }
 
     /**
@@ -111,7 +108,7 @@ public class ColourActions {
      * 
      * @see Contrast
      */
-    public class DecreaseContrastAction extends ImageAction {
+    public class ContrastAction extends ImageAction {
 
         /**
          * <p>
@@ -123,63 +120,43 @@ public class ColourActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        DecreaseContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
         /**
          * <p>
-         * Callback for when the decrease-contrast action is triggered.
-         * </p>
-         * 
-         * <p>
-         * This method is called whenever the DecreaseContrast is triggered.
+         * This method is called whenever the MedianFilterAction is triggered.
+         * It prompts the user for a filter radius, then applys an appropriately sized {@link MeanFilter}.
          * </p>
          * 
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new DecreaseContrast());
+
+            // Determine the percentage to change contrast entered by the user.
+            int percentage = 0;
+
+            // Pop-up dialog box to ask for the radius value.
+            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -25, 25, 25);
+            JSpinner percentSpinner = new JSpinner(percentModel);
+            int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change contrast", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            // Check the return value from the dialog box.
+            if (option == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                percentage = percentModel.getNumber().intValue();
+            }
+
+            // Create and apply the filter
+            target.getImage().apply(new Contrast(percentage));
             target.repaint();
             target.getParent().revalidate();
         }
 
     }
 
-    public class IncreaseContrastAction extends ImageAction {
-
-        /**
-         * <p>
-         * Create a new IncreaseContrast action.
-         * </p>
-         * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
-         */
-        IncreaseContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-        /**
-         * <p>
-         * Callback for when the increase-contrast action is triggered.
-         * </p>
-         * 
-         * <p>
-         * This method is called whenever the IncreaseContrast is triggered.
-         * </p>
-         * 
-         * @param e The event triggering this callback.
-         */
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new IncreaseContrast());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-
-    }
 
     /**
      * <p>
@@ -188,7 +165,7 @@ public class ColourActions {
      * 
      * @see Brightness
      */
-    public class DecreaseBrightnessAction extends ImageAction {
+    public class BrightnessAction extends ImageAction {
 
         /**
          * <p>
@@ -200,69 +177,40 @@ public class ColourActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        DecreaseBrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        BrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
-
-        /**
-         * <p>
-         * Callback for when the brightness action is triggered.
-         * </p>
-         * 
-         * <p>
-         * This method is called whenever the Brightness is triggered.
-         * </p>
-         * 
-         * @param e The event triggering this callback.
-         */
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new DecreaseBrightness());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-
-    }
 
     /**
-     * <p>
-     * Action to adjust brightness of image.
-     * </p>
-     * 
-     * @see Brightness
-     */
-    public class IncreaseBrightnessAction extends ImageAction {
-
-        /**
          * <p>
-         * Create a new convert-to-grey action.
-         * </p>
-         * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
-         */
-        IncreaseBrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-        /**
-         * <p>
-         * Callback for when the brightness action is triggered.
-         * </p>
-         * 
-         * <p>
-         * This method is called whenever the Brightness is triggered.
+         * This method is called whenever the MedianFilterAction is triggered.
+         * It prompts the user for a filter radius, then applys an appropriately sized {@link MeanFilter}.
          * </p>
          * 
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new IncreaseBrightness());
+
+            // Determine the percentage to change contrast entered by the user.
+            int percentage = 0;
+
+            // Pop-up dialog box to ask for the radius value.
+            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -25, 25, 25);
+            JSpinner percentSpinner = new JSpinner(percentModel);
+            int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change brightness", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            // Check the return value from the dialog box.
+            if (option == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                percentage = percentModel.getNumber().intValue();
+            }
+
+            // Create and apply the filter
+            target.getImage().apply(new Brightness(percentage));
             target.repaint();
             target.getParent().revalidate();
         }
-
     }
 
 }
