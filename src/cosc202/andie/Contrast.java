@@ -19,15 +19,21 @@ import java.awt.image.*;
  * @version 1.0
  */
 
-public class DecreaseContrast implements ImageOperation, java.io.Serializable {
+public class Contrast implements ImageOperation, java.io.Serializable {
 
+    private int percentage=0;
     /**
      * <p>
      * Create a new DecreaseContrast operation.
      * 
      * </p>
+     * @param percentage
      */
-    DecreaseContrast() {
+    Contrast() {
+    }
+
+    Contrast(int percentage){
+        this.percentage = percentage;
     }
 
     public BufferedImage apply(BufferedImage input) {
@@ -39,7 +45,7 @@ public class DecreaseContrast implements ImageOperation, java.io.Serializable {
                 int g = (argb & 0x0000FF00) >> 8;
                 int b = (argb & 0x000000FF);
 
-                double c = -25;
+                double c = percentage;
                 double bt = 0;
                 //Decreasing the contrast of rgb by 25%
                 int cr = (int) Math.round((1 + c/100) * (r-127.5) + 127.5 * (1 + bt/100));
