@@ -12,7 +12,7 @@ import javax.swing.*;
  * <p>
  * The Filter menu contains actions that update each pixel in an image based on
  * some small local neighbourhood. 
- * This includes a mean filter, a Sharpen Filter & a Gaussian Blur.
+ * This includes a Mean Filter, a Sharpen Filter, a Median filter and a Gaussian Blur.
  * </p>
  * 
  * <p> 
@@ -36,6 +36,7 @@ public class FilterActions {
         actions = new ArrayList<Action>();
         actions.add(new GaussianBlurAction("Gaussian Blur", null, "Apply a Sharpen filter", Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new MedianFilterAction("Median filter", null, "Apply a Median filter", Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new SharpenFilterAction("Sharpen filter", null, "Apply a Sharpen filter", Integer.valueOf(KeyEvent.VK_M)));
     }
 
@@ -115,6 +116,63 @@ public class FilterActions {
         }
 
     }
+
+    /**
+     * <p>
+     * Action to blur an image with a median filter.
+     * </p>
+     * 
+     * @see MeanFilter
+     */
+    public class MedianFilterAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new median-filter action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        MedianFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * This method is called whenever the MedianFilterAction is triggered.
+         * It prompts the user for a filter radius, then applys an appropriately sized {@link MeanFilter}.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+
+            // Determine the radius - ask the user.
+            int radius = 1;
+
+            // Pop-up dialog box to ask for the radius value.
+            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
+            JSpinner radiusSpinner = new JSpinner(radiusModel);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            // Check the return value from the dialog box.
+            if (option == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                radius = radiusModel.getNumber().intValue();
+            }
+
+            // Create and apply the filter
+            target.getImage().apply(new MedianFilter(radius));
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+
     /**
      * <p>
      * Action to blur an image with a sharpen filter.
