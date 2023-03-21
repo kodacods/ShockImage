@@ -6,19 +6,29 @@ public class Brightness implements ImageOperation, java.io.Serializable {
 
     private int percentage=0;
 
-    /**
-     * <p>
-     * Create a new decrease brightness operation.
-     * 
-     * </p>
-     */
+    
     Brightness() {
     }
 
+    /**
+     * <p>
+     * Create a new brightness operation.
+     * 
+     * @param percentage to be adjusted
+     * </p>
+     */
     Brightness(int percentage){
         this.percentage = percentage;
     }
 
+    /**
+     * <p>
+     * Takes the buffered image andfinds the value of each pixel and adjusts each brightness by the percentage factor
+     * 
+     * @param input of the buffered image
+     * @return input of the altered brightness image
+     }
+     */
     public BufferedImage apply(BufferedImage input) {
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {

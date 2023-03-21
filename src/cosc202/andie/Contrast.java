@@ -22,20 +22,29 @@ import java.awt.image.*;
 public class Contrast implements ImageOperation, java.io.Serializable {
 
     private int percentage=0;
+    
+    Contrast() {
+    }
+
     /**
      * <p>
-     * Create a new DecreaseContrast operation.
+     * Create a new Contrast operation.
      * 
      * </p>
      * @param percentage
      */
-    Contrast() {
-    }
-
     Contrast(int percentage){
         this.percentage = percentage;
     }
 
+    /**
+     * <p>
+     * Takes the buffered image andfinds the value of each pixel and adjusts each contrast by the percentage factor
+     * 
+     * @param input of the buffered image
+     * @return input of the altered contrast image
+     }
+     */
     public BufferedImage apply(BufferedImage input) {
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
@@ -48,9 +57,9 @@ public class Contrast implements ImageOperation, java.io.Serializable {
                 double c = percentage;
                 double bt = 0;
                 //Decreasing the contrast of rgb by 25%
-                int cr = (int) Math.round((1 + c/100) * (r-127.5) + 127.5 * (1 + bt/100));
-                int cg = (int) Math.round((1 + c/100) * (g-127.5) + 127.5 * (1 + bt/100));
-                int cb = (int) Math.round((1 + c/100) * (b-127.5) + 127.5 * (1 + bt/100));
+                int cr = truncate( (int) Math.round((1 + c/100) * (r-127.5) + 127.5 * (1 + bt/100)) );
+                int cg = truncate( (int) Math.round((1 + c/100) * (g-127.5) + 127.5 * (1 + bt/100)) );
+                int cb = truncate( (int) Math.round((1 + c/100) * (b-127.5) + 127.5 * (1 + bt/100)) );
 
                 argb = (a << 24) | (cr << 16) | (cg << 8) | cb;
                 input.setRGB(x, y, argb);
@@ -59,8 +68,15 @@ public class Contrast implements ImageOperation, java.io.Serializable {
         
         return input;
     }
-
-    public static int inRange (int value){
+    
+    /**
+     * Takes the pixel value as an argument.
+     * If the pixel value is <0 or >255 then the amended value will be returned.
+     * 
+     * @param value
+     * @return value
+     */
+    public static int truncate (int value){
         if (value < 0) {
             return 0;
         }

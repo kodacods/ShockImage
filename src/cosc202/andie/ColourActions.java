@@ -112,7 +112,7 @@ public class ColourActions {
 
         /**
          * <p>
-         * Create a new DecreaseContrast action.
+         * Create a new Contrast action.
          * </p>
          * 
          * @param name The name of the action (ignored if null).
@@ -126,8 +126,8 @@ public class ColourActions {
 
         /**
          * <p>
-         * This method is called whenever the MedianFilterAction is triggered.
-         * It prompts the user for a filter radius, then applys an appropriately sized {@link MeanFilter}.
+         * This method is called whenever the ContrastrAction is triggered.
+         * It prompts the user for a percentage of the contrast to be adjusted by
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -137,7 +137,7 @@ public class ColourActions {
             // Determine the percentage to change contrast entered by the user.
             int percentage = 0;
 
-            // Pop-up dialog box to ask for the radius value.
+            // Pop-up dialog box to ask for the percentage.
             SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -25, 25, 25);
             JSpinner percentSpinner = new JSpinner(percentModel);
             int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change contrast", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -169,7 +169,7 @@ public class ColourActions {
 
         /**
          * <p>
-         * Create a new convert-to-grey action.
+         * Create a new Brightness action.
          * </p>
          * 
          * @param name The name of the action (ignored if null).
@@ -183,8 +183,8 @@ public class ColourActions {
 
     /**
          * <p>
-         * This method is called whenever the MedianFilterAction is triggered.
-         * It prompts the user for a filter radius, then applys an appropriately sized {@link MeanFilter}.
+         * This method is called whenever the BrightnessAction is triggered.
+         * It prompts the user for a percentage to adjust the brightness.
          * </p>
          * 
          * @param e The event triggering this callback.
@@ -194,7 +194,7 @@ public class ColourActions {
             // Determine the percentage to change contrast entered by the user.
             int percentage = 0;
 
-            // Pop-up dialog box to ask for the radius value.
+            // Pop-up dialog box to ask for the percentage value.
             SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -25, 25, 25);
             JSpinner percentSpinner = new JSpinner(percentModel);
             int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change brightness", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
