@@ -17,10 +17,10 @@ public class DecreaseBrightness implements ImageOperation, java.io.Serializable 
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
                 int argb = input.getRGB(x, y);
-                int a = valueCheck((argb & 0xFF000000) >> 24);
-                int r = valueCheck((argb & 0x00FF0000) >> 16);
-                int g = valueCheck((argb & 0x0000FF00) >> 8);
-                int b = valueCheck((argb & 0x000000FF));
+                int a = truncate((argb & 0xFF000000) >> 24);
+                int r = truncate((argb & 0x00FF0000) >> 16);
+                int g = truncate((argb & 0x0000FF00) >> 8);
+                int b = truncate((argb & 0x000000FF));
 
                 double c = 0;
                 double bt = -25;
@@ -44,7 +44,7 @@ public class DecreaseBrightness implements ImageOperation, java.io.Serializable 
      * @param value
      * @return value
      */
-    public static int valueCheck (int value){
+    public static int truncate (int value){
         if (value < 0) {
             return 0;
         }
