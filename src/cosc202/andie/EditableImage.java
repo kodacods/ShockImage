@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.awt.image.*;
 import javax.imageio.*;
+import javax.swing.JOptionPane;
 
 /**
  * <p>
@@ -221,7 +222,11 @@ class EditableImage {
      * @param op The operation to apply.
      */
     public void apply(ImageOperation op) {
-        current = op.apply(current);
+        try {  
+            current = op.apply(current);
+        } catch (Exception NullPointerException) {
+            JOptionPane.showMessageDialog(null, "You need to open an image first!");
+        }
         ops.add(op);
     }
 
