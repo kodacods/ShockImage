@@ -34,10 +34,10 @@ public class DecreaseContrast implements ImageOperation, java.io.Serializable {
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
                 int argb = input.getRGB(x, y);
-                int a = inRange((argb & 0xFF000000) >> 24);
-                int r = inRange((argb & 0x00FF0000) >> 16);
-                int g = inRange((argb & 0x0000FF00) >> 8);
-                int b = inRange((argb & 0x000000FF));
+                int a = (argb & 0xFF000000) >> 24;
+                int r = (argb & 0x00FF0000) >> 16;
+                int g = (argb & 0x0000FF00) >> 8;
+                int b = (argb & 0x000000FF);
 
                 double c = -25;
                 double bt = 0;
@@ -55,8 +55,13 @@ public class DecreaseContrast implements ImageOperation, java.io.Serializable {
     }
 
     public static int inRange (int value){
-        if (value < 0) return value = 0;
-        if (value > 255) return value = 255;
+        if (value < 0) {
+            return 0;
+        }
+        else if (value > 255) {
+            return 255;
+        } else {
         return value;
+        }
     }
 }

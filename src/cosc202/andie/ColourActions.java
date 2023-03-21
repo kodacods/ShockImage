@@ -39,6 +39,7 @@ public class ColourActions {
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
         actions.add(new IncreaseContrastAction("Contrast +25%", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
         actions.add(new DecreaseContrastAction("Contrast -25%", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new IncreaseBrightnessAction("Brightness +25%", null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
         actions.add(new DecreaseBrightnessAction("Brightness -25%", null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
 
     }
@@ -216,6 +217,48 @@ public class ColourActions {
          */
         public void actionPerformed(ActionEvent e) {
             target.getImage().apply(new DecreaseBrightness());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    }
+
+    /**
+     * <p>
+     * Action to adjust brightness of image.
+     * </p>
+     * 
+     * @see Brightness
+     */
+    public class IncreaseBrightnessAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new convert-to-grey action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        IncreaseBrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the brightness action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the Brightness is triggered.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new IncreaseBrightness());
             target.repaint();
             target.getParent().revalidate();
         }
