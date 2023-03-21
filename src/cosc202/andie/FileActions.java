@@ -101,7 +101,10 @@ public class FileActions {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().open(imageFilepath);
                 } catch (Exception ex) {
-                    System.exit(1);
+                    // If file is not valid, give the user an error message and restart the file opening process.
+                    JOptionPane.showMessageDialog(null, "Please open a valid image. (GIF, PNG, JPEG, BMP, or WBMP)");
+                    actionPerformed(e);
+                    return;
                 }
             }
 
