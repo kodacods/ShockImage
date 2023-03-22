@@ -1,5 +1,6 @@
 package cosc202.andie;
 
+import java.awt.Graphics2D;
 import java.awt.image.*;
 import java.util.*;
 
@@ -101,10 +102,22 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
             array[i] = array[i] / sum;
         }
 
+        // Creates a new source image that is larger, so that the edges of 
+        // the image are also affected by the filter.
+        // inspiration taken from https://www.informit.com/articles/article.aspx?p=1013851&seqNum=5
+        BufferedImage newInput = new BufferedImage(
+            input.getWidth() + (radius*2),
+            input.getHeight() + (radius*2),
+            BufferedImage.TYPE_INT_ARGB
+        );
+        Graphics2D g2 = newInput.createGraphics();
+        g2.drawImage(input, radius, radius, null);
+        g2.dispose();
+
         Kernel kernel = new Kernel(2*radius+1, 2*radius+1, array);
-        ConvolveOp convOp = new ConvolveOp(kernel);
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-        convOp.filter(input, output);
+        ConvolveOp convOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+        BufferedImage output = new BufferedImage(newInput.getColorModel(), newInput.copyData(null), newInput.isAlphaPremultiplied(), null);
+        convOp.filter(newInput, output);
 
         return output;
     }

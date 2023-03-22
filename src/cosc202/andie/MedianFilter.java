@@ -2,8 +2,6 @@ package cosc202.andie;
 
 import java.awt.image.*;
 import java.util.*;
-import java.awt.Color;
-
 
 /**
  * <p>
@@ -11,7 +9,9 @@ import java.awt.Color;
  * </p>
  * 
  * <p>
-
+ * A Median filter blurs an image by replacing each pixel by the median of the
+ * pixels in a surrounding neighbourhood, and can be implemented by a convoloution.
+ * </p>
  * 
  * <p> 
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
@@ -22,6 +22,7 @@ import java.awt.Color;
  * @version 1.0
  */
 public class MedianFilter implements ImageOperation, java.io.Serializable {
+    
     /**
      * The size of filter to apply. A radius of 1 is a 3x3 filter, a radius of 2 a 5x5 filter, and so forth.
      */
@@ -29,11 +30,13 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
 
     /**
      * <p>
-     * Construct a median filter with the given radius.
+     * Construct a Median filter with the given size.
      * </p>
      * 
      * <p>
-
+     * The size of the filter is the 'radius' of the convolution kernel used.
+     * A size of 1 is a 3x3 filter, 2 is 5x5, and so on.
+     * Larger filters give a stronger blurring effect.
      * </p>
      * 
      * @param radius The radius of the newly constructed MedianFilter
@@ -51,60 +54,61 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * By default, a Median filter has radius 1.
      * </p>
      * 
-     * @see MeanFilter(int)
+     * @see MedianFilter(int)
      */
     MedianFilter() {
         this(1);
     }
 
+    /**
+     * <p>
+     * Apply a Mean filter to an image.
+     * </p>
+     * 
+     * <p>
+     * As with many filters, the Median filter is implemented via convolution.
+     * The size of the convolution kernel is specified by the {@link radius}.  
+     * Larger radii lead to stronger blurring.
+     * </p>
+     * 
+     * @param input The image to apply the Median filter to.
+     * @return The resulting (blurred)) image.
+     */
     public BufferedImage apply(BufferedImage input) {
-       // int size = (2*radius+1) * (2*radius+1);
+        int size = (2*radius+1) * (2*radius+1);
+        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
 
-        Color[] pixelArray=new Color[9];
-        int[] R=new int[9];
-        int[] B=new int[9];
-        int[] G=new int[9];
-  
-        for (int y = 0; y < input.getHeight(); ++y) {
-            for (int x = 0; x < input.getWidth(); ++x) {
-                int argb = input.getRGB(x, y);
-                int a = (argb & 0xFF000000) >> 24;
-                int r = (argb & 0x00FF0000) >> 16;
-                int g = (argb & 0x0000FF00) >> 8;
-                int b = (argb & 0x000000FF); //idk if i need this
-
-                pixelArray[0]=new Color(input.getRGB(y-1,x-1));
-                pixelArray[1]=new Color(input.getRGB(y-1,x));
-                pixelArray[2]=new Color(input.getRGB(y-1,x+1));
-                pixelArray[3]=new Color(input.getRGB(y,x+1));
-                pixelArray[4]=new Color(input.getRGB(y+1,x+1));
-                pixelArray[5]=new Color(input.getRGB(y+1,x));
-                pixelArray[6]=new Color(input.getRGB(y+1,x-1));
-                pixelArray[7]=new Color(input.getRGB(y,x-1));
-                pixelArray[8]=new Color(input.getRGB(y,x));
-
-                for(int k=0;k<9;k++){
-                    R[k]=pixel[k].getRed();
-                    B[k]=pixel[k].getBlue();
-                    G[k]=pixel[k].getGreen();
+        for (int y = radius; y < input.getHeight() - radius; ++y) {
+            for (int x = radius; x < input.getWidth() - radius; ++x) {
+                int[] r = new int[size];
+                int[] g = new int[size];
+                int[] b = new int[size];
+                int[] a = new int[size];
+                int count = 0;
+                for (int i = -radius; i <= radius; i++) {
+                    for (int j = -radius; j <= radius; j++) {
+                        int argb = input.getRGB(x + i, y + j);
+                        a[count] = (argb & 0xFF000000) >> 24;
+                        r[count] = (argb & 0x00FF0000) >> 16;
+                        g[count] = (argb & 0x0000FF00) >> 8;
+                        b[count] = (argb & 0x000000FF);
+                        count++;
+                    }
                 }
-               Arrays.sort(R);
-               Arrays.sort(G);
-               Arrays.sort(B);
-               input.setRGB(x,y,new Color(R[4], G[4], B[4]).getRGB());
-               
 
-               
-               // input.setRGB(x, y, argb);
+                Arrays.sort(a);
+                Arrays.sort(r);
+                Arrays.sort(g);
+                Arrays.sort(b);
+
+                int argbFiltered = (a[(a.length-1) / 2] << 24) | (r[(r.length-1) / 2] << 16) | (g[(g.length-1) / 2] << 8) | b[(b.length-1) / 2];
+                output.setRGB(x, y, argbFiltered);
             }
         }
-        //copying edited input image to new output image
-        Kernel kernel = new Kernel(2*radius+1, 2*radius+1, pixelArray); //which array do i put in here
-        ConvolveOp convOp = new ConvolveOp(kernel);
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-        convOp.filter(input, output);
 
         return output;
     }
-    
+
+
 }
+
