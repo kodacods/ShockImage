@@ -2,10 +2,46 @@ package cosc202.andie;
 
 import java.awt.image.*;
 
-public class RotateAntiClock90Transform implements ImageOperation, java.io.Serializable { //work on lator
+/**
+ * <p>
+ * ImageOperation to turn the image anticlockwise.
+ * </p>
+ * 
+ * <p>
+ * Flips the image by mapping the image onto a 2d array and, after setting up a 2d array with 
+ * height as the columns and width as the rows (the initial 2d array is the reverse), map the values from 
+ * the initial 2d array onto the new array, ascending in terms of height and descending in terms of width.
+ * </p>
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Meg Albarico
+ * @version 1.0
+ */
+
+public class RotateAntiClock90Transform implements ImageOperation, java.io.Serializable { 
+
+    /**
+     * <p>
+     * Construct a 90 degree anticlockwise rotation.
+     * </p>
+     */
+
     public RotateAntiClock90Transform(){
-        
     }
+
+    /**
+     * <p>
+     * Apply a 90 degree anticlockwise rotation to an image.
+     * </p>
+     * 
+     * @param input The image to be rotated.
+     * @return The resulting rotated image.
+     * 
+     */
+
     public BufferedImage apply(BufferedImage input) { 
 
         int w = input.getWidth();

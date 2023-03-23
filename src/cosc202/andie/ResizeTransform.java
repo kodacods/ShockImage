@@ -4,10 +4,27 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.*;
 
-public class ResizeTransform implements ImageOperation, java.io.Serializable { //this should probably be the easiest one? <-- NO lol
-    private double scaleFactor = 0.7777777;
-    //i refuse to use graphics 2d
-    //set to a constant scaling factor but provide a custom option lator
+/**
+ * <p>
+ * ImageOperation to resize the image by a specified scale factor.
+ * </p>
+ * 
+ * <p>
+ * Resizes the images by a scale factor by creating a resized Image instance of the input image using 
+ * then mapping it onto a new output
+ * BufferedImage.
+ * </p>
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Meg Albarico
+ * @version 1.0
+ */
+
+public class ResizeTransform implements ImageOperation, java.io.Serializable { 
+    private double scaleFactor = 1; 
     public ResizeTransform(double scaleFactor){
         this.scaleFactor = scaleFactor;
     }

@@ -1,11 +1,46 @@
 package cosc202.andie;
 
 import java.awt.image.*;
+
+/**
+ * <p>
+ * ImageOperation to turn the image 180 degrees.
+ * </p>
+ * 
+ * <p>
+ * Flips the image by mapping the image onto a 2d array and reverses the 
+ * elements of the array along both axes.
+ * </p>
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Meg Albarico
+ * @version 1.0
+ */
+
 public class Rotate180Transform implements ImageOperation, java.io.Serializable{
+
+    /**
+     * <p>
+     * Construct a 180 degree rotation.
+     * </p>
+     */
     
     public Rotate180Transform(){
-        
     }
+
+    /**
+     * <p>
+     * Apply a 180 degree rotation to an image.
+     * </p>
+     * 
+     * @param input The image to be rotated.
+     * @return The resulting rotated image.
+     * 
+     */
+
     public BufferedImage apply(BufferedImage input) { 
 
         int w = input.getWidth();
