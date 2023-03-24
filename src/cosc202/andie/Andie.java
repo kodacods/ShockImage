@@ -46,6 +46,7 @@ public class Andie {
      * @see ViewActions
      * @see FilterActions
      * @see ColourActions
+     * @see TransformActions
      * 
      * @throws Exception if something goes wrong.
      */
@@ -85,6 +86,10 @@ public class Andie {
         // Actions that affect the representation of colour in the image
         ColourActions colourActions = new ColourActions();
         menuBar.add(colourActions.createMenu());
+
+        //Actions that concern rotation, reflection and dilation of the image
+        TransformActions transformActions = new TransformActions();
+        menuBar.add(transformActions.createMenu());
         
         frame.setJMenuBar(menuBar);
         frame.pack();
