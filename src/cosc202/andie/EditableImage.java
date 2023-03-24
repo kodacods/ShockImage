@@ -236,7 +236,11 @@ class EditableImage {
      * </p>
      */
     public void undo() {
-        redoOps.push(ops.pop());
+        try {
+            redoOps.push(ops.pop());
+        } catch (EmptyStackException ex) {
+            JOptionPane.showMessageDialog(null, "No changes to undo!");
+        }
         refresh();
     }
 
@@ -246,7 +250,11 @@ class EditableImage {
      * </p>
      */
     public void redo()  {
-        apply(redoOps.pop());
+        try {
+            apply(redoOps.pop());
+        } catch (EmptyStackException ex) {
+            JOptionPane.showMessageDialog(null, "No changes to redo!");
+        }
     }
 
     /**
