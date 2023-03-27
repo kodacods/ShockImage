@@ -4,6 +4,7 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+
 /**
  * <p>
  * Actions provided by the File menu.
@@ -26,7 +27,7 @@ public class FileActions {
     
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
-
+    //MultilingualSupport ms = new MultilingualSupport("English");
     /**
      * <p>
      * Create a set of File menu actions.
@@ -34,7 +35,7 @@ public class FileActions {
      */
     public FileActions() {
         actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction("File", null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
+        actions.add(new FileOpenAction("Open", null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
         actions.add(new FileSaveAction("Save", null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
         actions.add(new FileSaveAsAction("Save As", null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileLanguage ("Change Language", null, "changes language", null));
@@ -272,6 +273,7 @@ public class FileActions {
             }
 
             
+
         }
     }
 }
