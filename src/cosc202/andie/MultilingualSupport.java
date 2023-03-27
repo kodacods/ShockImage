@@ -4,9 +4,29 @@ import java.util.*;
 import java.util.prefs.Preferences;
 
 public class MultilingualSupport {
-    Preferences prefs = Preferences.userNodeForPackage(App.class);
 
-    Locale.setDefault(new Locale(prefs.get("language", "en"), 
-            prefs.get("country", "NZ")));
+    private String language;
 
+    MultilingualSupport(String language){
+        this.language = language;
+    }
+    
+    Preferences prefs = Preferences.userNodeForPackage(MultilingualSupport.class);
+
+    Locale english = new Locale (prefs.get("language", "en"), prefs.get("country", "NZ"));
+    Locale german  = new Locale (prefs.get("language", "de"), prefs.get("country", "DE"));
+    
+    {if (language.equals("English")){
+        prefs.put("language", "en");
+        prefs.put("country", "NZ");
+
+    } else if (language.equals("German")){
+        prefs.put("language", "mi");
+        prefs.put("country", "NZ");
+    }}
+
+    public String setLanguage (String key){
+        ResourceBundle MessageBundle = ResourceBundle.getBundle("MessageBundle");
+        return MessageBundle.getString(key);
+    }
 }
