@@ -38,7 +38,6 @@ public class FileActions {
         actions.add(new FileOpenAction("Open", null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
         actions.add(new FileSaveAction("Save", null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
         actions.add(new FileSaveAsAction("Save As", null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new FileLanguage ("Change Language", null, "changes language", null));
         actions.add(new FileExitAction("Exit", null, "Exit the program", Integer.valueOf(0)));
     }
 
@@ -250,30 +249,4 @@ public class FileActions {
 
     }
 
-    public class FileLanguage extends ImageAction {
-
-        FileLanguage (String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String language = "English";
-            String [] languageList = {"English", "German"};
-
-            SpinnerListModel languageModel = new SpinnerListModel(languageList);
-            JSpinner languageSpinner = new JSpinner(languageModel);
-            int option = JOptionPane.showOptionDialog(null, languageSpinner, "Select language", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-
-            // Check the return value from the dialog box.
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option == JOptionPane.OK_OPTION) {
-                language = (String) languageModel.getValue();
-            }
-
-            
-
-        }
-    }
 }

@@ -90,6 +90,9 @@ public class Andie {
         //Actions that concern rotation, reflection and dilation of the image
         TransformActions transformActions = new TransformActions();
         menuBar.add(transformActions.createMenu());
+
+        LanguageAction languageAction = new LanguageAction();
+        menuBar.add(languageAction.createMenu());
         
         frame.setJMenuBar(menuBar);
         frame.pack();
