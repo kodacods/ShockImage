@@ -46,7 +46,7 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
      * 
      * @param radius The radius of the newly constructed Gaussian Filter
      */
-    GaussianBlur(int radius) {
+    public GaussianBlur(int radius) {
         this.radius = radius;    
         this.sigma = radius / 3.0f;
     }
@@ -62,25 +62,11 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
      * 
      * @see Gaussian(int)
      */
-    GaussianBlur() {
+    public GaussianBlur() {
         this(1);
     }
 
-    /**
-     * <p>
-     * Apply a Gaussian Blur to an image.
-     * </p>
-     * 
-     * <p>
-     * As with many filters, the Gaussian Blur is implemented via convolution.
-     * The size of the convolution kernel is specified by the {@link radius}.  
-     * Larger radii lead to stronger blurring.
-     * </p>
-     * 
-     * @param input The image to apply the Gaussian Blur to.
-     * @return The resulting (blurred)) image.
-     */
-    public BufferedImage apply(BufferedImage input) {
+    public float[] createKernel() {
         int size = (2*radius+1) * (2*radius+1);
         float [] array = new float[size];
         float sum = 0;
@@ -101,6 +87,25 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
         for (int i = 0; i < array.length; i++) {
             array[i] = array[i] / sum;
         }
+        return array;
+    }
+
+    /**
+     * <p>
+     * Apply a Gaussian Blur to an image.
+     * </p>
+     * 
+     * <p>
+     * As with many filters, the Gaussian Blur is implemented via convolution.
+     * The size of the convolution kernel is specified by the {@link radius}.  
+     * Larger radii lead to stronger blurring.
+     * </p>
+     * 
+     * @param input The image to apply the Gaussian Blur to.
+     * @return The resulting (blurred)) image.
+     */
+    public BufferedImage apply(BufferedImage input) {
+        float[] array = createKernel();
 
         // Creates a new source image that is larger, so that the edges of 
         // the image are also affected by the filter.
