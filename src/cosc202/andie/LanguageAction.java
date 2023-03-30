@@ -74,7 +74,8 @@ public class LanguageAction {
                 language = (String) languageModel.getValue();
             }
 
-                        
+            MultilingualSupport mls = new MultilingualSupport(language);
+            mls.setLanguage();            
 
         }
     }

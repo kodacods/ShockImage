@@ -11,19 +11,29 @@ public class MultilingualSupport {
         this.language = language;
     }
 
-    Preferences prefs = Preferences.userNodeForPackage(MultilingualSupport.class);
     
-    Locale enlgish = new Locale (prefs.get("language", "en"), prefs.get("country", "NZ"));
-    Locale german = new Locale (prefs.get("language", "de"), prefs.get("country", "DE"));
-    
-    ResourceBundle MessageBundle = ResourceBundle.getBundle("MessageBundle");
 
-    if (language.equals("English")){
-        prefs.put("language", "en");
-        prefs.put("country", "NZ");
+    public void setLanguage(){
 
-    } else if (language.equals("German")){
-        prefs.put("language", "mi");
-        prefs.put("country", "NZ");
+        Preferences prefs = Preferences.userNodeForPackage(MultilingualSupport.class);
+
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+        Enumeration<String> bundleKeys = bundle.getKeys();
+        while (bundleKeys.hasMoreElements()) {
+            String key = bundleKeys.nextElement();
+            bundle.getString(key);
+        }
+
+            if (language.equals("German")){
+                prefs.put("language", "de");
+                prefs.put("country", "DE");
+
+            } else if (language.equals("English")){
+                prefs.put("language", "en");
+                prefs.put("country", "NZ");
+            }
     }
+
 }
