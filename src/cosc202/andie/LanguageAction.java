@@ -3,6 +3,8 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.prefs.Preferences;
+
 
 /**
  * <p>
@@ -24,7 +26,6 @@ public class LanguageAction {
 
     /** A list of actions for the Language menu. */
     protected ArrayList<Action> actions;
-    //MultilingualSupport ms = new MultilingualSupport("English");
     /**
      * <p>
      * Create a set of File menu actions.
@@ -67,15 +68,23 @@ public class LanguageAction {
             JSpinner languageSpinner = new JSpinner(languageModel);
             int option = JOptionPane.showOptionDialog(null, languageSpinner, "Select language", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
+            Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+
             // Check the return value from the dialog box.
             if (option == JOptionPane.CANCEL_OPTION) {
                 return;
             } else if (option == JOptionPane.OK_OPTION) {
                 language = (String) languageModel.getValue();
-            }
-
-            MultilingualSupport mls = new MultilingualSupport(language);
-            mls.setLanguage();            
+                System.out.println(language);
+                if (language.equals("German")){
+                    prefs.put("language", "de");
+                    prefs.put("country", "DE");
+    
+                } else if (language.equals("English")){
+                    prefs.put("language", "en");
+                    prefs.put("country", "NZ");
+                }    
+            }    
 
         }
     }
