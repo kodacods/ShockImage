@@ -270,5 +270,4 @@ public class FilterActions {
             target.getParent().revalidate();
         }
     }
-
 }

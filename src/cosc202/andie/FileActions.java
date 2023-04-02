@@ -44,6 +44,7 @@ public class FileActions {
         actions = new ArrayList<Action>();
         actions.add(new FileOpenAction(bundle.getString("Open"), null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
         actions.add(new FileSaveAction(bundle.getString("Save"), null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new FileExportAction(bundle.getString("Export"), null, "Export Image", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileSaveAsAction(bundle.getString("SaveAs"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileExitAction(bundle.getString("Exit"), null, "Exit the program", Integer.valueOf(0)));
     }
@@ -212,6 +213,50 @@ public class FileActions {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().saveAs(imageFilepath);
+                } catch (Exception ex) {
+                    System.exit(1);
+                }
+            }
+        }
+
+    }
+
+    public class FileExportAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new file export action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+         /**
+         * <p>
+         * Callback for when the file export action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the FileSaveAsAction is triggered.
+         * It prompts the user to select a file and saves the image to it.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(target);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    target.getImage().export(imageFilepath);
                 } catch (Exception ex) {
                     System.exit(1);
                 }
