@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -34,10 +35,15 @@ public class ViewActions {
      * </p>
      */
     public ViewActions() {
+
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+        
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ZoomInAction(bundle.getString("ZoomIn"), null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new ZoomOutAction(bundle.getString("ZoomOut"), null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
+        actions.add(new ZoomFullAction(bundle.getString("ZoomFull"), null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
     }
 
     /**
@@ -48,7 +54,11 @@ public class ViewActions {
      * @return The view menu UI element.
      */
     public JMenu createMenu() {
-        JMenu viewMenu = new JMenu("View");
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
+        JMenu viewMenu = new JMenu(bundle.getString("View"));
 
         for (Action action: actions) {
             viewMenu.add(new JMenuItem(action));

@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -33,11 +34,16 @@ public class FilterActions {
      * </p>
      */
     public FilterActions() {
+
+    Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+    Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+    ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
         actions = new ArrayList<Action>();
-        actions.add(new GaussianBlurAction("Gaussian Blur", null, "Apply a Sharpen filter", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new MedianFilterAction("Median filter", null, "Apply a Median filter", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new SharpenFilterAction("Sharpen filter", null, "Apply a Sharpen filter", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new GaussianBlurAction(bundle.getString("GaussianBlur"), null, "Apply a Sharpen filter", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new MeanFilterAction(bundle.getString("MeanFilter"), null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new MedianFilterAction(bundle.getString("MedianFilter"), null, "Apply a Median filter", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new SharpenFilterAction(bundle.getString("SharpenFilter"), null, "Apply a Sharpen filter", Integer.valueOf(KeyEvent.VK_M)));
     }
 
     /**
@@ -48,7 +54,13 @@ public class FilterActions {
      * @return The filter menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Filter");
+
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
+        JMenu fileMenu = new JMenu(bundle.getString("Filter"));
+    
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));
@@ -257,5 +269,5 @@ public class FilterActions {
             target.repaint();
             target.getParent().revalidate();
         }
-    }       
+    }
 }
