@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -35,10 +36,14 @@ public class ColourActions {
      * </p>
      */
     public ColourActions() {
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+        
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ContrastAction("Contrast", null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new BrightnessAction("Brightness", null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ConvertToGreyAction(bundle.getString("Greyscale"), null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ContrastAction(bundle.getString("Contrast"), null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new BrightnessAction(bundle.getString("Brightness"), null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
     }
 
     /**
@@ -49,7 +54,11 @@ public class ColourActions {
      * @return The colour menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Colour");
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+        
+        JMenu fileMenu = new JMenu(bundle.getString("Colour"));
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));

@@ -30,13 +30,13 @@ public class FileActions {
     
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
-    //MultilingualSupport ms = new MultilingualSupport("English");
     /**
      * <p>
      * Create a set of File menu actions.
      * </p>
      */
     public FileActions() {
+
     Preferences prefs = Preferences.userNodeForPackage(Andie.class);
     Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
     ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
@@ -56,7 +56,12 @@ public class FileActions {
      * @return The File menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("File");
+
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
+        JMenu fileMenu = new JMenu(bundle.getString("File"));
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));

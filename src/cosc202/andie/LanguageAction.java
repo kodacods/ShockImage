@@ -32,8 +32,12 @@ public class LanguageAction {
      * </p>
      */
     public LanguageAction() {
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
         actions = new ArrayList<Action>();
-        actions.add(new LangChangeLanguage ("Change Language", null, "changes language", null));
+        actions.add(new LangChangeLanguage (bundle.getString("ChangeLanguage"), null, "changes language", null));
     }
 
     /**
@@ -44,7 +48,11 @@ public class LanguageAction {
      * @return The File menu UI element.
      */
     public JMenu createMenu() {
-        JMenu languageMenu = new JMenu("Language");
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
+        JMenu languageMenu = new JMenu(bundle.getString("Language"));
 
         for(Action action: actions) {
             languageMenu.add(new JMenuItem(action));
