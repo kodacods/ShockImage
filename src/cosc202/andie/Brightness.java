@@ -17,7 +17,7 @@ public class Brightness implements ImageOperation, java.io.Serializable {
      * @param percentage to be adjusted
      * </p>
      */
-    Brightness(int percentage){
+    public Brightness(int percentage){
         this.percentage = percentage;
     }
 

@@ -33,7 +33,7 @@ public class Contrast implements ImageOperation, java.io.Serializable {
      * </p>
      * @param percentage
      */
-    Contrast(int percentage){
+    public Contrast(int percentage){
         this.percentage = percentage;
     }
 
