@@ -10,22 +10,25 @@ import javax.swing.*;
  * </p>
  * 
  * <p>
- * The Colour menu contains actions that affect the colour of each pixel directly 
+ * The Colour menu contains actions that affect the colour of each pixel
+ * directly
  * without reference to the rest of the image.
- * This includes conversion to greyscale in the sample code, but more operations will need to be added.
+ * This includes conversion to greyscale in the sample code, but more operations
+ * will need to be added.
  * </p>
  * 
  * Adding comment to test commmit
  * 
- * <p> 
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Steven Mills
  * @version 1.0
  */
 public class ColourActions {
-    
+
     /** A list of actions for the Colour menu. */
     protected ArrayList<Action> actions;
 
@@ -51,7 +54,7 @@ public class ColourActions {
     public JMenu createMenu() {
         JMenu fileMenu = new JMenu("Colour");
 
-        for(Action action: actions) {
+        for (Action action : actions) {
             fileMenu.add(new JMenuItem(action));
         }
 
@@ -72,10 +75,10 @@ public class ColourActions {
          * Create a new convert-to-grey action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         ConvertToGreyAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -115,10 +118,10 @@ public class ColourActions {
          * Create a new Contrast action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         ContrastAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -138,9 +141,10 @@ public class ColourActions {
             int percentage = 0;
 
             // Pop-up dialog box to ask for the percentage.
-            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -25, 25, 25);
+            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -100, 100, 1);
             JSpinner percentSpinner = new JSpinner(percentModel);
-            int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change contrast", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change contrast",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
             // Check the return value from the dialog box.
             if (option == JOptionPane.CANCEL_OPTION) {
@@ -157,7 +161,6 @@ public class ColourActions {
 
     }
 
-
     /**
      * <p>
      * Action to adjust brightness of image.
@@ -172,16 +175,16 @@ public class ColourActions {
          * Create a new Brightness action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         BrightnessAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
-    /**
+        /**
          * <p>
          * This method is called whenever the BrightnessAction is triggered.
          * It prompts the user for a percentage to adjust the brightness.
@@ -195,9 +198,10 @@ public class ColourActions {
             int percentage = 0;
 
             // Pop-up dialog box to ask for the percentage value.
-            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -25, 25, 25);
+            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -100, 100, 1);
             JSpinner percentSpinner = new JSpinner(percentModel);
-            int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change brightness", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change brightness",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
             // Check the return value from the dialog box.
             if (option == JOptionPane.CANCEL_OPTION) {
