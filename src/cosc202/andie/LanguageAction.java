@@ -28,7 +28,7 @@ public class LanguageAction {
     protected ArrayList<Action> actions;
     /**
      * <p>
-     * Create a set of File menu actions.
+     * Create a set of Language menu actions.
      * </p>
      */
     public LanguageAction() {
@@ -60,7 +60,14 @@ public class LanguageAction {
 
         return languageMenu;
     }
-
+    /**
+     * <p>
+     * This method is called whenever the LanguageAction is triggered.
+     * It prompts the user for a language to change the ui to.
+     * </p>
+     * 
+     * @param e The event triggering this callback.
+     */
     public class LangChangeLanguage extends ImageAction {
 
         LangChangeLanguage (String name, ImageIcon icon, String desc, Integer mnemonic) {
@@ -70,7 +77,7 @@ public class LanguageAction {
         @Override
         public void actionPerformed(ActionEvent e) {
             String language = "English";
-            String [] languageList = {"English", "German"};
+            String [] languageList = {"English", "Deutsch"};
 
             SpinnerListModel languageModel = new SpinnerListModel(languageList);
             JSpinner languageSpinner = new JSpinner(languageModel);
@@ -84,7 +91,7 @@ public class LanguageAction {
             } else if (option == JOptionPane.OK_OPTION) {
                 language = (String) languageModel.getValue();
                 System.out.println(language);
-                if (language.equals("German")){
+                if (language.equals("Deutsch")){
                     prefs.put("language", "de");
                     prefs.put("country", "DE");
     
