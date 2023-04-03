@@ -4,11 +4,12 @@ import java.awt.image.*;
 
 /**
  * <p>
- * ImageOperation to decreaser the contrast of the image by 25%
+ * ImageOperation to adjust the contrast by percentage in increments of -25, 0, 25.
  * </p>
  * 
  * <p>
- * Independantly changes rgb in pixels of the image to adjust the contrast of the overall image using the equation v = (1+ c/100)*(v−127.5) + (127.5*(1+ b/100)) .
+ * Independantly changes rgb in pixels of the image to adjust the contrast of the overall image
+ * Using the equation v = (1+ c/100)*(v−127.5) + (127.5*(1+ bt/100)), where v, is the current pixel value, c is the contrast percentage, bt is the brightness percentage = 0;
  * </p>
  * 
  * <p>
@@ -39,7 +40,7 @@ public class Contrast implements ImageOperation, java.io.Serializable {
 
     /**
      * <p>
-     * Takes the buffered image andfinds the value of each pixel and adjusts each contrast by the percentage factor
+     * Takes the buffered image and finds the value of each pixel and adjusts each contrast by the percentage factor
      * 
      * @param input of the buffered image
      * @return input of the altered contrast image
@@ -70,8 +71,10 @@ public class Contrast implements ImageOperation, java.io.Serializable {
     }
     
     /**
-     * Takes the pixel value as an argument.
-     * If the pixel value is <0 or >255 then the amended value will be returned.
+     * Takes the pixel value that has been adjusted to the new percentage contrast.
+     * If the pixel value is <0 the pixel value will be set to 0
+     * If the pixel value is >255 the pixel value will be set to 255
+     * If the pixel value is within the range of 0-255, then the pixel value will not change.
      * 
      * @param value
      * @return value

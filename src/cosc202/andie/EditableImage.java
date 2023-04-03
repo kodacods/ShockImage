@@ -216,6 +216,28 @@ class EditableImage {
 
     /**
      * <p>
+     * Export and image.
+     * </p>
+     * 
+     * 
+     * @param op
+     */
+
+     public void export(String imageFilename) throws Exception { //currently only taking from save and saveAs functions 
+        this.imageFilename = imageFilename;
+        
+        //I know getCurrentImage is involved somehow. So - I should probably use it...
+
+        BufferedImage exportImage = getCurrentImage();
+
+        // Write image file based on file extension
+        String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
+        ImageIO.write(exportImage, extension, new File(imageFilename));
+        
+    }
+
+    /**
+     * <p>
      * Apply an {@link ImageOperation} to this image.
      * </p>
      * 

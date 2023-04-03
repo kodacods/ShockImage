@@ -2,6 +2,23 @@ package cosc202.andie;
 
 import java.awt.image.*;
 
+/**
+ * <p>
+ * ImageOperation to adjust the brightness by percentage in increments of -25, 0, 25.
+ * </p>
+ * 
+ * <p>
+ * Independantly changes rgb in pixels of the image to adjust the brightness of the overall image
+ * Using the equation v = (1+ c/100)*(v−127.5) + (127.5*(1+ bt/100)), where v, is the current pixel value, bt is the brightness percentage, c is the contrast percentage = 0;
+ * </p>
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Beka Rolleston
+ * @version 1.0
+ */
 public class Brightness implements ImageOperation, java.io.Serializable {
 
     private int percentage=0;
@@ -54,8 +71,10 @@ public class Brightness implements ImageOperation, java.io.Serializable {
     }
 
     /**
-     * Takes the pixel value as an argument.
-     * If the pixel value is <0 or >255 then the amended value will be returned.
+     * Takes the pixel value that has been adjusted to the new percentage brightness.
+     * If the pixel value is <0 the pixel value will be set to 0
+     * If the pixel value is >255 the pixel value will be set to 255
+     * If the pixel value is within the range of 0-255, then the pixel value will not change.
      * 
      * @param value
      * @return value

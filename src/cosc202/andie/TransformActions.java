@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -29,13 +30,18 @@ public class TransformActions {
      */
 
     public TransformActions(){
+
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+        
         actions = new ArrayList<Action>();
-        actions.add(new ResizeTransformAction("Resize", null, "Resize image", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new RotateAntiClock90TransformAction("Rotate Anticlockwise 90", null, "Rotate image anticlockwise by 90 degrees", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new RotateClock90TransformAction("Rotate Clockwise 90", null, "Rotate image clockwise by 90 degrees", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new Rotate180TransformAction("Rotate 180", null, "Rotate image by 180 degrees", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new FlipVertTransformAction("Flip Vertical", null, "Flip image vertically", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new FlipHorzTransformAction("Flip Horizontal", null, "Flip image horizontally", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new ResizeTransformAction(bundle.getString("Resize"), null, "Resize image", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new RotateAntiClock90TransformAction(bundle.getString("RotateAnticlockwise90"), null, "Rotate image anticlockwise by 90 degrees", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new RotateClock90TransformAction(bundle.getString("RotateClockwise90"), null, "Rotate image clockwise by 90 degrees", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new Rotate180TransformAction(bundle.getString("Rotate180"), null, "Rotate image by 180 degrees", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new FlipVertTransformAction(bundle.getString("FlipVertical"), null, "Flip image vertically", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new FlipHorzTransformAction(bundle.getString("FlipHorizontal"), null, "Flip image horizontally", Integer.valueOf(KeyEvent.VK_M)));
     }
 
     /**
@@ -47,7 +53,11 @@ public class TransformActions {
      */
 
      public JMenu createMenu(){
-        JMenu transformMenu = new JMenu("Transform");
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
+        JMenu transformMenu = new JMenu(bundle.getString("Transform"));
 
         for(Action action: actions){
             transformMenu.add(new JMenuItem(action));
