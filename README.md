@@ -2,7 +2,31 @@
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
-# User Guide
+## Who did what
+| Deliverables | Completed by |
+|----|---|
+|**Filters** | |
+|Sharpen filter |Alex|
+|Gaussian blur filter|Alex|
+|Median filter |Stella|
+|**Colour**| |
+|Contrast|Beka|
+|Brightness|Beka|
+| **Resize, rotate, flip** ||
+|Image rotations|Meg|
+|Image flip|Meg|
+|Image resize|Meg|
+|**Multilingual Support** |Beka|
+|**Exception Handling**|Alex|
+|**Image export**|Meg|
+|**Other error avoidance/prevention**|Alex|
+|**Testing** |Stella|
+-----
+
+## Testing
+----
+
+## User Guide
 
 **Transform image to black and white**
 
