@@ -1,0 +1,45 @@
+package cosc202.andie.test.cosc202.andie;
+import  java.awt.image.*;
+import  java.imageio.*;
+import  java.io.*;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions; //class
+import org.junit.jupiter.api.BeforeAll; 
+
+import cosc202.andie.MedianFilter;
+
+public class MedianFilter Test {
+
+    private final MedianFilter test1 = new MedianFilter();
+    private final MedianFilter test2 = new MedianFilter(radius:3);
+    private static BufferedImage testingImage;
+
+//reading image from file
+    @BeforeAll
+    static void getImage(){
+        try{
+            testingImage = ImageIO.read(new File(pathname:'andie/clocktower.jpg'));
+        }catch (Exception e){
+            System.out.println(x:"Failed to find image")
+        }
+    }
+//Testing for correct image action with a default radius
+   @Test
+   void imageTest1(){
+    MedianFilter filter = new MedianFilter();
+    try{
+        BufferedImage manualImage = ImageIO.read(new File(pathname:"andie/clocktower.jpg"))
+        BufferedImage testImage1 =  filter.apply(manualImage);
+        BufferedImage testImage2 = test.Filter1.apply(testingImage);
+        Assertions.assertEquals(testImage1.getRGB(x:1, y:1),testImage2.getRGB(x:1,y:1));    //using pixels 
+        Assertions.assertEquals(testImage1.getRGB(x:30, y:150),testImage2.getRGB(x:30,y:150));
+        Assertions.assertEquals(testImage1.getRGB(x:109, y:800),testImage2.getRGB(x:109,y:800));
+    }catch exception (Exception e){
+        System.out.println(x: "not found");
+    }
+
+
+    }
+   }
+
