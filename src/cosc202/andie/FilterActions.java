@@ -71,6 +71,29 @@ public class FilterActions {
 
     /**
      * <p>
+     * Ask the user for a radius for the filter
+     * </p>
+     * 
+     * @return a radius value from 0 to 10.
+     */
+    public int getRadius() {
+        // Pop-up dialog box to ask for the radius value.
+        SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
+        JSpinner radiusSpinner = new JSpinner(radiusModel);
+        int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius (1-10)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+        // Check the return value from the dialog box.
+        if (option == JOptionPane.CANCEL_OPTION) {
+            return 0;
+        } else if (option == JOptionPane.OK_OPTION) {
+            return radiusModel.getNumber().intValue();
+        }
+
+        return 0;
+    }
+
+    /**
+     * <p>
      * Action to blur an image with a mean filter.
      * </p>
      * 
@@ -105,22 +128,8 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-
-            // Determine the radius - ask the user.
-            int radius = 1;
-
-            // Pop-up dialog box to ask for the radius value.
-            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
-            JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-
-            // Check the return value from the dialog box.
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option == JOptionPane.OK_OPTION) {
-                radius = radiusModel.getNumber().intValue();
-            }
-
+            int radius = getRadius();
+            
             // Create and apply the filter
             target.getImage().apply(new MeanFilter(radius));
             target.repaint();
@@ -161,21 +170,7 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-
-            // Determine the radius - ask the user.
-            int radius = 1;
-
-            // Pop-up dialog box to ask for the radius value.
-            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
-            JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-
-            // Check the return value from the dialog box.
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option == JOptionPane.OK_OPTION) {
-                radius = radiusModel.getNumber().intValue();
-            }
+            int radius = getRadius();
 
             // Create and apply the filter
             target.getImage().apply(new MedianFilter(radius));
@@ -249,21 +244,8 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            // Determine the radius - ask the user.
-            int radius = 1;
-    
-            // Pop-up dialog box to ask for the radius value.
-            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
-            JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-    
-            // Check the return value from the dialog box.
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option == JOptionPane.OK_OPTION) {
-                radius = radiusModel.getNumber().intValue();
-            }
-    
+            int radius = getRadius();
+
             // Create and apply the filter
             target.getImage().apply(new GaussianBlur(radius));
             target.repaint();
