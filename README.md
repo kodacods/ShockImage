@@ -52,15 +52,19 @@ To change the language of the interface, select 'Change language / Sprache ände
 To apply any filters, open the "filter" menu at the top of the screen. Click the filter you wish to apply, and enter a radius from 1-10 if prompted to (For Gaussian, Median and Mean filters). The radius will affect how strongly the filter is applied.
 
 **Mean Filter**
+
 A Mean filter is a simple blur which takes the mean of each neighboring pixel (based on a radius) to blur the image evenly.
 
 **Gaussian Filter**
+
 A Gaussian filter is a more complex blur which makes a weighted average of neighboring pixels (based on a radius) using the 2d Gaussian formula. This means that each pixel will be blurred using a kernel which is shaped like a bell curve, making nearby pixels have more influence than further away pixels.
 
 **Median Filter**
+
 A Median filter is a blur that gets the surrounding pixels, gets the median of each of the neighboring pixels (based on a radius) individual RGB values. This results in a different kind of blur compared to the Mean and Gaussian filters.
 
 **Sharpen Filter**
+
 The Sharpen filter is almost like an inverse blur, it makes each pixel more different than its surrounding neighbors. This filter does not use a radius, but can be applied more than once for a stronger effect.
 
 ---
