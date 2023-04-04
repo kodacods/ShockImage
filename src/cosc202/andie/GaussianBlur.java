@@ -127,5 +127,14 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
         return output;
     }
 
+    public static float firstCalc(float sigma){
+        return (float) (1 / (2 * Math.PI * Math.pow(sigma, 2)));
+
+    }
+
+    public static float secondCalc(float sigma){
+        return (float) (Math.exp(-((Math.pow(3, 2) + Math.pow(3, 2)) / (2 * Math.pow(sigma, 2)))));
+    }
+
 
 }
