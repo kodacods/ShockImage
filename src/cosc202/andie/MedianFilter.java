@@ -59,7 +59,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * 
      * @see MedianFilter(int)
      */
-    MedianFilter() {
+    public MedianFilter() {
         this(1);
     }
 

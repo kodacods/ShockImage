@@ -29,7 +29,7 @@ public class SharpenFilter implements ImageOperation, java.io.Serializable {
      * </p>
      * 
      */
-    SharpenFilter() {   
+    public SharpenFilter() {   
     }
 
     /**
