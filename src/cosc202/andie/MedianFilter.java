@@ -10,11 +10,13 @@ import java.util.*;
  * 
  * <p>
  * A Median filter blurs an image by replacing each pixel by the median of the
- * pixels in a surrounding neighbourhood, and can be implemented by a convoloution.
+ * pixels in a surrounding neighbourhood, and can be implemented by a
+ * convoloution.
  * </p>
  * 
- * <p> 
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @see java.awt.image.ConvolveOp
@@ -22,9 +24,10 @@ import java.util.*;
  * @version 1.0
  */
 public class MedianFilter implements ImageOperation, java.io.Serializable {
-    
+
     /**
-     * The size of filter to apply. A radius of 1 is a 3x3 filter, a radius of 2 a 5x5 filter, and so forth.
+     * The size of filter to apply. A radius of 1 is a 3x3 filter, a radius of 2 a
+     * 5x5 filter, and so forth.
      */
     private int radius;
 
@@ -42,7 +45,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * @param radius The radius of the newly constructed MedianFilter
      */
     MedianFilter(int radius) {
-        this.radius = radius;    
+        this.radius = radius;
     }
 
     /**
@@ -62,12 +65,12 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
 
     /**
      * <p>
-     * Apply a Mean filter to an image.
+     * Apply a Median filter to an image.
      * </p>
      * 
      * <p>
      * As with many filters, the Median filter is implemented via convolution.
-     * The size of the convolution kernel is specified by the {@link radius}.  
+     * The size of the convolution kernel is specified by the {@link radius}.
      * Larger radii lead to stronger blurring.
      * </p>
      * 
@@ -75,8 +78,9 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * @return The resulting (blurred)) image.
      */
     public BufferedImage apply(BufferedImage input) {
-        int size = (2*radius+1) * (2*radius+1);
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
+        int size = (2 * radius + 1) * (2 * radius + 1);
+        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null),
+                input.isAlphaPremultiplied(), null);
 
         for (int y = radius; y < input.getHeight() - radius; ++y) {
             for (int x = radius; x < input.getWidth() - radius; ++x) {
@@ -101,7 +105,8 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                 Arrays.sort(g);
                 Arrays.sort(b);
 
-                int argbFiltered = (a[(a.length-1) / 2] << 24) | (r[(r.length-1) / 2] << 16) | (g[(g.length-1) / 2] << 8) | b[(b.length-1) / 2];
+                int argbFiltered = (a[(a.length - 1) / 2] << 24) | (r[(r.length - 1) / 2] << 16)
+                        | (g[(g.length - 1) / 2] << 8) | b[(b.length - 1) / 2];
                 output.setRGB(x, y, argbFiltered);
             }
         }
@@ -109,6 +114,4 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         return output;
     }
 
-
 }
-
