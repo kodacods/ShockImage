@@ -27,6 +27,27 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 
 ## Testing
 
+**Overall User Evaluation**
+All file and filter actions produce an expected output at a satifactory response rate.
+
+**RGB Testing**
+The RGBTest file contains 2 tests:
+
+_MedianFilterTest_/_BrightnessTest_/_ContrastTest_/_SharpenFilterTest_
+
+This test compares the RGB values of an manually read image to control image (intialised as a data field) after a filter has been applied. It compares the value at randomised x and y co-ordinates using the _randInt_ method.
+
+_Rotate180Test_/_Rotate90Test_/_Anti90Test_/_FlipHorzTest_/_FlipVertTest_
+
+This second test uses the control image to checks the RGB values of a specified co-ordinate of an untouched image to the correlating position on a copy image but with the action performed on it.
+
+**Trunacate Testing**
+This is a branch test of the trunacate method equation used in _Brightness_ and _Contrast_ to ensure the expected value is returned for each if-statement.
+
+**Gaussian Testing**
+This test checks if the first and second equations used in _GaussianBlur_ return the expected output.
+
+
 **Kernel Testing**
 The FilterKernelTesting file contains 2 tests:
 
