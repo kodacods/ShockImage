@@ -150,7 +150,7 @@ public class ColourActions {
             int percentage = 0;
 
             // Pop-up dialog box to ask for the percentage.
-            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -100, 100, 1);
+            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -90, 90, 10);
             JSpinner percentSpinner = new JSpinner(percentModel);
             int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change contrast",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -207,7 +207,7 @@ public class ColourActions {
             int percentage = 0;
 
             // Pop-up dialog box to ask for the percentage value.
-            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -100, 100, 1);
+            SpinnerNumberModel percentModel = new SpinnerNumberModel(0, -90, 90, 10);
             JSpinner percentSpinner = new JSpinner(percentModel);
             int option = JOptionPane.showOptionDialog(null, percentSpinner, "Enter percentage to change brightness",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
