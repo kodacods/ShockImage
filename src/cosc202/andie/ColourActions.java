@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.util.*;
 import java.util.prefs.Preferences;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -91,6 +92,8 @@ public class ColourActions {
          */
         ConvertToGreyAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
         }
 
         /**
