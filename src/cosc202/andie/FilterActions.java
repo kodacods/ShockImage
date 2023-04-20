@@ -255,10 +255,7 @@ public class FilterActions {
             int radius = getRadius();
 
             // Create and apply the filter
-            // For some reason, when GaussianBlur gets called with a radius of 1,
-            // It doesn't work. So I call GaussianBlur with radius + 1, then
-            // inside of GaussianBlur, I remove one from the radius.
-            target.getImage().apply(new GaussianBlur(radius + 1));
+            target.getImage().apply(new GaussianBlur(radius));
             target.repaint();
             target.getParent().revalidate();
         }

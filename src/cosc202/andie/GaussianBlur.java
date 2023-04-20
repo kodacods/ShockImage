@@ -48,8 +48,8 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
      * @param radius The radius of the newly constructed Gaussian Filter
      */
     public GaussianBlur(int radius) {
-        this.radius = radius - 1;
-        this.sigma = radius / 3.0f;
+        this.radius = radius;
+        this.sigma = this.radius / 3.0f;
     }
 
     /**
@@ -64,7 +64,7 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
      * @see Gaussian(int)
      */
     public GaussianBlur() {
-        this(2);
+        this(1);
     }
 
     public float[] createKernel() {
@@ -80,6 +80,7 @@ public class GaussianBlur implements ImageOperation, java.io.Serializable {
                 float firstCalc = (float) (1 / (2 * Math.PI * Math.pow(sigma, 2)));
                 float secondCalc = (float) (Math.exp(-((Math.pow(x, 2) + Math.pow(y, 2)) / (2 * Math.pow(sigma, 2)))));
                 array[(i * (2 * radius + 1)) + j] = firstCalc * secondCalc;
+                System.out.println(x + " " + y);
                 sum += firstCalc * secondCalc;
             }
         }
