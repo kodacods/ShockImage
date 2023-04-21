@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -92,6 +93,8 @@ public class FileActions {
          */
         FileOpenAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
         }
 
         /**
@@ -149,6 +152,9 @@ public class FileActions {
          */
         FileSaveAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
+
         }
 
         /**
@@ -288,7 +294,8 @@ public class FileActions {
         FileExitAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon);
             putValue(SHORT_DESCRIPTION, desc);
-            putValue(MNEMONIC_KEY, mnemonic);
+            putValue(MNEMONIC_KEY, mnemonic); 
+
         }
 
          /**

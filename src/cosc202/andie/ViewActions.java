@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.util.*;
 import java.util.prefs.Preferences;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -90,6 +91,8 @@ public class ViewActions {
          */
         ZoomInAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_ADD, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
         }
 
         /**
@@ -135,6 +138,9 @@ public class ViewActions {
          */
         ZoomOutAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
+            
         }
 
         /**
@@ -180,6 +186,9 @@ public class ViewActions {
          */
         ZoomFullAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+          //  this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
+
         }
 
         /**

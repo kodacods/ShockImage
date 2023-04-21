@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.util.*;
 import java.util.prefs.Preferences;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -85,6 +86,9 @@ public class EditActions {
          */
         UndoAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
+
         }
 
         /**
@@ -127,6 +131,8 @@ public class EditActions {
          */
         RedoAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
         }
 
         
@@ -146,6 +152,8 @@ public class EditActions {
             target.getImage().redo();
             target.repaint();
             target.getParent().revalidate();
+
+
         }
     }
 
