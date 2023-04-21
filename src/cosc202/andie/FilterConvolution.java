@@ -12,10 +12,13 @@ import java.awt.image.BufferedImage;
  */
 public class FilterConvolution {
     public static BufferedImage applyConvolution(BufferedImage input, float[] array, int radius) {
+        int height = input.getHeight();
+        int width = input.getWidth();
+
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null),
                 input.isAlphaPremultiplied(), null);
-        for (int y = 0; y < input.getHeight(); y++) {
-            for (int x = 0; x < input.getWidth(); x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 float r = 0.0f;
                 float g = 0.0f;
                 float b = 0.0f;
@@ -23,9 +26,9 @@ public class FilterConvolution {
                     for (int dx = -radius; dx <= radius; dx++) {
                         int xValue = dx;
                         int yValue = dy;
-                        if (x + xValue < 0 || x + xValue >= input.getWidth() - 1)
+                        if (x + xValue < 0 || x + xValue >= width - 1)
                             xValue = 0;
-                        if (y + yValue < 0 || y + yValue >= input.getHeight() - 1)
+                        if (y + yValue < 0 || y + yValue >= height - 1)
                             yValue = 0;
                         float currentKernelValue = array[(dx + radius) + (((radius * 2) + 1) * (dy + radius))];
                         Color currentColor = new Color(input.getRGB(x + xValue, y + yValue));
@@ -55,7 +58,6 @@ public class FilterConvolution {
                 output.setRGB(x, y, outputColor.getRGB());
             }
         }
-
         return output;
     }
 }
