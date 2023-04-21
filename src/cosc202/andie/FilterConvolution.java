@@ -3,15 +3,28 @@ package cosc202.andie;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-/**
- * Apply a convolution to an image.
- * 
- * @param input  image to apply the convolution to
- * @param array  float array of the kernel
- * @param radius the radius of the applied filter kernel
- */
 public class FilterConvolution {
+    /**
+     * Apply a convolution to an image with no offset.
+     * 
+     * @param input  image to apply the convolution to
+     * @param array  float array of the kernel
+     * @param radius the radius of the applied filter kernel
+     */
     public static BufferedImage applyConvolution(BufferedImage input, float[] array, int radius) {
+        return applyConvolution(input, array, radius, 0);
+    }
+
+    /**
+     * Apply a convolution to an image with an offset.
+     * 
+     * @param input  image to apply the convolution to
+     * @param array  float array of the kernel
+     * @param radius the radius of the applied filter kernel
+     * @param offset the value to which the final rgb values are offsetted, so allow
+     *               for negative values.
+     */
+    public static BufferedImage applyConvolution(BufferedImage input, float[] array, int radius, int offset) {
         int height = input.getHeight();
         int width = input.getWidth();
 
@@ -41,6 +54,9 @@ public class FilterConvolution {
                         b += db;
                     }
                 }
+                r += offset;
+                g += offset;
+                b += offset;
                 if (r > 255)
                     r = 255;
                 if (g > 255)
