@@ -3,6 +3,13 @@ package cosc202.andie;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+/**
+ * Apply a convolution to an image.
+ * 
+ * @param input  image to apply the convolution to
+ * @param array  float array of the kernel
+ * @param radius the radius of the applied filter kernel
+ */
 public class FilterConvolution {
     public static BufferedImage applyConvolution(BufferedImage input, float[] array, int radius) {
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null),
