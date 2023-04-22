@@ -46,6 +46,10 @@ public class ViewActions {
         actions.add(new ZoomFullAction(bundle.getString("ZoomFull"), null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
     }
 
+    public Action getAction (int pos){
+        return actions.get(pos);
+    }
+
     /**
      * <p>
      * Create a menu containing the list of View actions.

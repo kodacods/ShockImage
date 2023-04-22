@@ -43,6 +43,10 @@ public class EditActions {
         actions.add(new RedoAction(bundle.getString("Redo"), null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
     }
 
+    public Action getAction (int pos){
+        return actions.get(pos);
+    }
+
     /**
      * <p>
      * Create a menu contianing the list of Edit actions.
