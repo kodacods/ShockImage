@@ -18,9 +18,9 @@ public class SelectionActions {
      * </p>
      */
 
-    protected static Point selFirst;
-    protected static Point selSecond;
-    
+    protected static Point selFirst, selSecond;
+    protected static Point originPoint = new Point(0,0);
+    protected static int selLength, selWidth;
 
 
     public SelectionActions() {
@@ -65,8 +65,6 @@ public class SelectionActions {
 
         RectangularSelectionAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-            
-
         }
 
         
@@ -114,6 +112,25 @@ public class SelectionActions {
         } 
 
         private void openMenu(){
+
+            if(selFirst.x < selSecond.x){
+                originPoint.x = selFirst.x;
+                selLength = selSecond.x - selFirst.x;
+            } else {
+                originPoint.x = selSecond.x;
+                selLength = selFirst.x - selSecond.x;
+            }
+    
+            if(selFirst.y < selSecond.y){
+                originPoint.y = selFirst.y;
+                selWidth = selSecond.y - selFirst.y;
+            } else {
+                originPoint.y = selSecond.y;
+                selWidth = selFirst.y - selSecond.y;
+            }
+
+            System.out.println("origin point: " + originPoint);
+
             target.getImage().apply(new RectangularShowSelection());
             target.repaint();
             target.getParent().revalidate();
@@ -126,10 +143,16 @@ public class SelectionActions {
             target.getParent().revalidate();
 
             if (option == 1) {
-                
+                target.getImage().apply(new CropSelection());
+                target.repaint();
+                target.getParent().revalidate();
             } 
+            selFirst = new Point(0,0);
+            selSecond = new Point(0,0);
         }
 
+        //oh yeah by the way if you're drawing you're probably gonna need to make one below that doesn't open a menu
+        //like above but it doesn't open an option pane
 
     }
 }

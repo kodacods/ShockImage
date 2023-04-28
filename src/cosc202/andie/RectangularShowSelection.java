@@ -1,45 +1,18 @@
 package cosc202.andie;
 
 import java.awt.image.*;
-import java.util.*;
-import java.awt.event.*;
-import javax.swing.*;
 import java.awt.*;
 
 //implements ImageOperation, java.io.Serializable <- let's say this doesn't apply. does selection count as an operation? a prelude to
 //an operation maybe?
 
 public class RectangularShowSelection implements ImageOperation, java.io.Serializable {
-    Point p1 = SelectionActions.selFirst;
-    Point p2 = SelectionActions.selSecond;
-    int cornerOriginX = 0;
-    int cornerOriginY = 0;
-    int lengthX = 0;
-    int lengthY = 0;
     public BufferedImage apply(BufferedImage input){
         BufferedImage image = input;
         Graphics2D g2d = image.createGraphics();
         g2d.setColor(Color.BLUE);
-        if(p1.equals(p2)){
-            return input;
-        } 
-        if(p1.x < p2.x){
-            cornerOriginX = p1.x;
-            lengthX = p2.x - p1.x;
-        } else {
-            cornerOriginX = p2.x;
-            lengthX = p1.x - p2.x;
-        }
 
-        if(p1.y < p2.y){
-            cornerOriginY = p1.y;
-            lengthY = p2.y - p1.y;
-        } else {
-            cornerOriginY = p2.y;
-            lengthY = p1.y - p2.y;
-        }
-
-        g2d.drawRect(cornerOriginX, cornerOriginY, lengthX, lengthY);
+        g2d.drawRect(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selLength, SelectionActions.selWidth);
         g2d.dispose();
         return image;
     }
