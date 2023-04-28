@@ -115,6 +115,10 @@ public class Andie {
         toolBar.add(zoomInButton);
         toolBar.add(zoomOutButton);
         
+        //Selection?
+        SelectionActions selectActions = new SelectionActions();
+        menuBar.add(selectActions.createMenu());
+
         // Add the toolbar to the gui frame
         frame.add(toolBar, BorderLayout.PAGE_START);
 
