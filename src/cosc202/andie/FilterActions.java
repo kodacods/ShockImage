@@ -2,7 +2,10 @@ package cosc202.andie;
 
 import java.util.*;
 import java.util.prefs.Preferences;
+import java.awt.GridLayout;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 
 /**
@@ -13,8 +16,8 @@ import javax.swing.*;
  * <p>
  * The Filter menu contains actions that update each pixel in an image based on
  * some small local neighbourhood.
- * This includes a Mean Filter, a Sharpen Filter, a Median filter and a Gaussian
- * Blur.
+ * This includes a Mean Filter, a Sharpen Filter, a Median filter, a Gaussian
+ * Blur and an Emboss filter.
  * </p>
  * 
  * <p>
@@ -49,6 +52,8 @@ public class FilterActions {
         actions.add(new MedianFilterAction(bundle.getString("MedianFilter"), null, "Apply a Median filter",
                 Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new SharpenFilterAction(bundle.getString("SharpenFilter"), null, "Apply a Sharpen filter",
+                Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new EmbossFilterAction(bundle.getString("EmbossFilter"), null, "Apply an Emboss filter",
                 Integer.valueOf(KeyEvent.VK_M)));
     }
 
@@ -96,6 +101,59 @@ public class FilterActions {
         }
 
         return 0;
+    }
+
+    /**
+     * <p>
+     * Ask the user for a direction for the emboss filter,
+     * and apply the filter to the image in real time.
+     * </p>
+     */
+    public void getDirection() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(3, 3));
+        String[] directions = { "↖", "↑", "↗", "←", "", "→", "↙", "↓", "↘" };
+        ImagePanel target = ImageAction.getTarget();
+        BufferedImage og = target.getImage().getCurrentImage();
+
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (!target.getImage().getCurrentImage().equals(og)) {
+                    target.getImage().undo();
+                }
+
+                // Create and apply the filter
+                target.getImage().apply(
+                        new EmbossFilter(java.util.Arrays.asList(directions).indexOf(actionEvent.getActionCommand())));
+                target.repaint();
+                target.getParent().revalidate();
+            }
+        };
+
+        for (int i = 0; i < directions.length; i++) {
+            String dir = directions[i];
+            if (dir.equals("")) {
+                JPanel p = new JPanel();
+                buttonPanel.add(p);
+            } else {
+                JButton b = new JButton(dir);
+                b.addActionListener(actionListener);
+                buttonPanel.add(b);
+            }
+        }
+
+        int option = JOptionPane.showOptionDialog(null, buttonPanel, "Choose Direction of Emboss Filter",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+        // Check the return value from the dialog box.
+        if (option == JOptionPane.CANCEL_OPTION) {
+            target.getImage().undo();
+            target.repaint();
+            target.getParent().revalidate();
+            return;
+        } else if (option == JOptionPane.OK_OPTION) {
+            return;
+        }
     }
 
     /**
@@ -193,7 +251,7 @@ public class FilterActions {
      * Action to blur an image with a sharpen filter.
      * </p>
      * 
-     * @see MeanFilter
+     * @see SharpenFilter
      */
     public class SharpenFilterAction extends ImageAction {
 
@@ -259,5 +317,46 @@ public class FilterActions {
             target.repaint();
             target.getParent().revalidate();
         }
+    }
+
+    /**
+     * <p>
+     * Action to blur an image with a Emboss filter.
+     * </p>
+     * 
+     * @see EmbossFilter
+     */
+    public class EmbossFilterAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new Emboss-filter action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        EmbossFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the convert-to-grey action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the EmbossFilterAction is triggered.
+         * {@link EmbossFilter}.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            getDirection();
+        }
+
     }
 }
