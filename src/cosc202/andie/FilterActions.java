@@ -107,59 +107,6 @@ public class FilterActions {
 
     /**
      * <p>
-     * Ask the user for a direction for the emboss filter,
-     * and apply the filter to the image in real time.
-     * </p>
-     */
-    public void getDirection() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(3, 3));
-        String[] directions = { "↖", "↑", "↗", "←", "", "→", "↙", "↓", "↘" };
-        ImagePanel target = ImageAction.getTarget();
-        BufferedImage og = target.getImage().getCurrentImage();
-
-        ActionListener actionListener = new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (!target.getImage().getCurrentImage().equals(og)) {
-                    target.getImage().undo();
-                }
-
-                // Create and apply the filter
-                target.getImage().apply(
-                        new EmbossFilter(java.util.Arrays.asList(directions).indexOf(actionEvent.getActionCommand())));
-                target.repaint();
-                target.getParent().revalidate();
-            }
-        };
-
-        for (int i = 0; i < directions.length; i++) {
-            String dir = directions[i];
-            if (dir.equals("")) {
-                JPanel p = new JPanel();
-                buttonPanel.add(p);
-            } else {
-                JButton b = new JButton(dir);
-                b.addActionListener(actionListener);
-                buttonPanel.add(b);
-            }
-        }
-
-        int option = JOptionPane.showOptionDialog(null, buttonPanel, "Choose Direction of Emboss Filter",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-
-        // Check the return value from the dialog box.
-        if (option == JOptionPane.CANCEL_OPTION) {
-            target.getImage().undo();
-            target.repaint();
-            target.getParent().revalidate();
-            return;
-        } else if (option == JOptionPane.OK_OPTION) {
-            return;
-        }
-    }
-
-    /**
-     * <p>
      * Action to blur an image with a mean filter.
      * </p>
      * 
@@ -357,7 +304,63 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            getDirection();
+            EmbossFilterPopup();
+        }
+
+        /**
+         * <p>
+         * Ask the user for a direction for the emboss filter,
+         * and apply the filter to the image in real time.
+         * </p>
+         */
+        public void EmbossFilterPopup() {
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new GridLayout(3, 3));
+            String[] directions = { "↖", "↑", "↗", "←", "", "→", "↙", "↓", "↘" };
+            ImagePanel target = ImageAction.getTarget();
+            BufferedImage og = target.getImage().getCurrentImage();
+
+            ActionListener actionListener = new ActionListener() {
+                public void actionPerformed(ActionEvent actionEvent) {
+                    if (!target.getImage().getCurrentImage().equals(og)) {
+                        target.getImage().undo();
+                    }
+
+                    // Create and apply the filter
+                    target.getImage().apply(
+                            new EmbossFilter(
+                                    java.util.Arrays.asList(directions).indexOf(actionEvent.getActionCommand())));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+            };
+
+            for (int i = 0; i < directions.length; i++) {
+                String dir = directions[i];
+                if (dir.equals("")) {
+                    JPanel p = new JPanel();
+                    buttonPanel.add(p);
+                } else {
+                    JButton b = new JButton(dir);
+                    b.addActionListener(actionListener);
+                    buttonPanel.add(b);
+                }
+            }
+
+            int option = JOptionPane.showOptionDialog(null, buttonPanel, "Choose Direction of Emboss Filter",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            // Check the return value from the dialog box.
+            if (option == JOptionPane.CANCEL_OPTION) {
+                if (!target.getImage().getCurrentImage().equals(og)) {
+                    target.getImage().undo();
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                return;
+            }
         }
 
     }
@@ -401,6 +404,12 @@ public class FilterActions {
             sobelFilterPopup();
         }
 
+        /**
+         * <p>
+         * Ask the user for an orientation for the Sobel filter,
+         * and apply the filter to the image in real time.
+         * </p>
+         */
         public void sobelFilterPopup() {
             JPanel buttonPanel = new JPanel();
             String[] directions = { "← →", "↑ ↓" };
@@ -434,7 +443,7 @@ public class FilterActions {
                 }
             }
 
-            int option = JOptionPane.showOptionDialog(null, buttonPanel, "Choose Direction of Emboss Filter",
+            int option = JOptionPane.showOptionDialog(null, buttonPanel, "Choose Orientation of Sobel Filter",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
             // Check the return value from the dialog box.
