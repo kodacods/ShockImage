@@ -149,6 +149,8 @@ public class SelectionActions {
             } 
             selFirst = new Point(0,0);
             selSecond = new Point(0,0);
+            originPoint = new Point(0,0);
+            
         }
 
         //oh yeah by the way if you're drawing you're probably gonna need to make one below that doesn't open a menu
