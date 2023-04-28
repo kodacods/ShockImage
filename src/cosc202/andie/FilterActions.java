@@ -55,6 +55,8 @@ public class FilterActions {
                 Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new EmbossFilterAction(bundle.getString("EmbossFilter"), null, "Apply an Emboss filter",
                 Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new SobelFilterAction(bundle.getString("SobelFilter"), null, "Apply an Emboss filter",
+                Integer.valueOf(KeyEvent.VK_M)));
     }
 
     /**
@@ -356,6 +358,96 @@ public class FilterActions {
          */
         public void actionPerformed(ActionEvent e) {
             getDirection();
+        }
+
+    }
+
+    /**
+     * <p>
+     * Action to blur an image with a Sobel filter.
+     * </p>
+     * 
+     * @see SobelFilter
+     */
+    public class SobelFilterAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new Sobel-filter action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        SobelFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the convert-to-grey action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the SobelFilterAction is triggered.
+         * {@link SobelFilter}.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            sobelFilterPopup();
+        }
+
+        public void sobelFilterPopup() {
+            JPanel buttonPanel = new JPanel();
+            String[] directions = { "← →", "↑ ↓" };
+            ImagePanel target = ImageAction.getTarget();
+            BufferedImage og = target.getImage().getCurrentImage();
+
+            ActionListener actionListener = new ActionListener() {
+                public void actionPerformed(ActionEvent actionEvent) {
+                    if (!target.getImage().getCurrentImage().equals(og)) {
+                        target.getImage().undo();
+                    }
+
+                    // Create and apply the filter
+                    target.getImage().apply(
+                            new SobelFilter(
+                                    java.util.Arrays.asList(directions).indexOf(actionEvent.getActionCommand()) == 1));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+            };
+
+            for (int i = 0; i < directions.length; i++) {
+                String dir = directions[i];
+                if (dir.equals("")) {
+                    JPanel p = new JPanel();
+                    buttonPanel.add(p);
+                } else {
+                    JButton b = new JButton(dir);
+                    b.addActionListener(actionListener);
+                    buttonPanel.add(b);
+                }
+            }
+
+            int option = JOptionPane.showOptionDialog(null, buttonPanel, "Choose Direction of Emboss Filter",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            // Check the return value from the dialog box.
+            if (option == JOptionPane.CANCEL_OPTION) {
+                if (!target.getImage().getCurrentImage().equals(og)) {
+                    target.getImage().undo();
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                return;
+            }
         }
 
     }
