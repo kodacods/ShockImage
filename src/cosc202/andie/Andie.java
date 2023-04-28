@@ -2,6 +2,7 @@ package cosc202.andie;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import javax.imageio.*;
 //aaaaaaaaaaaaa
 
@@ -93,10 +94,33 @@ public class Andie {
 
         LanguageAction languageAction = new LanguageAction();
         menuBar.add(languageAction.createMenu());
+
+        // Add toolbar
+        JToolBar toolBar = new JToolBar();
+        toolBar.setBorder(new EtchedBorder());
+
+        // Creates buttons and add them to tool bar
+        JButton openButton = new JButton (fileActions.getAction(0));
+        JButton saveButton = new JButton (fileActions.getAction(1));
+        toolBar.add(openButton);
+        toolBar.add(saveButton);
+
+        JButton undoButton = new JButton (editActions.getAction(0));
+        JButton redoButton = new JButton (editActions.getAction(1));
+        toolBar.add(undoButton);
+        toolBar.add(redoButton);
+
+        JButton zoomInButton = new JButton (viewActions.getAction(0));
+        JButton zoomOutButton = new JButton (viewActions.getAction(1));
+        toolBar.add(zoomInButton);
+        toolBar.add(zoomOutButton);
         
         //Selection?
         SelectionActions selectActions = new SelectionActions();
         menuBar.add(selectActions.createMenu());
+
+        // Add the toolbar to the gui frame
+        frame.add(toolBar, BorderLayout.PAGE_START);
 
         frame.setJMenuBar(menuBar);
         frame.pack();

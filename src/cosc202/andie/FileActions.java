@@ -49,6 +49,10 @@ public class FileActions {
         actions.add(new FileExitAction(bundle.getString("Exit"), null, "Exit the program", Integer.valueOf(0)));
     }
 
+    public Action getAction (int pos){
+        return actions.get(pos);
+    }
+
     /**
      * <p>
      * Create a menu contianing the list of File actions.
