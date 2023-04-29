@@ -9,11 +9,12 @@ import java.awt.*;
 public class CropSelection implements ImageOperation, java.io.Serializable {
     public BufferedImage apply(BufferedImage input){
 
-        BufferedImage out = input.getSubimage(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selLength, SelectionActions.selWidth);
-        BufferedImage output = new BufferedImage(SelectionActions.selLength, SelectionActions.selWidth, BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics2D lay = output.createGraphics();
-        lay.drawImage(out, 0, 0, null);  // x = 0 and y = 0 refers to where On The New Blank Image... which won't work...
-
+        BufferedImage output = input.getSubimage(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selLength, SelectionActions.selWidth);
+        input = output;
         return output;
+
+        //Outcome: It crops, but repeating the process makes it... not work. It also kind of explodes on the third crop.
+
+        //I think it has to do with the input taking from the original image pre-crop.
     }
 }
