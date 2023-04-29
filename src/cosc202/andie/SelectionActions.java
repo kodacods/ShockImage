@@ -86,27 +86,31 @@ public class SelectionActions {
         }
 
         public void mouseExited(MouseEvent e){}
-        public void mouseReleased(MouseEvent e){}
-        public void mousePressed(MouseEvent e){}
+        public void mouseReleased(MouseEvent e){
+            second = e.getPoint();
+            System.out.println("Second Point Clicked");
+            System.out.println(second);
+            firstCheck = false;
+            selFirst = first;
+            selSecond = second;
+            target.removeMouseListener(this);
+            System.out.println("Both Clicked. Opening menu of selection operations.");
+            
+            //realization: opening a menu :OOOOOOOOOOO
+            openMenu();
+        }
+        public void mousePressed(MouseEvent e){
+            first = e.getPoint();
+            System.out.println("First Point Clicked");
+            System.out.println(first);
+            firstCheck = true;
+        }
         public void mouseEntered(MouseEvent e){}
         public void mouseClicked(MouseEvent e) {  
             if(firstCheck == false){
-                first = e.getPoint();
-                System.out.println("First Point Clicked");
-                System.out.println(first);
-                firstCheck = true;
+               
             } else {
-                second = e.getPoint();
-                System.out.println("Second Point Clicked");
-                System.out.println(second);
-                firstCheck = false;
-                selFirst = first;
-                selSecond = second;
-                target.removeMouseListener(this);
-                System.out.println("Both Clicked. Opening menu of selection operations.");
-                
-                //realization: opening a menu :OOOOOOOOOOO
-                openMenu();
+              
 
             }
         } 
