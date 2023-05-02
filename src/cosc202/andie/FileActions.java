@@ -1,7 +1,11 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.awt.Image;
 import java.awt.event.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.util.prefs.Preferences;
@@ -34,16 +38,22 @@ public class FileActions {
      * <p>
      * Create a set of File menu actions.
      * </p>
+     * @throws IOException
      */
-    public FileActions() {
+    public FileActions() throws IOException {
 
     Preferences prefs = Preferences.userNodeForPackage(Andie.class);
     Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
     ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+    
+    Image saveImage = ImageIO.read(Andie.class.getClassLoader().getResource("disk2.png"));
+    Image openImage = ImageIO.read(Andie.class.getClassLoader().getResource("folder-open.png"));
+    ImageIcon saveIcon = new ImageIcon(saveImage);
+    ImageIcon openIcon = new ImageIcon(openImage);
 
         actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction(bundle.getString("Open"), null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
-        actions.add(new FileSaveAction(bundle.getString("Save"), null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new FileOpenAction(bundle.getString("Open"), openIcon, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
+        actions.add(new FileSaveAction(bundle.getString("Save"), saveIcon, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
         actions.add(new FileExportAction(bundle.getString("Export"), null, "Export Image", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileSaveAsAction(bundle.getString("SaveAs"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileExitAction(bundle.getString("Exit"), null, "Exit the program", Integer.valueOf(0)));

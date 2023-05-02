@@ -2,7 +2,11 @@ package cosc202.andie;
 
 import java.util.*;
 import java.util.prefs.Preferences;
+import java.awt.Image;
 import java.awt.event.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
  /**
@@ -32,14 +36,18 @@ public class EditActions {
      * <p>
      * Create a set of Edit menu actions.
      * </p>
+     * @throws IOException
      */
-    public EditActions() {
+    public EditActions() throws IOException {
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
+        Image undoImage = ImageIO.read(Andie.class.getClassLoader().getResource("undo.png"));
+        ImageIcon undoIcon = new ImageIcon(undoImage);
         
         actions = new ArrayList<Action>();
-        actions.add(new UndoAction(bundle.getString("Undo"), null, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
+        actions.add(new UndoAction(bundle.getString("Undo"), undoIcon, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
         actions.add(new RedoAction(bundle.getString("Redo"), null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
     }
 
