@@ -9,7 +9,7 @@ public class RectangularShowSelection implements ImageOperation, java.io.Seriali
         // Graphics2D g2d = image.createGraphics();
         // g2d.setColor(Color.BLUE);
 
-        // g2d.drawRect(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selLength, SelectionActions.selWidth);
+        // g2d.drawRect(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selWidth, SelectionActions.selHeight);
         // g2d.dispose();
         //Now doing a modified version of brightness modification.
         //Code partially copied from initial Brightness filter with that filter's author's permission.

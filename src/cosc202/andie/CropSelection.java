@@ -8,8 +8,10 @@ import java.awt.*;
 
 public class CropSelection implements ImageOperation, java.io.Serializable {
     public BufferedImage apply(BufferedImage input){
+        System.out.println("For testing purposes: ");
+        System.out.println("Width of the input image: " + input.getWidth());
 
-        BufferedImage output = input.getSubimage(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selLength, SelectionActions.selWidth);
+        BufferedImage output = input.getSubimage(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selWidth, SelectionActions.selHeight);
         input = output;
         return output;
 
@@ -29,6 +31,13 @@ public class CropSelection implements ImageOperation, java.io.Serializable {
          * Hmm.
          * 
          * Undo: Does not return to previous sizes unlike Resize until returning to the first crop.
+         * 
+         * It's odd. It should be working, but...
          */
+
+         /*Possible solution:
+          * Pixel to pixel painting of a new empty BufferedImage.
+          Result:
+          */
     }
 }
