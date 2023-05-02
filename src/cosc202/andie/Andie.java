@@ -122,8 +122,10 @@ public class Andie {
         toolBar.add(zoomInButton);
         toolBar.add(zoomOutButton);
 
-        JButton edgeDetectionButton = new JButton(filterActions.getAction(4));
+        JButton edgeDetectionButton = new JButton(filterActions.getAction(1));
+        JButton blurButton = new JButton(filterActions.getAction(2));
         toolBar.add(edgeDetectionButton);
+        toolBar.add(blurButton);
 
         // Add the toolbar to the gui frame
         frame.add(toolBar, BorderLayout.PAGE_START);

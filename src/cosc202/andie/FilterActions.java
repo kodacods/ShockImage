@@ -7,6 +7,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * <p>
@@ -45,15 +47,11 @@ public class FilterActions {
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
         actions = new ArrayList<Action>();
-        actions.add(new GaussianBlurAction(bundle.getString("GaussianBlur"), null, "Apply a Sharpen filter",
-                Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new MeanFilterAction(bundle.getString("MeanFilter"), null, "Apply a mean filter",
-                Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new MedianFilterAction(bundle.getString("MedianFilter"), null, "Apply a Median filter",
-                Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new SharpenFilterAction(bundle.getString("SharpenFilter"), null, "Apply a Sharpen filter",
                 Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new EdgeDetectionFiltersAction(bundle.getString("EdgeFilters"), null, "Apply a Sharpen filter",
+                Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new BlurFiltersAction(bundle.getString("BlurFilters"), null, "Apply a Sharpen filter",
                 Integer.valueOf(KeyEvent.VK_M)));
     }
 
@@ -257,6 +255,155 @@ public class FilterActions {
                 }
             }
             return buttonPanel;
+        }
+    }
+
+    /**
+     * <p>
+     * Show a popup will all edge detection filters
+     * </p>
+     * 
+     */
+    public class BlurFiltersAction extends ImageAction {
+
+        int[] operations;
+
+        /**
+         * <p>
+         * Create a new edge-detection-filters action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        BlurFiltersAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * This method undoes all operations that were clicked in this popup.
+         * It does not show these changes to the user, as they are updated quickly after
+         * when operations are applied. If not, then the image will need to be manually
+         * refreshed (as done when the popup is cancelled.)
+         */
+        public void undoAllOperations() {
+            for (int i = 0; i < operations.length; i++) {
+                if (operations[i] != 0) {
+                    target.getImage().undo();
+                }
+            }
+        }
+
+        /**
+         * This method applies all operations, and updates the image to show the new
+         * (filtered) image.
+         */
+        public void applyAllOperations() {
+            for (int i = 0; i < operations.length; i++) {
+                if (operations[i] != 0) {
+                    if (i == 0) {
+                        target.getImage().apply(new MeanFilter(operations[0]));
+                    } else if (i == 1) {
+                        target.getImage().apply(new GaussianBlur(operations[1]));
+                    } else if (i == 2) {
+                        target.getImage().apply(new MedianFilter(operations[2]));
+                    }
+                }
+            }
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        /**
+         * This method is called when the popup is opened. It creates a panel which
+         * contains the controls for the sobel/emboss filters. When the cancel button is
+         * pressed all changes made inside of the popup are undone.
+         */
+        public void actionPerformed(ActionEvent e) {
+            operations = new int[3];
+            JPanel optionsMenu = new JPanel();
+            optionsMenu.setLayout(new GridLayout(3, 2));
+            optionsMenu.add(new JLabel("Mean Blur"));
+            optionsMenu.add(getMeanBlurPanel());
+            optionsMenu.add(new JLabel("Gaussian Blur"));
+            optionsMenu.add(getGaussianBlurPanel());
+            optionsMenu.add(new JLabel("Median Blur"));
+            optionsMenu.add(getMedianBlurPanel());
+            int option = JOptionPane.showOptionDialog(null, optionsMenu, "Enter filter radius (1-10)",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            // Check the return value from the dialog box.
+            if (option == JOptionPane.CANCEL_OPTION) {
+                undoAllOperations();
+                target.repaint();
+                target.getParent().revalidate();
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                return;
+            }
+
+        }
+
+        public JPanel getGaussianBlurPanel() {
+            JPanel panel = new JPanel();
+            SpinnerNumberModel radiusModel = new SpinnerNumberModel(0, 0, 10, 1);
+            JSpinner radius = new JSpinner(radiusModel);
+            radius.setEditor(new JSpinner.DefaultEditor(radius));
+            panel.add(radius);
+
+            radius.addChangeListener(new ChangeListener() {
+                public void stateChanged(ChangeEvent e) {
+                    JSpinner source = (JSpinner) e.getSource();
+                    int rad = (int) source.getValue();
+                    undoAllOperations();
+                    operations[1] = rad;
+                    applyAllOperations();
+                }
+            });
+
+            return panel;
+        }
+
+        public JPanel getMeanBlurPanel() {
+            JPanel panel = new JPanel();
+            SpinnerNumberModel radiusModel = new SpinnerNumberModel(0, 0, 10, 1);
+            JSpinner radius = new JSpinner(radiusModel);
+            radius.setEditor(new JSpinner.DefaultEditor(radius));
+            panel.add(radius);
+
+            radius.addChangeListener(new ChangeListener() {
+                public void stateChanged(ChangeEvent e) {
+                    JSpinner source = (JSpinner) e.getSource();
+                    int rad = (int) source.getValue();
+                    undoAllOperations();
+                    operations[0] = rad;
+                    applyAllOperations();
+                }
+            });
+
+            return panel;
+        }
+
+        public JPanel getMedianBlurPanel() {
+            JPanel panel = new JPanel();
+            SpinnerNumberModel radiusModel = new SpinnerNumberModel(0, 0, 10, 1);
+            JSpinner radius = new JSpinner(radiusModel);
+            radius.setEditor(new JSpinner.DefaultEditor(radius));
+            panel.add(radius);
+
+            radius.addChangeListener(new ChangeListener() {
+                public void stateChanged(ChangeEvent e) {
+                    JSpinner source = (JSpinner) e.getSource();
+                    int rad = (int) source.getValue();
+                    undoAllOperations();
+                    operations[2] = rad;
+                    applyAllOperations();
+                }
+            });
+
+            return panel;
         }
     }
 
