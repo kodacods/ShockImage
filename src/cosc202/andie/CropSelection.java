@@ -23,7 +23,7 @@ public class CropSelection implements ImageOperation, java.io.Serializable {
 
         /*Errors as of note:
          * Caused on 1st crop: None
-         * Caused on 2nd crop: Returns 'must have an image opened'. Otherwise may or may not crop properly. 
+         * Caused on 2nd crop: Returns 'must have an image opened first'. Otherwise may or may not crop properly. 
          * No idea why error message is triggered.
          * Caused on 3rd crop: Exception in thread "AWT-EventQueue-0" java.awt.image.RasterFormatException: (x + width) is outside of Raster
          * Hmm.
