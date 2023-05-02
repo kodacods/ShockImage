@@ -260,7 +260,7 @@ public class FilterActions {
 
     /**
      * <p>
-     * Show a popup will all edge detection filters
+     * Show a popup will all blurring filters
      * </p>
      * 
      */
@@ -270,7 +270,7 @@ public class FilterActions {
 
         /**
          * <p>
-         * Create a new edge-detection-filters action.
+         * Create a new blur-filters action.
          * </p>
          * 
          * @param name     The name of the action (ignored if null).
@@ -318,7 +318,7 @@ public class FilterActions {
 
         /**
          * This method is called when the popup is opened. It creates a panel which
-         * contains the controls for the sobel/emboss filters. When the cancel button is
+         * contains the controls for the filters. When the cancel button is
          * pressed all changes made inside of the popup are undone.
          */
         public void actionPerformed(ActionEvent e) {
@@ -346,6 +346,14 @@ public class FilterActions {
 
         }
 
+        /**
+         * This method creates the controls for the gaussian blur panel. This includes a
+         * JPanel which contains a spinner, which updates the gaussian blur when it is
+         * changed.
+         * 
+         * @return JPanel containing a spinner, which changes the blur value for the
+         *         gaussian blur
+         */
         public JPanel getGaussianBlurPanel() {
             JPanel panel = new JPanel();
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(0, 0, 10, 1);
@@ -366,6 +374,14 @@ public class FilterActions {
             return panel;
         }
 
+        /**
+         * This method creates the controls for the mean blur panel. This includes a
+         * JPanel which contains a spinner, which updates the mean blur when it is
+         * changed.
+         * 
+         * @return JPanel containing a spinner, which changes the blur value for the
+         *         mean blur
+         */
         public JPanel getMeanBlurPanel() {
             JPanel panel = new JPanel();
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(0, 0, 10, 1);
@@ -386,6 +402,14 @@ public class FilterActions {
             return panel;
         }
 
+        /**
+         * This method creates the controls for the median blur panel. This includes a
+         * JPanel which contains a spinner, which updates the median blur when it is
+         * changed.
+         * 
+         * @return JPanel containing a spinner, which changes the blur value for the
+         *         median blur
+         */
         public JPanel getMedianBlurPanel() {
             JPanel panel = new JPanel();
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(0, 0, 10, 1);
