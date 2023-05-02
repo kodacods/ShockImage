@@ -127,6 +127,10 @@ public class Andie {
         toolBar.add(edgeDetectionButton);
         toolBar.add(blurButton);
 
+        // Selection?
+        SelectionActions selectActions = new SelectionActions();
+        menuBar.add(selectActions.createMenu());
+
         // Add the toolbar to the gui frame
         frame.add(toolBar, BorderLayout.PAGE_START);
 
