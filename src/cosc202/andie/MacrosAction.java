@@ -17,10 +17,10 @@ public class MacrosAction {
     ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
         actions = new ArrayList<Action>();
-        actions.add(new StartRecordingAction(bundle.getString("Open"), null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
-        actions.add(new StopRecordingAction(bundle.getString("Save"), null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new ReplayAction(bundle.getString("Export"), null, "Export Image", Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new SaveMacrosAction(bundle.getString("SaveAs"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new StartRecordingAction(bundle.getString("Record Edits"), null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
+        actions.add(new StopRecordingAction(bundle.getString("Stop Recording"), null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new SaveMacrosAction(bundle.getString("Save Edit Recording"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new ReplayAction(bundle.getString("Replay Edit Recording"), null, "Export Image", Integer.valueOf(KeyEvent.VK_A)));
     
     }
 
