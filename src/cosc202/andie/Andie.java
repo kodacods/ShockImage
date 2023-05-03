@@ -102,6 +102,9 @@ public class Andie {
         LanguageAction languageAction = new LanguageAction();
         menuBar.add(languageAction.createMenu());
 
+        MacrosAction macrosAction = new MacrosAction();
+        menuBar.add(languageAction.createMenu());
+
         // Add toolbar
         JToolBar toolBar = new JToolBar();
         toolBar.setBorder(new EtchedBorder());
