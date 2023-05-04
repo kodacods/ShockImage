@@ -43,4 +43,7 @@ public class MacrosAction {
         return macrosMenu;
     }
     
+    public class StartRecordingAction (){
+        
+    }
 }
