@@ -157,6 +157,8 @@ class EditableImage {
         File imageFile = new File(imageFilename);
         original = ImageIO.read(imageFile);
         current = deepCopy(original);
+        ops.clear();
+        redoOps.clear();
 
         try {
             FileInputStream fileIn = new FileInputStream(this.opsFilename);
