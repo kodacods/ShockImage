@@ -7,12 +7,38 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CropSelection implements ImageOperation, java.io.Serializable {
+    public CropSelection(){
+
+    }
     public BufferedImage apply(BufferedImage input){
         System.out.println("For testing purposes: ");
         System.out.println("Width of the input image: " + input.getWidth());
+        System.out.println("Height of the input image: " + input.getHeight());
 
-        BufferedImage output = input.getSubimage(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selWidth, SelectionActions.selHeight);
-        input = output;
+        
+        System.out.println("Should select width: " + SelectionActions.selWidth);
+        System.out.println("Should select height: " + SelectionActions.selHeight);
+
+        
+
+        BufferedImage inpCrop = input.getSubimage(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selWidth, SelectionActions.selHeight);
+        //'shares the same data array' 
+        //[pain]
+        input = inpCrop;
+        
+        System.out.println("Width of the changed input image: " + input.getWidth());
+        System.out.println("Height of the changed input image: " + input.getHeight());
+        BufferedImage output = new BufferedImage(SelectionActions.selWidth, SelectionActions.selHeight, BufferedImage.TYPE_4BYTE_ABGR);
+
+
+        
+        Graphics2D lay = output.createGraphics();
+        lay.drawImage(inpCrop, 0, 0, null);
+        
+        lay.dispose();
+    
+        System.out.println("Width of the output image: " + output.getWidth());
+        System.out.println("Height of the output image: " + output.getHeight());
         return output;
 
         //Outcome: It crops, but repeating the process makes it... not work. It also kind of explodes on the third crop.
@@ -32,12 +58,32 @@ public class CropSelection implements ImageOperation, java.io.Serializable {
          * 
          * Undo: Does not return to previous sizes unlike Resize until returning to the first crop.
          * 
-         * It's odd. It should be working, but...
+         * It's odd. It should be working. The getSubImage function is basically THE function for cropping.
+         * 
+         * But... a possible solution is to go pixel by pixel paint...
          */
 
-         /*Possible solution:
-          * Pixel to pixel painting of a new empty BufferedImage.
-          Result:
-          */
+
+        /* Testing results:
+        * Initial crop has the initial image's length and width. 
+        However, the second one has the print prompts go *twice,* sans the 'output height and width' messages. That's odd. That shouldn't happen...
+        And for that matter, the input's length and width don't change, either, as expected.
+        */
+
+        /* EEK!!!!!
+
+        I'VE TRIED EVERYTHINGGGGGGGG!!!!!!!!!!
+
+        EVEN MAKING IT A SEPARATE ACTION SANS OPEN MENU! IT DOESN'T! WORK!!!!!
+
+        ...
+
+        I bet it only doesn't work on this.......
+
+        I've even tested the other mechanic that works similarly (resize) if it's because its in a method outside of actionPerformed - 
+        and yet, it worked perfectly fine.
+
+        WHAT'S GOING ON???
+        */
     }
 }

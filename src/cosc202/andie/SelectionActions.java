@@ -66,6 +66,7 @@ public class SelectionActions {
 
         RectangularSelectionAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            
         }
 
         
@@ -75,15 +76,6 @@ public class SelectionActions {
             target.addMouseListener(this);
             System.out.println("ML Instantiated and Set");
             System.out.println("Should be primed for selecting");
-            
-
-            //int option = JOptionPane.showOptionDialog(null, "Select First Point", "Selection", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            //The problem is an optionpane won't let the user select anywhere on the initial image.
-            //if(first != null){
-                //status.setText("First Point Clicked");
-            //}
-            
-            
         }
 
         public void mouseExited(MouseEvent e){}
@@ -92,12 +84,11 @@ public class SelectionActions {
             System.out.println("Second Point Clicked");
             System.out.println(second);
             firstCheck = false;
-            selFirst = first;
-            selSecond = second;
+            SelectionActions.selFirst = first;
+            SelectionActions.selSecond = second;
             target.removeMouseListener(this);
             System.out.println("Both Clicked. Opening menu of selection operations.");
-            
-            //realization: opening a menu :OOOOOOOOOOO
+        
             openMenu();
         }
         public void mousePressed(MouseEvent e){
@@ -108,30 +99,24 @@ public class SelectionActions {
         }
         public void mouseEntered(MouseEvent e){}
         public void mouseClicked(MouseEvent e) {  
-            if(firstCheck == false){
-               
-            } else {
-              
-
-            }
         } 
 
         private void openMenu(){
 
             if(selFirst.x < selSecond.x){
-                originPoint.x = selFirst.x;
-                selWidth = selSecond.x - selFirst.x;
+                SelectionActions.originPoint.x = selFirst.x;
+                SelectionActions.selWidth = selSecond.x - selFirst.x;
             } else {
-                originPoint.x = selSecond.x;
-                selWidth = selFirst.x - selSecond.x;
+                SelectionActions.originPoint.x = selSecond.x;
+                SelectionActions.selWidth = selFirst.x - selSecond.x;
             }
     
             if(selFirst.y < selSecond.y){
-                originPoint.y = selFirst.y;
-                selHeight = selSecond.y - selFirst.y;
+                SelectionActions.originPoint.y = selFirst.y;
+                SelectionActions.selHeight = selSecond.y - selFirst.y;
             } else {
                 originPoint.y = selSecond.y;
-                selHeight = selFirst.y - selSecond.y;
+                SelectionActions.selHeight = selFirst.y - selSecond.y;
             }
 
             System.out.println("origin point: " + originPoint);
@@ -143,7 +128,7 @@ public class SelectionActions {
             String[] options = {"Cancel", "Crop"};
             int option = JOptionPane.showOptionDialog(null, "Select functions go here.", "Selection Operations Menu", JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
             
-            target.getImage().undo(); //so glad that it forces the user to finish interacting with the newlymade menu first before doing anything else
+            target.getImage().undo();
             target.repaint();
             target.getParent().revalidate();
 
@@ -151,15 +136,14 @@ public class SelectionActions {
                 target.getImage().apply(new CropSelection());
                 target.repaint();
                 target.getParent().revalidate();
+                
+                System.out.println("Width of the output image: " + target.getWidth());
+                System.out.println("Height of the output image: " + target.getHeight());
             } 
             selFirst = new Point(0,0);
             selSecond = new Point(0,0);
             originPoint = new Point(0,0);
-            
         }
-
-        //oh yeah by the way if you're drawing you're probably gonna need to make one below that doesn't open a menu
-        //like above but it doesn't open an option pane
 
     }
 }

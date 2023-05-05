@@ -4,6 +4,7 @@ import java.awt.image.*;
 import java.awt.*;
 
 public class RectangularShowSelection implements ImageOperation, java.io.Serializable {
+    public RectangularShowSelection(){}
     public BufferedImage apply(BufferedImage input){
         // BufferedImage image = input;
         // Graphics2D g2d = image.createGraphics();
