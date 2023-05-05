@@ -64,10 +64,7 @@ public class SelectionActions {
         }
 
         public void actionPerformed(ActionEvent e) {
-            // JLabel status = new JLabel("Select First Point");
             target.addMouseListener(this);
-            System.out.println("ML Instantiated and Set");
-            System.out.println("Should be primed for selecting");
         }
 
         public void mouseExited(MouseEvent e) {
@@ -75,20 +72,14 @@ public class SelectionActions {
 
         public void mouseReleased(MouseEvent e) {
             second = e.getPoint();
-            System.out.println("Second Point Clicked");
-            System.out.println(second);
             SelectionActions.selFirst = first;
             SelectionActions.selSecond = second;
             target.removeMouseListener(this);
-            System.out.println("Both Clicked. Opening menu of selection operations.");
-
             openMenu();
         }
 
         public void mousePressed(MouseEvent e) {
             first = e.getPoint();
-            System.out.println("First Point Clicked");
-            System.out.println(first);
         }
 
         public void mouseEntered(MouseEvent e) {
@@ -115,8 +106,6 @@ public class SelectionActions {
                 SelectionActions.selHeight = selFirst.y - selSecond.y;
             }
 
-            System.out.println("origin point: " + originPoint);
-
             target.getImage().apply(new RectangularShowSelection());
             target.repaint();
             target.getParent().revalidate();
@@ -134,9 +123,6 @@ public class SelectionActions {
                         SelectionActions.selWidth, SelectionActions.selHeight));
                 target.repaint();
                 target.getParent().revalidate();
-
-                System.out.println("Width of the output image: " + target.getWidth());
-                System.out.println("Height of the output image: " + target.getHeight());
             }
             selFirst = new Point(0, 0);
             selSecond = new Point(0, 0);
