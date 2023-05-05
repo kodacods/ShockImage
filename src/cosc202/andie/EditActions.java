@@ -45,10 +45,13 @@ public class EditActions {
 
         Image undoImage = ImageIO.read(Andie.class.getClassLoader().getResource("undo.png"));
         ImageIcon undoIcon = new ImageIcon(undoImage);
+
+        Image redoImage = ImageIO.read(Andie.class.getClassLoader().getResource("redo.png"));
+        ImageIcon redoIcon = new ImageIcon(redoImage);
         
         actions = new ArrayList<Action>();
         actions.add(new UndoAction(bundle.getString("Undo"), undoIcon, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
-        actions.add(new RedoAction(bundle.getString("Redo"), null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
+        actions.add(new RedoAction(bundle.getString("Redo"), redoIcon, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
     }
 
     public Action getAction (int pos){

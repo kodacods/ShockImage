@@ -2,7 +2,11 @@ package cosc202.andie;
 
 import java.util.*;
 import java.util.prefs.Preferences;
+import java.awt.Image;
 import java.awt.event.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -33,16 +37,22 @@ public class ViewActions {
      * <p>
      * Create a set of View menu actions.
      * </p>
+     * @throws IOException
      */
-    public ViewActions() {
+    public ViewActions() throws IOException {
 
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
+        Image zoominImage = ImageIO.read(Andie.class.getClassLoader().getResource("zoomin.png"));
+        Image zoomoutImage = ImageIO.read(Andie.class.getClassLoader().getResource("zoomout.png"));
+        ImageIcon zoominIcon = new ImageIcon(zoominImage);
+        ImageIcon zoomoutIcon = new ImageIcon(zoomoutImage);
         
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction(bundle.getString("ZoomIn"), null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction(bundle.getString("ZoomOut"), null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
+        actions.add(new ZoomInAction(bundle.getString("ZoomIn"), zoominIcon, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new ZoomOutAction(bundle.getString("ZoomOut"), zoomoutIcon, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction(bundle.getString("ZoomFull"), null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
     }
 
