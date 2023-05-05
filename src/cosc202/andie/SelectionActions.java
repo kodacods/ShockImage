@@ -5,7 +5,6 @@ import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
-import java.awt.FlowLayout;
 import java.awt.Point;
 
 public class SelectionActions {
@@ -58,7 +57,6 @@ public class SelectionActions {
 
         private Point first;
         private Point second;
-        private boolean firstCheck;
 
         RectangularSelectionAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -79,7 +77,6 @@ public class SelectionActions {
             second = e.getPoint();
             System.out.println("Second Point Clicked");
             System.out.println(second);
-            firstCheck = false;
             SelectionActions.selFirst = first;
             SelectionActions.selSecond = second;
             target.removeMouseListener(this);
@@ -92,7 +89,6 @@ public class SelectionActions {
             first = e.getPoint();
             System.out.println("First Point Clicked");
             System.out.println(first);
-            firstCheck = true;
         }
 
         public void mouseEntered(MouseEvent e) {

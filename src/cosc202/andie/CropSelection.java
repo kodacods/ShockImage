@@ -1,10 +1,6 @@
 package cosc202.andie;
 
 import java.awt.image.*;
-import java.util.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.*;
 
 public class CropSelection implements ImageOperation, java.io.Serializable {
     private int x;
