@@ -182,6 +182,10 @@ public class FilterActions {
          * pressed all changes made inside of the popup are undone.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
             operations = new int[] { -1, -1 };
             og = target.getImage().getCurrentImage();
             JPanel optionsMenu = new JPanel();
@@ -336,6 +340,10 @@ public class FilterActions {
          * pressed all changes made inside of the popup are undone.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
             operations = new int[3];
             JPanel optionsMenu = new JPanel();
             optionsMenu.setLayout(new GridLayout(3, 2));
@@ -567,6 +575,10 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
             // Create and apply the filter
             target.getImage().apply(new SharpenFilter());
             target.repaint();
