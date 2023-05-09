@@ -103,7 +103,7 @@ public class Andie {
         menuBar.add(languageAction.createMenu());
 
         MacrosAction macrosAction = new MacrosAction();
-        menuBar.add(languageAction.createMenu());
+        menuBar.add(macrosAction.createMenu());
 
         // Add toolbar
         JToolBar toolBar = new JToolBar();
