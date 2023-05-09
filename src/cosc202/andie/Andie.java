@@ -128,11 +128,12 @@ public class Andie {
         toolBar.add(edgeDetectionButton);
         toolBar.add(blurButton);
 
-        // Selection?
-        SelectionActions selectActions = new SelectionActions();
-        menuBar.add(selectActions.createMenu());
 
+
+        CropSelection cropSelection = new CropSelection(0, 0, 0, 0);
+        JButton cropButton = cropSelection.createButton();
         // Add the toolbar to the gui frame
+        toolBar.add(cropButton);
         frame.add(toolBar, BorderLayout.PAGE_START);
 
         frame.setJMenuBar(menuBar);

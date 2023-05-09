@@ -1,7 +1,10 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 
 /**
  * <p>
@@ -20,12 +23,16 @@ import javax.swing.*;
  * @author Steven Mills
  * @version 1.0
  */
-public class ImagePanel extends JPanel {
+public class ImagePanel extends JPanel implements MouseInputListener { //m
     
     /**
      * The image to display in the ImagePanel.
      */
     private EditableImage image;
+
+    private Point first, second;
+    public static Point origin;
+    public static  int selWidth, selHeight;
 
     /**
      * <p>
@@ -51,6 +58,8 @@ public class ImagePanel extends JPanel {
     public ImagePanel() {
         image = new EditableImage();
         scale = 1.0;
+        this.addMouseListener(this);
+
     }
 
     /**
@@ -135,7 +144,70 @@ public class ImagePanel extends JPanel {
             Graphics2D g2  = (Graphics2D) g.create();
             g2.scale(scale, scale);
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
+            
+            // Draw rectangle here
+            if (origin != null) {
+                g2.setColor(Color.BLUE);
+                g2.drawRect(origin.x, origin.y, selWidth, selHeight);
+                g2.dispose();
+
+
+            }
             g2.dispose();
+
+
         }
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        Point point = e.getPoint();
+
+        first = new Point((int)(point.getX() / scale), (int)(point.getY() / scale));
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        Point point = e.getPoint();
+
+        second = new Point((int)(point.getX() / scale), (int)(point.getY() / scale));
+        RecTangleTime();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    public void RecTangleTime() {
+            origin = new Point(Math.min(first.x, second.x), Math.min(first.y, second.y));
+            selWidth = Math.abs(first.x - second.x);
+            selHeight = Math.abs(first.y - second.y);
+
+            //getImage().apply(new RectangularShowSelection());
+            repaint();
+            getParent().revalidate();
+
+    }
+
+
+
+   
 }
