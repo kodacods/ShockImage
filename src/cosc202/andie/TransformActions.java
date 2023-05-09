@@ -103,6 +103,11 @@ public class TransformActions {
          */
 
         public void actionPerformed(ActionEvent e){
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
+            
             // Determine the scale factor - ask the user.
             double scaleFactor = 1.0;
 

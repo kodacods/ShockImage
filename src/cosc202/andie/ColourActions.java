@@ -148,6 +148,10 @@ public class ColourActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
 
             // Determine the percentage to change contrast entered by the user.
             int percentage = 0;
@@ -205,6 +209,10 @@ public class ColourActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
 
             // Determine the percentage to change contrast entered by the user.
             int percentage = 0;
