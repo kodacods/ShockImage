@@ -18,8 +18,8 @@ public class MacrosAction {
     ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
         actions = new ArrayList<Action>();
-        actions.add(new StartRecordingAction(bundle.getString("Record Edits"), null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
-        //actions.add(new StopRecordingAction(bundle.getString("Stop Recording"), null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new StartRecordingAction(bundle.getString("RecordEdits"), null, "Records macros of editing", null));
+        actions.add(new StopRecordingAction(bundle.getString("StopRecording"), null, "Stops recording macros", null ));
         //actions.add(new SaveMacrosAction(bundle.getString("Save Edit Recording"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
         //actions.add(new ReplayAction(bundle.getString("Replay Edit Recording"), null, "Export Image", Integer.valueOf(KeyEvent.VK_A)));
     
@@ -57,6 +57,26 @@ public class MacrosAction {
             try {
                 mr = new MacroRecorder();
                 mr.startRecording();
+            } catch (AWTException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+    }
+
+    public class StopRecordingAction extends ImageAction{
+        
+        StopRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            MacroRecorder mr;
+            try {
+                mr = new MacroRecorder();
+                mr.stopRecording();
             } catch (AWTException e1) {
                 e1.printStackTrace();
             }
