@@ -10,18 +10,19 @@ import java.util.prefs.Preferences;
 public class MacrosAction {
 
     protected ArrayList<Action> actions;
+    MacroRecorder mr = new MacroRecorder();
 
-    public MacrosAction() {
+    public MacrosAction() throws AWTException {
 
-    Preferences prefs = Preferences.userNodeForPackage(Andie.class);
-    Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
-    ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
         actions = new ArrayList<Action>();
         actions.add(new StartRecordingAction(bundle.getString("RecordEdits"), null, "Records macros of editing", null));
         actions.add(new StopRecordingAction(bundle.getString("StopRecording"), null, "Stops recording macros", null ));
-        //actions.add(new SaveMacrosAction(bundle.getString("Save Edit Recording"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
-        //actions.add(new ReplayAction(bundle.getString("Replay Edit Recording"), null, "Export Image", Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new SaveMacrosAction(bundle.getString("SaveEditRecording"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new ReplayAction(bundle.getString("ReplayEditRecording"), null, "Export Image", Integer.valueOf(KeyEvent.VK_A)));
     
     }
 
@@ -53,13 +54,7 @@ public class MacrosAction {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            MacroRecorder mr;
-            try {
-                mr = new MacroRecorder();
-                mr.startRecording();
-            } catch (AWTException e1) {
-                e1.printStackTrace();
-            }
+            mr.startRecording();
 
         }
     }
@@ -73,11 +68,38 @@ public class MacrosAction {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            MacroRecorder mr;
+            mr.stopRecording();
+
+        }
+    }
+
+    public class SaveMacrosAction extends ImageAction{
+        
+        SaveMacrosAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mr.saveToFile("macro2");
+
+        }
+    }
+
+    public class ReplayAction extends ImageAction{
+        
+        ReplayAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
             try {
-                mr = new MacroRecorder();
-                mr.stopRecording();
+                mr.replayMacro("macro2");
             } catch (AWTException e1) {
+                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
 
