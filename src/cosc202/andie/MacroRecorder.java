@@ -32,13 +32,6 @@ public class MacroRecorder {
         if (recording) {
             recording = false;
             System.out.println("Macro recording stopped.");
-
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("macro.ops"))) {
-                out.writeObject(events);
-                System.out.println("Macro saved to macro.ops.");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -53,7 +46,7 @@ public class MacroRecorder {
     }
 
     public void saveToFile(String fileName) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".ops"))) {
             out.writeObject(events);
             System.out.println("Macro saved to " + fileName + ".");
         } catch (IOException e) {
