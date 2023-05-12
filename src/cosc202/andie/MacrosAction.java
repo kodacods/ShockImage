@@ -99,7 +99,6 @@ public class MacrosAction {
             try {
                 mr.replayMacro("macro2");
             } catch (AWTException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
 

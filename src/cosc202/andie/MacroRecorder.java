@@ -78,7 +78,7 @@ public class MacroRecorder {
                     case MOUSE_PRESSED:
                         robot.mousePress(event.getButton());
                         break;
-                        case MOUSE_RELEASED:
+                    case MOUSE_RELEASED:
                         robot.mouseRelease(event.getButton());
                         break;
                 }
