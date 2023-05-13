@@ -132,6 +132,9 @@ public class Andie {
         SelectionActions selectActions = new SelectionActions();
         menuBar.add(selectActions.createMenu());
 
+        MiscActions miscActions = new MiscActions();
+        menuBar.add(miscActions.createMenu());
+
         // Add the toolbar to the gui frame
         frame.add(toolBar, BorderLayout.PAGE_START);
 
