@@ -1,6 +1,9 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.imageio.*;
@@ -29,6 +32,8 @@ import javax.imageio.*;
  */
 public class Andie {
 
+    private static boolean isRecording = false;
+    static MacroRecorder mr = new MacroRecorder();
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -58,6 +63,30 @@ public class Andie {
     private static void createAndShowGUI() throws Exception {
         // Set up the main GUI frame
         JFrame frame = new JFrame("ANDIE");
+
+        
+        frame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (isRecording == true){
+                    mr.addEvent(e);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (isRecording == true){
+                    mr.addEvent(e);
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (isRecording == true){
+                    mr.addEvent(e);
+                }
+            }
+        });
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
@@ -140,6 +169,14 @@ public class Andie {
         frame.setJMenuBar(menuBar);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public static void setIsRecording(Boolean isRecording){
+        Andie.isRecording = isRecording;
+    }
+
+    public static boolean getIsRecording(){
+        return isRecording;
     }
 
     /**

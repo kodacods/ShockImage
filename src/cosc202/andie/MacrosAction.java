@@ -97,7 +97,7 @@ public class MacrosAction {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                mr.replayMacro("macros2.ops");
+                mr.replayMouseEvents("macros2.ops");
             } catch (AWTException e1) {
                 e1.printStackTrace();
             }
