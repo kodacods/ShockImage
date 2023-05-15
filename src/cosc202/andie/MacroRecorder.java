@@ -13,24 +13,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MacroRecorder {
-    private List<MouseEvent> events;
+    private static List<MouseEvent> events;
 
     public MacroRecorder() {
-        this.events = new ArrayList<>();
+        MacroRecorder.events = new ArrayList<>();
     }
 
-    public void startRecording() {
+    public static void startRecording() {
         events.clear();
-        if (Andie.getIsRecording()!=true)
+        if (Andie.getIsRecording()==false)
         Andie.setIsRecording(true);
+        System.out.println(Andie.getIsRecording());
     }
 
-    public void stopRecording() {
+    public static void stopRecording() {
         if (Andie.getIsRecording()==true)
         Andie.setIsRecording(false);
     }
 
-    public void addEvent(MouseEvent e) {
+    public static void addEvent(MouseEvent e) {
         events.add(e);
     }
 

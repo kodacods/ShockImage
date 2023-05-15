@@ -10,7 +10,6 @@ import java.util.prefs.Preferences;
 public class MacrosAction {
 
     protected ArrayList<Action> actions;
-    MacroRecorder mr = new MacroRecorder();
 
     public MacrosAction() throws AWTException {
 
@@ -54,8 +53,7 @@ public class MacrosAction {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            mr.startRecording();
-
+            MacroRecorder.startRecording();
         }
     }
 
@@ -68,7 +66,7 @@ public class MacrosAction {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            mr.stopRecording();
+            MacroRecorder.stopRecording();
 
         }
     }
@@ -82,7 +80,7 @@ public class MacrosAction {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            mr.saveToFile("macro2");
+            MacroRecorder.saveToFile("macro2");
 
         }
     }
@@ -97,7 +95,7 @@ public class MacrosAction {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                mr.replayMouseEvents("macros2.ops");
+                MacroRecorder.replayMouseEvents("macros2.ops");
             } catch (AWTException e1) {
                 e1.printStackTrace();
             }

@@ -33,7 +33,6 @@ import javax.imageio.*;
 public class Andie {
 
     private static boolean isRecording = false;
-    static MacroRecorder mr = new MacroRecorder();
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -63,30 +62,6 @@ public class Andie {
     private static void createAndShowGUI() throws Exception {
         // Set up the main GUI frame
         JFrame frame = new JFrame("ANDIE");
-
-        
-        frame.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (isRecording == true){
-                    mr.addEvent(e);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (isRecording == true){
-                    mr.addEvent(e);
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (isRecording == true){
-                    mr.addEvent(e);
-                }
-            }
-        });
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
@@ -169,6 +144,32 @@ public class Andie {
         frame.setJMenuBar(menuBar);
         frame.pack();
         frame.setVisible(true);
+
+        frame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (isRecording == true){
+                    System.out.println("Mouse clicked");
+                    MacroRecorder.addEvent(e);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (isRecording == true){
+                    System.out.println("Mouse Pressed");
+                    MacroRecorder.addEvent(e);
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (isRecording == true){
+                    System.out.println("Mouse Released");
+                    MacroRecorder.addEvent(e);
+                }
+            }
+        });
     }
 
     public static void setIsRecording(Boolean isRecording){
