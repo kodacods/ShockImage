@@ -1,8 +1,6 @@
 package cosc202.andie;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -32,7 +30,6 @@ import javax.imageio.*;
  */
 public class Andie {
 
-    private static boolean isRecording = false;
     /**
      * <p>
      * Launches the main GUI for the ANDIE program.
@@ -68,12 +65,14 @@ public class Andie {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // The main content area is an ImagePanel
+        MyMouseListener listener = new MyMouseListener();
         ImagePanel imagePanel = new ImagePanel();
+        imagePanel.addMouseListener(listener);
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        // Add in menus for various types of action the user may perform.
+
         JMenuBar menuBar = new JMenuBar();
 
         // File menus are pretty standard, so things that usually go in File menus go
@@ -144,40 +143,6 @@ public class Andie {
         frame.setJMenuBar(menuBar);
         frame.pack();
         frame.setVisible(true);
-
-        frame.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (isRecording == true){
-                    System.out.println("Mouse clicked");
-                    MacroRecorder.addEvent(e);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (isRecording == true){
-                    System.out.println("Mouse Pressed");
-                    MacroRecorder.addEvent(e);
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (isRecording == true){
-                    System.out.println("Mouse Released");
-                    MacroRecorder.addEvent(e);
-                }
-            }
-        });
-    }
-
-    public static void setIsRecording(Boolean isRecording){
-        Andie.isRecording = isRecording;
-    }
-
-    public static boolean getIsRecording(){
-        return isRecording;
     }
 
     /**

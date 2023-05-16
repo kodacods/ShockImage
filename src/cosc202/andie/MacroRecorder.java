@@ -3,7 +3,6 @@ package cosc202.andie;
 
 import java.awt.AWTException;
 import java.awt.Robot;
-import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,29 +12,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MacroRecorder {
-    private static List<MouseEvent> events;
+    private static List<MacroEvent> events;
 
     public MacroRecorder() {
         MacroRecorder.events = new ArrayList<>();
     }
 
     public static void startRecording() {
-        events.clear();
-        if (Andie.getIsRecording()==false)
-        Andie.setIsRecording(true);
-        System.out.println(Andie.getIsRecording());
+        if (events!=null){
+            events.clear();
+            }
+        if (MyMouseListener.getIsRecording()==false)
+        MyMouseListener.setIsRecording(true);
+            System.out.println(MyMouseListener.getIsRecording());
     }
 
     public static void stopRecording() {
-        if (Andie.getIsRecording()==true)
-        Andie.setIsRecording(false);
+        if (MyMouseListener.getIsRecording()==true)
+        MyMouseListener.setIsRecording(false);
+        System.out.println(MyMouseListener.getIsRecording());
     }
 
-    public static void addEvent(MouseEvent e) {
+    public static void addEvent(MacroEvent e) {
         events.add(e);
     }
 
-    public void saveToFile(String fileName) {
+    public static void saveToFile(String fileName) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".ops"))) {
             out.writeObject(events);
             System.out.println("Macro saved to " + fileName + ".");
@@ -44,13 +46,13 @@ public class MacroRecorder {
         }
     }
 
-    public void replayMouseEvents(String fileName) throws AWTException {
+    public static void replayMouseEvents(String fileName) throws AWTException {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
-            List<MouseEvent> replayEvents = (List<MouseEvent>) in.readObject();
+            List<MacroEvent> replayEvents = (List<MacroEvent>) in.readObject();
             System.out.println("Macro loaded from " + fileName + ".");
             
             Robot robot = new Robot();
-            for (MouseEvent event : replayEvents) {
+            for (MacroEvent event : replayEvents) {
                 robot.mouseMove(event.getX(), event.getY());
                 robot.mousePress(event.getButton());
                 robot.mouseRelease(event.getButton());

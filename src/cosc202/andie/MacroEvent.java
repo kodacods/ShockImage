@@ -47,6 +47,7 @@ public class MacroEvent implements Serializable {
         KEY_PRESSED,
         KEY_RELEASED,
         MOUSE_PRESSED,
-        MOUSE_RELEASED
+        MOUSE_RELEASED,
+        MOUSE_CLICKED
     }
 }

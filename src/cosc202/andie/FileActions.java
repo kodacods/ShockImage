@@ -37,16 +37,18 @@ public class FileActions {
      */
     public FileActions() {
 
-    Preferences prefs = Preferences.userNodeForPackage(Andie.class);
-    Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
-    ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
-        actions = new ArrayList<Action>();
+        actions = new ArrayList<Action>();        
+
         actions.add(new FileOpenAction(bundle.getString("Open"), null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
         actions.add(new FileSaveAction(bundle.getString("Save"), null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
         actions.add(new FileExportAction(bundle.getString("Export"), null, "Export Image", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileSaveAsAction(bundle.getString("SaveAs"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileExitAction(bundle.getString("Exit"), null, "Exit the program", Integer.valueOf(0)));
+
     }
 
     public Action getAction (int pos){
@@ -66,10 +68,20 @@ public class FileActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
+        class MyActionListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("action");
+            }
+        }
+        MyActionListener actionListener = new MyActionListener();
+
         JMenu fileMenu = new JMenu(bundle.getString("File"));
 
         for(Action action: actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem jmi = new JMenuItem(action);
+            jmi.addActionListener(actionListener);
+            fileMenu.add(jmi);
         }
 
         return fileMenu;
