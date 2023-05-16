@@ -38,14 +38,15 @@ public class MiscActions {
         }
 
         public void actionPerformed(ActionEvent e){
-            String[] options = {"Easy", "Average", "Hard"};
+            String[] options = {"2 X 2", "3 X 3", "4 X 4"};
             int difficulty = JOptionPane.showOptionDialog(null, "Select Difficulty", "Game Start",JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+            PuzzleGameAction thisGame = new PuzzleGameAction();
             if(difficulty == 0){
-                PuzzleGameAction.createAndShowGame(2, null);
+                thisGame.createAndShowGame(2, target.getImage());
             } else if(difficulty == 1){
-                PuzzleGameAction.createAndShowGame(4, null);
+                thisGame.createAndShowGame(3, target.getImage());
             } else if(difficulty == 2){
-                PuzzleGameAction.createAndShowGame(6, null);
+                thisGame.createAndShowGame(4, target.getImage());
             }
         }
     }
