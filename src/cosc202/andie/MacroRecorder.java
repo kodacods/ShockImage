@@ -10,11 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MacroRecorder {
-    private static List<ActionEvent> events;
-
-    public MacroRecorder() {
-        MacroRecorder.events = new ArrayList<>();
-    }
+    private static List<ActionEvent> events= new ArrayList<>();
 
     public static void startRecording() {
         if (events!=null){
