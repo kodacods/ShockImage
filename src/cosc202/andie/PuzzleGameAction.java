@@ -16,6 +16,9 @@ import java.awt.event.*;
 public class PuzzleGameAction implements ActionListener{
     private static ArrayList<JButton> buttons = new ArrayList<JButton>();
     private static JLabel status = new JLabel("Selected piece: " + "Not selected");
+    private static boolean isSelected = false;
+    private static JLabel showIsSelected = new JLabel("Not swapping");
+    private static JButton currentButton;
 
     public PuzzleGameAction(){}
 
@@ -192,6 +195,7 @@ public class PuzzleGameAction implements ActionListener{
         
         
         puzzleSide.add(status);
+        puzzleSide.add(showIsSelected);
         
 
         //swapping icons of buttons...
@@ -217,5 +221,18 @@ public class PuzzleGameAction implements ActionListener{
         JButton selected = (JButton)e.getSource();
         int num = buttons.indexOf(selected);
         status.setText("Selected piece: " + num);
+        Icon currentSection = selected.getIcon();
+        status.setIcon(currentSection);
+        if(isSelected == false){
+            currentButton = selected;
+            isSelected = true;
+            showIsSelected.setText("Currently swapping");
+        } else {
+            Icon previousIcon = currentButton.getIcon();
+            currentButton.setIcon(currentSection);
+            selected.setIcon(previousIcon);
+            isSelected = false;
+            showIsSelected.setText("Not swapping");
+        }
     }
 }
