@@ -64,10 +64,7 @@ public class Andie {
         frame.setIconImage(image);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // The main content area is an ImagePanel
-        MyMouseListener listener = new MyMouseListener();
         ImagePanel imagePanel = new ImagePanel();
-        imagePanel.addMouseListener(listener);
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
