@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.imageio.*;
@@ -64,13 +65,12 @@ public class Andie {
         frame.setIconImage(image);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // The main content area is an ImagePanel
         ImagePanel imagePanel = new ImagePanel();
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        // Add in menus for various types of action the user may perform.
+
         JMenuBar menuBar = new JMenuBar();
 
         // File menus are pretty standard, so things that usually go in File menus go
@@ -102,6 +102,9 @@ public class Andie {
 
         LanguageAction languageAction = new LanguageAction();
         menuBar.add(languageAction.createMenu());
+
+        MacrosAction macrosAction = new MacrosAction();
+        menuBar.add(macrosAction.createMenu());
 
         // Add toolbar
         JToolBar toolBar = new JToolBar();

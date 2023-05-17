@@ -62,6 +62,7 @@ public class FileActions {
         actions.add(
                 new FileSaveAsAction(bundle.getString("SaveAs"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileExitAction(bundle.getString("Exit"), null, "Exit the program", Integer.valueOf(0)));
+
     }
 
     public Action getAction(int pos) {
@@ -81,10 +82,14 @@ public class FileActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
+        MyActionListener actionListener = new MyActionListener();
+
         JMenu fileMenu = new JMenu(bundle.getString("File"));
 
-        for (Action action : actions) {
-            fileMenu.add(new JMenuItem(action));
+        for(Action action: actions) {
+            JMenuItem jmi = new JMenuItem(action);
+            jmi.addActionListener(actionListener);
+            fileMenu.add(jmi);
         }
 
         return fileMenu;

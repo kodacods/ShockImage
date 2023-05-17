@@ -73,7 +73,9 @@ public class EditActions {
         JMenu editMenu = new JMenu(bundle.getString("Edit"));
 
         for (Action action: actions) {
-            editMenu.add(new JMenuItem(action));
+            JMenuItem jmi = new JMenuItem(action);
+            jmi.addActionListener(action);
+            editMenu.add(jmi);
         }
 
         return editMenu;
