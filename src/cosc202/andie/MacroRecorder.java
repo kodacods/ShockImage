@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ import java.util.Scanner;
 import javax.swing.Action;
 import javax.swing.JMenuItem;
 
-public class MacroRecorder {
+public class MacroRecorder implements Serializable {
     private static List<ActionEvent> events= new ArrayList<>();
 
     public static void startRecording() {
@@ -39,21 +40,28 @@ public class MacroRecorder {
     public static void saveToFile(String fileName) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".ops"))) {
             out.writeObject(events);
+            out.close();
             System.out.println("Macro saved to " + fileName + ".");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error saving to file");
         }
     }
+    
+    @SuppressWarnings("unchecked")
     public static void replayFromFile(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream(fileName + ".ops");
-        try (ObjectInputStream ois = new ObjectInputStream(fis)) {
-            int s = ois.read();
-            System.out.println(s);
+        List<ActionEvent> readEvents = new ArrayList<>();
+
+        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(fileName + ".ops"))) {
+            readEvents = (List<ActionEvent>)input.readObject();
+        } catch (IOException e){
+             System.err.println("Error reading file");
+        } catch (ClassNotFoundException cnfe){
+            System.err.println("Class not found");
         }
         
+        System.out.println(readEvents);
         
-        //List<ActionEvent> events = ois.read();
-    
+             
             for (ActionEvent event : events) {
                         Object source = event.getSource();
                         if (source instanceof JMenuItem) {
@@ -61,9 +69,13 @@ public class MacroRecorder {
                             String actionCommand = menuItem.getActionCommand();
                             if (actionCommand.equals("Exit")) {
                                 System.exit(0);
+                            } else {
+                                innit();
                             }
                             System.out.println("Macro replayed from " + fileName + ".");
                         }
             }
-        }
+            */
+    }
+    
 }
