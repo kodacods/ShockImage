@@ -10,9 +10,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import javax.swing.Action;
 import javax.swing.JMenuItem;
 
 public class MacroRecorder implements Serializable {
@@ -61,7 +59,7 @@ public class MacroRecorder implements Serializable {
         
         System.out.println(readEvents);
         
-             
+            
             for (ActionEvent event : events) {
                         Object source = event.getSource();
                         if (source instanceof JMenuItem) {
@@ -69,13 +67,11 @@ public class MacroRecorder implements Serializable {
                             String actionCommand = menuItem.getActionCommand();
                             if (actionCommand.equals("Exit")) {
                                 System.exit(0);
-                            } else {
-                                innit();
                             }
                             System.out.println("Macro replayed from " + fileName + ".");
                         }
             }
-            */
+            
     }
     
 }
