@@ -83,4 +83,7 @@ public abstract class ImageAction extends AbstractAction {
         return target;
     }
 
+    public static int getMnemonic(){
+        return Integer.valueOf(MNEMONIC_KEY);
+    }
 }
