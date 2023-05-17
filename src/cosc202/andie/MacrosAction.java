@@ -22,7 +22,7 @@ public class MacrosAction {
         actions = new ArrayList<Action>();
         actions.add(new StartRecordingAction(bundle.getString("RecordEdits"), null, "Records macros of editing", null));
         actions.add(new StopRecordingAction(bundle.getString("StopRecording"), null, "Stops recording macros", null ));
-        actions.add(new SaveMacrosAction(bundle.getString("SaveEditRecording"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
+        //actions.add(new SaveMacrosAction(bundle.getString("SaveEditRecording"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new ReplayAction(bundle.getString("ReplayEditRecording"), null, "Export Image", Integer.valueOf(KeyEvent.VK_A)));
     
     }
@@ -69,19 +69,6 @@ public class MacrosAction {
         @Override
         public void actionPerformed(ActionEvent e) {
             MacroRecorder.stopRecording();
-
-        }
-    }
-
-    public class SaveMacrosAction extends ImageAction{
-        
-        SaveMacrosAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
             MacroRecorder.saveToFile("macro2");
 
         }
@@ -99,9 +86,8 @@ public class MacrosAction {
             try {
                 MacroRecorder.replayFromFile("macro2");
             } catch (ClassNotFoundException | IOException e1) {
-                e1.printStackTrace();
+                System.err.println("Error retrieving action event list from file");
             }
-
         }
     }
 }
