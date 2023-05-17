@@ -1,43 +1,23 @@
 package cosc202.andie;
 
 import java.awt.image.*;
-import java.util.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.*;
 
 public class CropSelection implements ImageOperation, java.io.Serializable {
-    public BufferedImage apply(BufferedImage input){
-        System.out.println("For testing purposes: ");
-        System.out.println("Width of the input image: " + input.getWidth());
+    private int x;
+    private int y;
+    private int w;
+    private int h;
 
-        BufferedImage output = input.getSubimage(SelectionActions.originPoint.x, SelectionActions.originPoint.y, SelectionActions.selWidth, SelectionActions.selHeight);
-        input = output;
-        return output;
+    public CropSelection(int posx, int posy, int width, int height) {
+        x = posx;
+        y = posy;
+        w = width;
+        h = height;
+    }
 
-        //Outcome: It crops, but repeating the process makes it... not work. It also kind of explodes on the third crop.
-
-        //I think it has to do with the input taking from the original image pre-crop.
-        //I feel as if this code is way too simple. But what can I do to possibly fix it??? 
-        //It should work just like resize. But crop. But it doesn't...
-        //I've tried the way my Resize does things. Same outcome... and besides that other one is basically just conversion from
-        //an Image to BufferedImage. This doesn't need correction, as it is already a BufferedImage, but... huh...???????
-
-        /*Errors as of note:
-         * Caused on 1st crop: None
-         * Caused on 2nd crop: Returns 'must have an image opened first'. Otherwise may or may not crop properly. 
-         * No idea why error message is triggered.
-         * Caused on 3rd crop: Exception in thread "AWT-EventQueue-0" java.awt.image.RasterFormatException: (x + width) is outside of Raster
-         * Hmm.
-         * 
-         * Undo: Does not return to previous sizes unlike Resize until returning to the first crop.
-         * 
-         * It's odd. It should be working, but...
-         */
-
-         /*Possible solution:
-          * Pixel to pixel painting of a new empty BufferedImage.
-          Result:
-          */
+    public BufferedImage apply(BufferedImage input) {
+        BufferedImage inpCrop = input.getSubimage(x, y, w, h);
+        input = inpCrop;
+        return inpCrop;
     }
 }
