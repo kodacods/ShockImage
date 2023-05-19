@@ -34,7 +34,9 @@ public class MacroRecorder implements Serializable {
     }
 
     public static void addEvent(ActionEvent e) {
+        System.out.println(e.getSource());
         events.add(e);
+
     }
 
     public static void saveToFile(String fileName) {
@@ -59,18 +61,32 @@ public class MacroRecorder implements Serializable {
             System.err.println("Class not found");
         }
         
-        System.out.println(readEvents);
-            
+        System.out.println(readEvents.toString());
+
             Robot bot = new Robot();
-            for (ActionEvent event : events) {
+            for (ActionEvent event : readEvents) {
+
+                //getAWTKeyStroke(Character keyChar, int modifiers);
+                String txt = event.getActionCommand();
+                int mod = event.getModifiers();
                 Object source = event.getSource();
+
+                System.out.println(txt + "\n" + mod + "\n" + source + "\n" + event.paramString());
+                /* 
+                Object source = event.getSource();
+                System.out.println("test");
                 if(source instanceof JMenuItem){
+                    System.out.println("hi");
                     JMenuItem menuItem = (JMenuItem)source;
+                    System.out.println(menuItem.toString());
                     int actionCommand = menuItem.getMnemonic();
                     bot.keyPress(actionCommand);
                     bot.keyRelease(actionCommand);
                 }
+                */
+
             }
+        
             
             
     }
