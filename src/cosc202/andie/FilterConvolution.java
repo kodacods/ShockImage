@@ -78,7 +78,6 @@ public class FilterConvolution {
                         b = 0;
                     Color outputColor = new Color(Math.round(r), Math.round(g), Math.round(b));
 
-                    System.out.println(r + " " + g + " " + b);
                     output.setRGB(x, y, outputColor.getRGB());
                 }
             }
