@@ -114,7 +114,7 @@ public class TransformActions {
                 JOptionPane.showMessageDialog(null, "You need to open an image first!");
                 return;
             }
-            
+
             // Determine the scale factor - ask the user.
             double scaleFactor = 1.0;
 
@@ -299,8 +299,9 @@ public class TransformActions {
          */
         public void mouseReleased(MouseEvent e) {
             Point p = e.getPoint();
-            this.x = p.x;
-            this.y = p.y;
+            double positionScale = target.getZoom() / 100.0;
+            this.x = (int) Math.round(p.x / positionScale);
+            this.y = (int) Math.round(p.y / positionScale);
             target.getImage().apply(new Stamp(stamp, x, y));  
             target.repaint();
             target.getParent().revalidate();   
@@ -324,6 +325,11 @@ public class TransformActions {
          * @param e action event
          */
         public void actionPerformed(ActionEvent e){ 
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
+            
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(target);
 
