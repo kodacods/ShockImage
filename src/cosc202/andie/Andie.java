@@ -135,6 +135,8 @@ public class Andie {
         toolBar.add(blurButton);
 
 
+        MiscActions miscActions = new MiscActions();
+        menuBar.add(miscActions.createMenu());
 
         CropSelection cropSelection = new CropSelection(0, 0, 0, 0);
         JButton cropButton = cropSelection.createButton();
