@@ -1,7 +1,14 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
+
 
 /**
  * <p>
@@ -20,12 +27,23 @@ import javax.swing.*;
  * @author Steven Mills
  * @version 1.0
  */
-public class ImagePanel extends JPanel {
+public class ImagePanel extends JPanel implements MouseInputListener { //m
     
     /**
      * The image to display in the ImagePanel.
      */
     private EditableImage image;
+
+    public static Shape preview;
+    public enum ShapeType { CIRCLE, RECTANGLE, SQUARE }
+
+    public static ShapeType currentShapeType;
+    public static Shape currentShape;
+
+
+    public static Point first, second;
+    public static Point origin;
+    public static  int selWidth, selHeight;
 
     /**
      * <p>
@@ -51,6 +69,8 @@ public class ImagePanel extends JPanel {
     public ImagePanel() {
         image = new EditableImage();
         scale = 1.0;
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
     }
 
     /**
@@ -135,7 +155,126 @@ public class ImagePanel extends JPanel {
             Graphics2D g2  = (Graphics2D) g.create();
             g2.scale(scale, scale);
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
+            if (currentShape != null) {
+                g2.setColor(Color.RED);
+                g2.draw(currentShape);
+            }
+            // Draw rectangle here
+            else if (origin != null ) {
+                g2.setColor(Color.BLUE);
+                g2.drawRect(origin.x, origin.y, selWidth, selHeight);
+                
+
+
+            }
+           
             g2.dispose();
+
+
         }
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        Point point = e.getPoint();
+
+        first = new Point((int)(point.getX() / scale), (int)(point.getY() / scale));
+
+        switch (currentShapeType) {
+            case CIRCLE:
+                currentShape = new Ellipse2D.Double(first.x, first.y, 0, 0);
+                break;
+            case RECTANGLE:
+                currentShape = new Rectangle2D.Double(first.x, first.y, 0, 0);
+                break;
+            case SQUARE:
+                currentShape = new Rectangle2D.Double(first.x, first.y, 0, 0);
+                break;
+        }
+     
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        Point point = e.getPoint();
+
+        second = new Point((int)(point.getX() / scale), (int)(point.getY() / scale));
+        RecTangleTime();
+
+        switch (currentShapeType) {
+            case CIRCLE:
+                currentShape = new Ellipse2D.Double(first.x, first.y, second.x/scale, second.y/scale);
+                break;
+            case RECTANGLE:
+                currentShape = new Rectangle2D.Double(first.x, first.y, 0, 0);
+                break;
+            case SQUARE:
+                currentShape = new Rectangle2D.Double(first.x, first.y, 0, 0);
+                break;
+        }
+
+        // this.apply(DrawingActiopn(shape object))
+        // Or make a new apply that can be released from here
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        second = e.getPoint();
+        switch (currentShapeType) {
+            case CIRCLE:
+                double radius = Math.max(Math.abs(second.x - first.x), Math.abs(second.y - first.y));
+                currentShape = new Ellipse2D.Double(first.x, first.y, radius, radius);
+                System.out.println("Radius: " + radius);
+                //((Ellipse2D.Double) currentShape).setFrame(first.x, first.y, radius, radius);
+                break;
+            case RECTANGLE:
+                ((Rectangle2D.Double) currentShape).setFrameFromDiagonal(first.x, first.y, second.x, second.y);
+                break;
+            case SQUARE:
+                int size = Math.max(Math.abs(second.x - first.x), Math.abs(second.y - first.y));
+                ((Rectangle2D.Double) currentShape).setFrame(first.x, first.y, size, size);
+                break;
+        }
+        
+        repaint();
+    }
+
+    
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    public void RecTangleTime() {
+            origin = new Point(Math.min(first.x, second.x), Math.min(first.y, second.y));
+            selWidth = Math.abs(first.x - second.x);
+            selHeight = Math.abs(first.y - second.y);
+            System.out.println("here");
+            //getImage().apply(new RectangularShowSelection());
+            repaint();
+            getParent().revalidate();
+
+    }
+
+    public void setCurrentShapeType(ShapeType shapeType) {
+    currentShapeType = shapeType;
+    System.out.println("Shape type: " + shapeType);
+}
+
+
+
+   
 }

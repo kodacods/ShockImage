@@ -496,6 +496,10 @@ public class FilterActions {
         public void actionPerformed(ActionEvent e) {
             int radius = getRadius();
 
+            int x = target.getX();
+            int y = target.getY();
+
+            //target.getImage().apply(new DrawingOperation(x,y,));
             // Create and apply the filter
             target.getImage().apply(new MeanFilter(radius));
             target.repaint();

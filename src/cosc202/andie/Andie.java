@@ -103,6 +103,9 @@ public class Andie {
         LanguageAction languageAction = new LanguageAction();
         menuBar.add(languageAction.createMenu());
 
+        DrawingAction drawingAction = new DrawingAction(null, null, null, null, imagePanel);
+        menuBar.add(drawingAction.createDrawingMenu());
+
         MacrosAction macrosAction = new MacrosAction();
         menuBar.add(macrosAction.createMenu());
 
@@ -131,11 +134,12 @@ public class Andie {
         toolBar.add(edgeDetectionButton);
         toolBar.add(blurButton);
 
-        // Selection?
-        SelectionActions selectActions = new SelectionActions();
-        menuBar.add(selectActions.createMenu());
 
+
+        CropSelection cropSelection = new CropSelection(0, 0, 0, 0);
+        JButton cropButton = cropSelection.createButton();
         // Add the toolbar to the gui frame
+        toolBar.add(cropButton);
         frame.add(toolBar, BorderLayout.PAGE_START);
 
         frame.setJMenuBar(menuBar);
