@@ -83,11 +83,14 @@ public class MacrosAction {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
+            try{
                 MacroRecorder.replayFromFile("macro2");
-            } catch (ClassNotFoundException | IOException e1) {
-                System.err.println("Error retrieving action event list from file");
+            } 
+            catch (AWTException | ClassNotFoundException | IOException ex){
+                System.err.println("Error reading file");
             }
+
         }
     }
+
 }
