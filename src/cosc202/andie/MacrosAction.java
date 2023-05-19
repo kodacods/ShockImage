@@ -23,7 +23,7 @@ public class MacrosAction {
         actions.add(new StartRecordingAction(bundle.getString("RecordEdits"), null, "Records macros of editing", null));
         actions.add(new StopRecordingAction(bundle.getString("StopRecording"), null, "Stops recording macros", null ));
         //actions.add(new SaveMacrosAction(bundle.getString("SaveEditRecording"), null, "Save a copy", null);
-        actions.add(new ReplayAction(bundle.getString("ReplayEditRecording"), null, "Export Image", null));
+        //actions.add(new ReplayAction(bundle.getString("ReplayEditRecording"), null, "Export Image", null));
     
     }
 
@@ -73,7 +73,7 @@ public class MacrosAction {
 
         }
     }
-
+    /* 
     public class ReplayAction extends ImageAction{
         
         ReplayAction (String name, ImageIcon icon, String desc, Integer mnemonic) {
@@ -92,5 +92,6 @@ public class MacrosAction {
 
         }
     }
+    */
 
 }
