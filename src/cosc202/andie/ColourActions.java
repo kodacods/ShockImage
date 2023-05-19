@@ -62,13 +62,17 @@ public class ColourActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
         
-        JMenu fileMenu = new JMenu(bundle.getString("Colour"));
+        MyActionListener actionListener = new MyActionListener();
+        
+        JMenu colourMenu = new JMenu(bundle.getString("Colour"));
 
         for (Action action : actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem jmi = new JMenuItem(action);
+            jmi.addActionListener(actionListener);
+            colourMenu.add(jmi);
         }
 
-        return fileMenu;
+        return colourMenu;
     }
 
     /**
@@ -148,6 +152,10 @@ public class ColourActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
 
             // Determine the percentage to change contrast entered by the user.
             int percentage = 0;
@@ -205,6 +213,10 @@ public class ColourActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
 
             // Determine the percentage to change contrast entered by the user.
             int percentage = 0;

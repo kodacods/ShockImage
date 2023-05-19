@@ -1,7 +1,10 @@
 package cosc202.andie;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 
 public class FilterConvolution {
     /**
@@ -28,15 +31,18 @@ public class FilterConvolution {
         int height = input.getHeight();
         int width = input.getWidth();
 
+        // Apply naive image convolution, if there is an offset. If there is not an offset, then only apply the naive image convolution to the edges of the image.
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null),
                 input.isAlphaPremultiplied(), null);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
+                if (offset != 0 || (y < radius || y > height - radius || x < radius || x > width - radius)) {
                 float r = 0.0f;
                 float g = 0.0f;
                 float b = 0.0f;
                 for (int dy = -radius; dy <= radius; dy++) {
                     for (int dx = -radius; dx <= radius; dx++) {
+
                         int xValue = dx;
                         int yValue = dy;
                         if (x + xValue < 0 || x + xValue >= width - 1)
@@ -72,7 +78,18 @@ public class FilterConvolution {
                 Color outputColor = new Color(Math.round(r), Math.round(g), Math.round(b));
 
                 output.setRGB(x, y, outputColor.getRGB());
+                }
             }
+        }
+        // if there is no offset, then apply java's ConvolveOp convolution to apply the convolution to the center of the image.
+        if (offset == 0) {
+            Kernel k = new Kernel(1+(radius*2), 1+(radius*2), array);
+            BufferedImage convolvedImage = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
+            ConvolveOp op = new ConvolveOp(k);
+            op.filter(input, convolvedImage);
+            Graphics g = output.getGraphics();
+            g.drawImage(convolvedImage, 0, 0, null);
+            g.dispose();
         }
         return output;
     }
