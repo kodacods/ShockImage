@@ -1,5 +1,7 @@
 package cosc202.andie;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -46,7 +48,7 @@ public class MacroRecorder implements Serializable {
     }
     
     @SuppressWarnings("unchecked")
-    public static void replayFromFile(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
+    public static void replayFromFile(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException, AWTException {
         List<ActionEvent> readEvents = new ArrayList<>();
 
         try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(fileName + ".ops"))) {
@@ -58,20 +60,21 @@ public class MacroRecorder implements Serializable {
         }
         
         System.out.println(readEvents);
-        
             
+            Robot bot = new Robot();
             for (ActionEvent event : events) {
-                        Object source = event.getSource();
-                        if (source instanceof JMenuItem) {
-                            JMenuItem menuItem = (JMenuItem) source;
-                            String actionCommand = menuItem.getActionCommand();
-                            if (actionCommand.equals("Exit")) {
-                                System.exit(0);
-                            }
-                            System.out.println("Macro replayed from " + fileName + ".");
-                        }
+                Object source = event.getSource();
+                if(source instanceof JMenuItem){
+                    JMenuItem menuItem = (JMenuItem)source;
+                    int actionCommand = menuItem.getMnemonic();
+                    bot.keyPress(actionCommand);
+                    bot.keyRelease(actionCommand);
+                }
             }
             
+            
     }
+
+
     
 }
