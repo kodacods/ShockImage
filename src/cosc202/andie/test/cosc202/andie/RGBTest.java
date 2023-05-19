@@ -2,7 +2,6 @@ package cosc202.andie.test.cosc202.andie;
 
 import java.awt.image.*;
 import javax.imageio.*;
-import java.io.*;
 import java.net.URL;
 
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,8 @@ import org.junit.jupiter.api.Assertions; //class
 import org.junit.jupiter.api.BeforeAll;
 
 import cosc202.andie.MedianFilter;
+import cosc202.andie.EmbossFilter;
+import cosc202.andie.SobelFilter;
 import cosc202.andie.SharpenFilter;
 import cosc202.andie.Brightness;
 import cosc202.andie.Contrast;
@@ -89,6 +90,52 @@ public class RGBTest {
     @Test
     void ContrastTest() {
         Contrast filter = new Contrast(50);
+
+        BufferedImage manualImage;
+        try {
+            BufferedImage in = ImageIO.read(new URL(
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/University_of_Otago_Registry_Building2.jpg/1200px-University_of_Otago_Registry_Building2.jpg"));
+            manualImage = new BufferedImage(in.getWidth(), in.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        } catch (Exception e) {
+            System.out.println("No image found");
+            return;
+        }
+        BufferedImage testImage1 = filter.apply(manualImage);
+        BufferedImage testImage2 = filter.apply(testingImage);
+        int x = randInt(0, testImage1.getWidth());
+        int y = randInt(0, testImage1.getHeight());
+
+        Assertions.assertEquals(testImage1.getRGB(x, y), testImage2.getRGB(x, y));
+
+    }
+
+    // Emboss filter Test
+    @Test
+    void EmbossFilterTest() {
+        EmbossFilter filter = new EmbossFilter();
+
+        BufferedImage manualImage;
+        try {
+            BufferedImage in = ImageIO.read(new URL(
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/University_of_Otago_Registry_Building2.jpg/1200px-University_of_Otago_Registry_Building2.jpg"));
+            manualImage = new BufferedImage(in.getWidth(), in.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        } catch (Exception e) {
+            System.out.println("No image found");
+            return;
+        }
+        BufferedImage testImage1 = filter.apply(manualImage);
+        BufferedImage testImage2 = filter.apply(testingImage);
+        int x = randInt(0, testImage1.getWidth());
+        int y = randInt(0, testImage1.getHeight());
+
+        Assertions.assertEquals(testImage1.getRGB(x, y), testImage2.getRGB(x, y));
+
+    }
+
+    // Sobel filter Test
+    @Test
+    void SobelFilterTest() {
+        SobelFilter filter = new SobelFilter();
 
         BufferedImage manualImage;
         try {
