@@ -34,7 +34,6 @@ public class MacroRecorder implements Serializable {
     }
 
     public static void addEvent(ActionEvent e) {
-        System.out.println(e.getSource());
         events.add(e);
 
     }
