@@ -52,8 +52,8 @@ public class ViewActions {
         ImageIcon zoomoutIcon = new ImageIcon(zoomoutImage);
         
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction(bundle.getString("ZoomIn"), null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction(bundle.getString("ZoomOut"), null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
+        actions.add(new ZoomInAction(bundle.getString("ZoomIn"), zoominIcon, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new ZoomOutAction(bundle.getString("ZoomOut"), zoomoutIcon, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction(bundle.getString("ZoomFull"), null, "Zoom Full", Integer.valueOf(KeyEvent.VK_R)));
     }
 
