@@ -12,15 +12,19 @@ import java.util.Collections;
 import java.awt.event.*;
 
 public class PuzzleGameAction implements ActionListener{
-    private static ArrayList<JButton> buttons = new ArrayList<JButton>();
-    private static JLabel status = new JLabel("Selected piece: " + "Not selected");
-    private static boolean isSelected = false;
-    private static JLabel showIsSelected = new JLabel("Not swapping");
-    private static JButton currentButton;
+    private ArrayList<JButton> buttons = new ArrayList<JButton>();
+    private JLabel status = new JLabel("Selected piece: " + "Not selected");
+    private boolean isSelected = false;
+    private JLabel showIsSelected = new JLabel("Not swapping");
+    private JLabel showMoves = new JLabel("Current moves: ");
+    private JLabel showCompletion = new JLabel(); //How many section icons are in the correct position, and do something when completed
+    private JButton currentButton;
     private int newWidth;
     private int newHeight;
-    ArrayList<Icon> selection = new ArrayList<Icon>();
-    ArrayList<Icon> correctArrangement = new ArrayList<Icon>();
+    private ArrayList<Icon> selection = new ArrayList<Icon>();
+    private ArrayList<Icon> correctArrangement = new ArrayList<Icon>();
+    private int moves;
+    private int completed;
 
     public PuzzleGameAction(){}
 
@@ -63,6 +67,9 @@ public class PuzzleGameAction implements ActionListener{
 
             JPanel puzzleSide = new JPanel();
             puzzleSide.setLayout(new GridBagLayout());
+            GridBagConstraints verticalFormat = new GridBagConstraints();
+            verticalFormat.gridwidth = GridBagConstraints.REMAINDER;
+            verticalFormat.fill = GridBagConstraints.HORIZONTAL;
             puzzleSide.setBorder(new EmptyBorder(20, 10, 20, 10));
 
             JPanel puzzle = new JPanel();
@@ -87,21 +94,24 @@ public class PuzzleGameAction implements ActionListener{
                 BufferedImage section3 = useThis.getSubimage(0, sectionHeight, sectionWidth, sectionHeight);
                 BufferedImage section4 = useThis.getSubimage(sectionWidth, sectionHeight, sectionWidth, sectionHeight);
                 //shuffle image sections
-                BufferedImage[] selection = {section1, section2, 
-                                            section3, section4};
-                for(int i = 0; i < selection.length; i++){
-                    int elem = r.nextInt(selection.length);
-                    BufferedImage temp = selection[i];
-                    selection[i] = selection[elem];
-                    selection[elem] = temp;
+                Collections.addAll(selection, new ImageIcon(section1),  new ImageIcon(section2),  
+                                              new ImageIcon(section3), new ImageIcon(section4));
+
+                correctArrangement = new ArrayList<Icon>(selection);
+
+                for(int i = 0; i < selection.size(); i++){
+                    int elem = r.nextInt(selection.size());
+                    Collections.swap(selection, i, elem);
                 }
 
-                p1.setIcon(new ImageIcon(selection[0])); p2.setIcon(new ImageIcon(selection[1]));
-                p3.setIcon(new ImageIcon(selection[2])); p4.setIcon(new ImageIcon(selection[3]));
+                p1.setIcon(selection.get(0)); p2.setIcon(selection.get(1)); 
+                p3.setIcon(selection.get(2)); p4.setIcon(selection.get(3)); 
 
                 puzzle.add(buttons.get(0)); puzzle.add(buttons.get(1)); 
                 puzzle.add(buttons.get(2)); puzzle.add(buttons.get(3));
-                puzzleSide.add(puzzle);
+                puzzleSide.add(puzzle, verticalFormat);
+                showCompletion.setText(completed + " out of " + buttons.size());
+                puzzleSide.add(showCompletion, verticalFormat);
             } else if (pieces == 3){
                 int sectionWidth = useThis.getWidth() / 3;
                 int sectionHeight = useThis.getHeight() / 3;
@@ -146,7 +156,9 @@ public class PuzzleGameAction implements ActionListener{
                 puzzle.add(buttons.get(0)); puzzle.add(buttons.get(1)); puzzle.add(buttons.get(2)); 
                 puzzle.add(buttons.get(3)); puzzle.add(buttons.get(4)); puzzle.add(buttons.get(5)); 
                 puzzle.add(buttons.get(6)); puzzle.add(buttons.get(7)); puzzle.add(buttons.get(8));
-                puzzleSide.add(puzzle);
+                puzzleSide.add(puzzle, verticalFormat);
+                showCompletion.setText(completed + " out of " + buttons.size());
+                puzzleSide.add(showCompletion, verticalFormat);
             } else if (pieces >= 4){ //yeah i wish i knew how to make this faster.
                 int sectionWidth = useThis.getWidth() / 4;
                 int sectionHeight = useThis.getHeight() / 4;
@@ -183,32 +195,49 @@ public class PuzzleGameAction implements ActionListener{
                 BufferedImage section15 = useThis.getSubimage(sectionWidth * 2, sectionHeight * 3, sectionWidth, sectionHeight);
                 BufferedImage section16 = useThis.getSubimage(sectionWidth * 3, sectionHeight * 3, sectionWidth, sectionHeight);
 
-                BufferedImage[] selection = {section1, section2, section3, section4, 
-                                            section5, section6, section7, section8, 
-                                            section9, section10, section11, section12,
-                                            section13, section14, section15, section16};
-                for(int i = 0; i < selection.length; i++){
-                    int elem = r.nextInt(selection.length);
-                    BufferedImage temp = selection[i];
-                    selection[i] = selection[elem];
-                    selection[elem] = temp;
+                Collections.addAll(selection, new ImageIcon(section1),  new ImageIcon(section2),  new ImageIcon(section3),  new ImageIcon(section4),  
+                                              new ImageIcon(section5),  new ImageIcon(section6),  new ImageIcon(section7),  new ImageIcon(section8),  
+                                              new ImageIcon(section9), new ImageIcon(section10),  new ImageIcon(section11),  new ImageIcon(section12),
+                                              new ImageIcon(section13), new ImageIcon(section14),  new ImageIcon(section15),  new ImageIcon(section16));
+
+                correctArrangement = new ArrayList<Icon>(selection);
+
+                for(int i = 0; i < selection.size(); i++){
+                    int elem = r.nextInt(selection.size());
+                    Collections.swap(selection, i, elem);
                 }
-                p1.setIcon(new ImageIcon(selection[0])); p2.setIcon(new ImageIcon(selection[1])); p3.setIcon(new ImageIcon(selection[2])); p4.setIcon(new ImageIcon(selection[3])); 
-                p5.setIcon(new ImageIcon(selection[4])); p6.setIcon(new ImageIcon(selection[5])); p7.setIcon(new ImageIcon(selection[6])); p8.setIcon(new ImageIcon(selection[7])); 
-                p9.setIcon(new ImageIcon(selection[8])); p10.setIcon(new ImageIcon(selection[9])); p11.setIcon(new ImageIcon(selection[10])); p12.setIcon(new ImageIcon(selection[11]));
-                p13.setIcon(new ImageIcon(selection[12])); p14.setIcon(new ImageIcon(selection[13])); p15.setIcon(new ImageIcon(selection[14])); p16.setIcon(new ImageIcon(selection[15]));
+
+                p1.setIcon(selection.get(0)); p2.setIcon(selection.get(1)); p3.setIcon(selection.get(2)); p4.setIcon(selection.get(3)); 
+                p5.setIcon(selection.get(4)); p6.setIcon(selection.get(5)); p7.setIcon(selection.get(6)); p8.setIcon(selection.get(7)); 
+                p9.setIcon(selection.get(8)); p10.setIcon(selection.get(9)); p11.setIcon(selection.get(10)); p12.setIcon(selection.get(11));
+                p13.setIcon(selection.get(12)); p14.setIcon(selection.get(13)); p15.setIcon(selection.get(14)); p16.setIcon(selection.get(15));
 
                 puzzle.add(buttons.get(0)); puzzle.add(buttons.get(1)); puzzle.add(buttons.get(2)); puzzle.add(buttons.get(3)); 
                 puzzle.add(buttons.get(4)); puzzle.add(buttons.get(5)); puzzle.add(buttons.get(6)); puzzle.add(buttons.get(7)); 
                 puzzle.add(buttons.get(8)); puzzle.add(buttons.get(9)); puzzle.add(buttons.get(10)); puzzle.add(buttons.get(11)); 
                 puzzle.add(buttons.get(12)); puzzle.add(buttons.get(13)); puzzle.add(buttons.get(14)); puzzle.add(buttons.get(15)); 
-                puzzleSide.add(puzzle);
+                puzzleSide.add(puzzle, verticalFormat);
+                showCompletion.setText(completed + " out of " + buttons.size());
+                puzzleSide.add(showCompletion, verticalFormat);
+                completed = 0;
             } 
             
             
-            puzzleSide.add(status);
-            puzzleSide.add(showIsSelected);
+            puzzleSide.add(status, verticalFormat);
+            puzzleSide.add(showIsSelected, verticalFormat);
+            puzzleSide.add(showMoves, verticalFormat);
             
+            for(int i = 0; i < selection.size(); i++){
+                if(selection.get(i).equals(correctArrangement.get(i))){
+                    completed++;
+                }
+            }
+            showCompletion.setText(completed + " out of " + buttons.size());
+            System.out.println(completed);
+            System.out.println(buttons.size());
+            if(completed == buttons.size() && moves == 0){
+                showCompletion.setText("Already completed...?");
+            }
 
             //swapping icons of buttons...
 
@@ -219,8 +248,13 @@ public class PuzzleGameAction implements ActionListener{
             * Upon clicking another,
             * swap the image.
             * Clear the selected image out of current selection, as well as label.
-            * 
             */
+
+            /* That's complete now.
+             * The process to complete it...
+             * Record the 'proper' placement of the icons
+             * Hmm.
+             */
 
             frame.add(fullImageSide);
             frame.add(puzzleSide);
@@ -235,17 +269,34 @@ public class PuzzleGameAction implements ActionListener{
         int num = buttons.indexOf(selected);
         status.setText("Selected piece: " + num);
         Icon currentSection = selected.getIcon();
-        status.setIcon(currentSection);
+        //status.setIcon(currentSection);
         if(isSelected == false){
             currentButton = selected;
             isSelected = true;
             showIsSelected.setText("Currently swapping");
         } else {
             Icon previousIcon = currentButton.getIcon();
+            //System.out.println(selection);
+            Collections.swap(selection, selection.indexOf(previousIcon), selection.indexOf(currentSection));
+            //System.out.println(selection);
             currentButton.setIcon(currentSection);
             selected.setIcon(previousIcon);
             isSelected = false;
             showIsSelected.setText("Not swapping");
+            moves++;
+            showMoves.setText("Current moves: " + moves);
+            completed = 0;
+            for(int i = 0; i < selection.size(); i++){
+                if(selection.get(i).equals(correctArrangement.get(i))){
+                    completed++;
+                }
+            }
+            showCompletion.setText(completed + " out of " + buttons.size());
+            System.out.println(completed);
+            System.out.println(buttons.size());
+            if(completed == buttons.size()){
+                showCompletion.setText(completed + " out of " + buttons.size() + " - Completed in " + moves + " moves");
+            }
         }
     }
 }
