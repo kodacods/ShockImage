@@ -10,6 +10,8 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | Sharpen filter                       | Alex          |
 | Gaussian blur filter                 | Alex          |
 | Median filter                        | Stella & Alex |
+| Emboss filter                        | Alex          |
+| Sobel filter                         | Alex          |
 | **Colour**                           |               |
 | Contrast                             | Beka          |
 | Brightness                           | Beka          |
@@ -22,6 +24,8 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | **Image export**                     | Meg           |
 | **Other error avoidance/prevention** | Alex          |
 | **Testing**                          | Stella & Alex |
+| **Extras**                           |               |
+| Stamp                                | Alex          |
 
 ---
 
@@ -68,19 +72,26 @@ To export and edited image, select 'Export' under the 'File' menu. You will then
 
 **Applying Filters**
 
-To apply any filters, open the "filter" menu at the top of the screen. Click the filter you wish to apply, and enter a radius from 1-10 if prompted to (For Gaussian, Median and Mean filters). The radius will affect how strongly the filter is applied.
+To apply the filters, click on the type of filter you would like to apply (Blur / Edge detection), and you will be shown a screen where you can adjust the filters to your hearts content!
 
-**Mean Filter**
+**Blur Filters**
 
-A Mean filter is a simple blur which takes the mean of each neighboring pixel (based on a radius) to blur the image evenly.
+- *Mean Blur*:
+A Mean blur is a simple blur which takes the mean of each neighboring pixel (based on a radius) to blur the image evenly.
 
-**Gaussian Filter**
+- *Gaussian Blur*:
+A Gaussian blur is a more complex blur which makes a weighted average of neighbouring pixels (based on a radius) using the 2d Gaussian formula. This means that each pixel will be blurred using a kernel which is shaped like a bell curve, making nearby pixels have more influence than further away pixels.
 
-A Gaussian filter is a more complex blur which makes a weighted average of neighbouring pixels (based on a radius) using the 2d Gaussian formula. This means that each pixel will be blurred using a kernel which is shaped like a bell curve, making nearby pixels have more influence than further away pixels.
+- *Median Blur*:
+A Median blur is a blur that gets the surrounding pixels, gets the median of each of the neighbouring pixels (based on a radius) individual RGB values. This results in a different kind of blur compared to the Mean and Gaussian filters.
 
-**Median Filter**
+**Edge Detection Filters**
 
-A Median filter is a blur that gets the surrounding pixels, gets the median of each of the neighbouring pixels (based on a radius) individual RGB values. This results in a different kind of blur compared to the Mean and Gaussian filters.
+- *Sobel Filter*:
+The sobel filter is an edge detection filter that has two options, vertical or horizontal. The image is then enhanced when there is large changes in colour/brightness, e.g. at edges.
+
+- *Emboss Filter*:
+The emboss filter is an edge detection filter that has eight options, which are each direction and their diagonals. The image is then enhanced when there is large changes in colour/brightness, e.g. at edges.
 
 **Sharpen Filter**
 
@@ -113,6 +124,12 @@ To flip the image Horizontal, select 'Flip Horizontal' under the 'Transform' men
 **Change the language of ANDIE**
 
 To change the language of the interface, select 'Change language / Sprache ändern' under the 'Language / Sprache' menu. You will be presented with a pop up menu that will allow you to select either 'English' or 'Deutsch'. Once you have selected your preferred language press 'Ok'. The pop up menu will close. You will then need to exit the application and re-open it. Once it is re-opened all words will be changed to the language that was selected. You can change language at any time repeating the steps above.
+
+**Extras**
+
+*Stamp*
+
+The stamp function (in the translate menu) is an added function which allows you to add an image on top of the current image, kind of like a sticker. When the stamp option is chosen, and the image you wish to stamp is selected, you can click anywhere on the image to stamp it. If you want to stop stamping the image, then you press escape.
 
 ---
 
