@@ -281,8 +281,11 @@ public class PuzzleGameAction implements ActionListener{
             selected.setIcon(previousIcon);
             isSelected = false;
             showIsSelected.setText("Not swapping");
-            moves++;
-            showMoves.setText("Current moves: " + moves);
+            if(currentButton != selected){
+                moves++;
+                showMoves.setText("Current moves: " + moves);
+            }
+            
             completed = 0;
             for(int i = 0; i < selection.size(); i++){
                 if(selection.get(i).equals(correctArrangement.get(i))){
