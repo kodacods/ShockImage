@@ -233,8 +233,6 @@ public class PuzzleGameAction implements ActionListener{
                 }
             }
             showCompletion.setText(completed + " out of " + buttons.size());
-            System.out.println(completed);
-            System.out.println(buttons.size());
             if(completed == buttons.size() && moves == 0){
                 showCompletion.setText("Already completed...?");
             }
@@ -292,8 +290,6 @@ public class PuzzleGameAction implements ActionListener{
                 }
             }
             showCompletion.setText(completed + " out of " + buttons.size());
-            System.out.println(completed);
-            System.out.println(buttons.size());
             if(completed == buttons.size()){
                 showCompletion.setText(completed + " out of " + buttons.size() + " - Completed in " + moves + " moves");
             }
