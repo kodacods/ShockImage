@@ -86,13 +86,17 @@ public class FilterActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
-        JMenu fileMenu = new JMenu(bundle.getString("Filter"));
+        MyActionListener actionListener = new MyActionListener();
+
+        JMenu filterMenu = new JMenu(bundle.getString("Filter"));
 
         for (Action action : actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem jmi = new JMenuItem(action);
+            jmi.addActionListener(actionListener);
+            filterMenu.add(jmi);
         }
 
-        return fileMenu;
+        return filterMenu;
     }
 
     /**
@@ -492,6 +496,10 @@ public class FilterActions {
         public void actionPerformed(ActionEvent e) {
             int radius = getRadius();
 
+            int x = target.getX();
+            int y = target.getY();
+
+            //target.getImage().apply(new DrawingOperation(x,y,));
             // Create and apply the filter
             target.getImage().apply(new MeanFilter(radius));
             target.repaint();

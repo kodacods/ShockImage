@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.awt.Toolkit;
 import java.awt.Image;
 import java.awt.event.*;
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class FileActions {
         actions.add(
                 new FileSaveAsAction(bundle.getString("SaveAs"), null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileExitAction(bundle.getString("Exit"), null, "Exit the program", Integer.valueOf(0)));
+
     }
 
     public Action getAction(int pos) {
@@ -81,10 +83,14 @@ public class FileActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
+        MyActionListener actionListener = new MyActionListener();
+
         JMenu fileMenu = new JMenu(bundle.getString("File"));
 
-        for (Action action : actions) {
-            fileMenu.add(new JMenuItem(action));
+        for(Action action: actions) {
+            JMenuItem jmi = new JMenuItem(action);
+            jmi.addActionListener(actionListener);
+            fileMenu.add(jmi);
         }
 
         return fileMenu;
@@ -111,6 +117,8 @@ public class FileActions {
          */
         FileOpenAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
         }
 
         /**
@@ -169,6 +177,9 @@ public class FileActions {
          */
         FileSaveAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
+
         }
 
         /**
@@ -262,6 +273,8 @@ public class FileActions {
          */
         FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_M, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
         }
 
         /**
@@ -316,7 +329,10 @@ public class FileActions {
         FileExitAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon);
             putValue(SHORT_DESCRIPTION, desc);
-            putValue(MNEMONIC_KEY, mnemonic);
+            putValue(MNEMONIC_KEY, mnemonic); 
+            this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
+
         }
 
         /**
