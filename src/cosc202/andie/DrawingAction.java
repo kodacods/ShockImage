@@ -8,7 +8,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 
 
-public class DrawingAction  extends  ImageAction {
+public class DrawingAction  extends  ImageAction  {
 
     private ImagePanel imagePanel;
 
@@ -16,6 +16,7 @@ public class DrawingAction  extends  ImageAction {
         super(name, icon, desc, mnemonic);
         this.imagePanel = imagePanel;
     }
+
 
 
 

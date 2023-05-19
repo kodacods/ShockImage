@@ -44,6 +44,8 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
     public static Point first, second;
     public static Point origin;
     public static  int selWidth, selHeight;
+        private boolean circleDrawn = false;
+
 
     /**
      * <p>
@@ -56,6 +58,8 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
      * </p>
      */
     private double scale;
+    private ArrayList<Shape> shapes; // List to store drawn shapes
+
 
     /**
      * <p>
@@ -71,6 +75,8 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
         scale = 1.0;
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+        shapes = new ArrayList<>(); // Initialize the shapes list
+
     }
 
     /**
@@ -155,17 +161,21 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
             Graphics2D g2  = (Graphics2D) g.create();
             g2.scale(scale, scale);
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
-            if (currentShape != null) {
+            for (Shape shape : shapes) {
                 g2.setColor(Color.RED);
-                g2.draw(currentShape);
+                g2.draw(shape);
             }
+
+                // Draw the currentShape
+    if (currentShape != null) {
+        g2.setColor(Color.RED);
+        g2.draw(currentShape);
+    }
+        
             // Draw rectangle here
-            else if (origin != null ) {
+            if (currentShape == null && origin != null) {
                 g2.setColor(Color.BLUE);
                 g2.drawRect(origin.x, origin.y, selWidth, selHeight);
-                
-
-
             }
            
             g2.dispose();
@@ -181,6 +191,9 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
 
     @Override
     public void mousePressed(MouseEvent e) {
+            (circleDrawn) = false;
+            // return; // Ignore mouse press if a circle has already been drawn
+        // }
         Point point = e.getPoint();
 
         first = new Point((int)(point.getX() / scale), (int)(point.getY() / scale));
@@ -199,28 +212,48 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
      
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        Point point = e.getPoint();
-
-        second = new Point((int)(point.getX() / scale), (int)(point.getY() / scale));
-        RecTangleTime();
-
-        switch (currentShapeType) {
-            case CIRCLE:
-                currentShape = new Ellipse2D.Double(first.x, first.y, second.x/scale, second.y/scale);
-                break;
-            case RECTANGLE:
-                currentShape = new Rectangle2D.Double(first.x, first.y, 0, 0);
-                break;
-            case SQUARE:
-                currentShape = new Rectangle2D.Double(first.x, first.y, 0, 0);
-                break;
+@Override
+public void mouseReleased(MouseEvent e) {
+    if (circleDrawn) {
+            return; // Ignore mouse release if a circle has already been drawn
         }
+    Point point = e.getPoint();
 
-        // this.apply(DrawingActiopn(shape object))
-        // Or make a new apply that can be released from here
+    second = new Point((int)(point.getX() / scale), (int)(point.getY() / scale));
+    RecTangleTime();
+
+    switch (currentShapeType) {
+        case CIRCLE:
+        
+            double radiusX = Math.abs(second.x - first.x) / scale;
+            double radiusY = Math.abs(second.y - first.y) / scale;
+            double radius = Math.max(radiusX, radiusY);
+            double centerX = first.x + (second.x - first.x) / 2.0;
+            double centerY = first.y + (second.y - first.y) / 2.0;
+            double x = centerX - radius;
+            double y = centerY - radius;
+            currentShape = new Ellipse2D.Double(x, y, radius * 2, radius * 2);
+             shapes.add(currentShape);
+                circleDrawn = true; // Set the flag to true indicating a circle has been drawn
+                
+            break;
+        case RECTANGLE:
+            currentShape = new Rectangle2D.Double(first.x, first.y, second.x/scale, second.y/scale);
+            shapes.add(currentShape);
+            break;
+        case SQUARE:
+            currentShape = new Rectangle2D.Double(first.x, first.y, second.x/scale, second.y/scale);
+            shapes.add(currentShape);
+            break;
     }
+
+    // Clear the currentShape reference
+    currentShape = null;
+
+    repaint();
+    //RecTangleTime();
+}
+
 
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -230,15 +263,33 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
     public void mouseExited(MouseEvent e) {
     }
 
+    /**
+     * <p>
+     * Handle mouse movement events.
+     * </p>
+     * 
+     * <p>
+     * This method is used to update the current shape as the mouse is dragged.
+     * </p>
+     * 
+     * @param e The mouse event.
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
+                if (circleDrawn) {
+            return; // Ignore mouse press if a circle has already been drawn
+        }
         second = e.getPoint();
         switch (currentShapeType) {
             case CIRCLE:
-                double radius = Math.max(Math.abs(second.x - first.x), Math.abs(second.y - first.y));
-                currentShape = new Ellipse2D.Double(first.x, first.y, radius, radius);
-                System.out.println("Radius: " + radius);
-                //((Ellipse2D.Double) currentShape).setFrame(first.x, first.y, radius, radius);
+                double radiusX = Math.abs(second.x - first.x) / scale;
+                double radiusY = Math.abs(second.y - first.y) / scale;
+                double radius = Math.max(radiusX, radiusY);
+                double centerX = first.x + (second.x - first.x) / 2.0;
+                double centerY = first.y + (second.y - first.y) / 2.0;
+                double x = centerX - radius;
+                double y = centerY - radius;
+                currentShape = new Ellipse2D.Double(x, y, radius * 2, radius * 2);
                 break;
             case RECTANGLE:
                 ((Rectangle2D.Double) currentShape).setFrameFromDiagonal(first.x, first.y, second.x, second.y);
@@ -251,6 +302,7 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
         
         repaint();
     }
+    
 
     
 
@@ -271,7 +323,9 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
 
     public void setCurrentShapeType(ShapeType shapeType) {
     currentShapeType = shapeType;
-    System.out.println("Shape type: " + shapeType);
+        currentShape = null;
+
+    // System.out.println("Shape type: " + shapeType);
 }
 
 
