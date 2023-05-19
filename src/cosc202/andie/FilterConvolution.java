@@ -34,8 +34,7 @@ public class FilterConvolution {
         // Apply naive image convolution, if there is an offset. If there is not an
         // offset, then only apply the naive image convolution to the edges of the
         // image.
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null),
-                input.isAlphaPremultiplied(), null);
+        BufferedImage output = new BufferedImage(input.getWidth(), input.getHeight(), input.getType());
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (offset != 0 || (y < radius || y >= height - radius || x < radius || x >= width - radius)) {
@@ -79,6 +78,7 @@ public class FilterConvolution {
                         b = 0;
                     Color outputColor = new Color(Math.round(r), Math.round(g), Math.round(b));
 
+                    System.out.println(r + " " + g + " " + b);
                     output.setRGB(x, y, outputColor.getRGB());
                 }
             }
@@ -87,12 +87,14 @@ public class FilterConvolution {
         // convolution to the center of the image.
         if (offset == 0) {
             Kernel k = new Kernel(1 + (radius * 2), 1 + (radius * 2), array);
-            BufferedImage convolvedImage = new BufferedImage(input.getColorModel(),
-                    input.copyData(null), input.isAlphaPremultiplied(), null);
+            BufferedImage convolvedImage = new BufferedImage(input.getWidth(),
+                    input.getHeight(),
+                    input.getType());
             ConvolveOp op = new ConvolveOp(k, ConvolveOp.EDGE_ZERO_FILL, null);
             op.filter(input, convolvedImage);
             Graphics g = output.getGraphics();
-            convolvedImage = convolvedImage.getSubimage(radius, radius, width - radius, height - radius);
+            convolvedImage = convolvedImage.getSubimage(radius, radius, width - (radius * 2),
+                    height - (radius * 2));
             g.drawImage(convolvedImage, radius, radius, null);
             g.dispose();
         }
