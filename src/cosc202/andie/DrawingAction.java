@@ -1,52 +1,77 @@
 
-
 package cosc202.andie;
 
 import javax.swing.*;
+import java.awt.Color;
+import javax.swing.JColorChooser;
 
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 
-
-public class DrawingAction  extends  ImageAction  {
+public class DrawingAction extends ImageAction {
 
     private ImagePanel imagePanel;
+    private Color currentColor = Color.RED; // Default color is set to red
+
+    private boolean fillShape = false;
 
     DrawingAction(String name, ImageIcon icon, String desc, Integer mnemonic, ImagePanel imagePanel) {
         super(name, icon, desc, mnemonic);
         this.imagePanel = imagePanel;
     }
 
-
-
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
         JMenuItem menuItem = (JMenuItem) e.getSource();
         String shapeType = menuItem.getText();
-        System.out.println("Shape type: " + shapeType);
 
         switch (shapeType) {
-
             case "Circle":
                 imagePanel.setCurrentShapeType(ImagePanel.ShapeType.CIRCLE);
-
+                imagePanel.setShapeType(ImagePanel.ShapeType.CIRCLE);
+                ImagePanel.selection = false;
+                imagePanel.setShapeFilled(fillShape);
                 break;
+
             case "Rectangle":
                 imagePanel.setCurrentShapeType(ImagePanel.ShapeType.RECTANGLE);
+                imagePanel.setShapeType(ImagePanel.ShapeType.RECTANGLE);
+                ImagePanel.selection = false;
+                imagePanel.setShapeFilled(fillShape);
                 break;
-            case "Square":
-                imagePanel.setCurrentShapeType(ImagePanel.ShapeType.SQUARE);
+
+            case "Line":
+                // fillShape = false;
+                imagePanel.setCurrentShapeType(ImagePanel.ShapeType.LINE);
+                imagePanel.setShapeType(ImagePanel.ShapeType.LINE);
+                ImagePanel.selection = false;
+                imagePanel.setShapeFilled(fillShape);
+
                 break;
-            default:
+
+            case "Colour":
+                Color selectedColor = JColorChooser.showDialog(imagePanel, " Colour", currentColor);
+                if (selectedColor != null) {
+                    currentColor = selectedColor;
+                    imagePanel.setCurrentColor(currentColor);
+                    imagePanel.repaint();
+
+                }
                 break;
+
+            case "Fill Shape":
+                fillShape = !fillShape; // Toggle the fill shape flag
+
+                menuItem.setSelected(fillShape);
+                imagePanel.setShapeFilled(fillShape);
+                imagePanel.repaint();
+                break;
+
         }
     }
 
     public JMenu createDrawingMenu() {
         JMenu drawingMenu = new JMenu("Drawing");
-        String[] shapeTypes = {"Circle", "Rectangle", "Square"};
+        String[] shapeTypes = { "Circle", "Rectangle", "Line" };
 
         for (String shapeType : shapeTypes) {
             JMenuItem shapeMenuItem = new JMenuItem(shapeType);
@@ -54,8 +79,19 @@ public class DrawingAction  extends  ImageAction  {
             drawingMenu.add(shapeMenuItem);
         }
 
+        JMenuItem colorMenuItem = new JMenuItem("Colour");
+        colorMenuItem.addActionListener(this);
+        drawingMenu.addSeparator();
+        drawingMenu.add(colorMenuItem);
+
+        JCheckBoxMenuItem fillMenuItem = new JCheckBoxMenuItem("Fill Shape");
+        fillMenuItem.addActionListener(this);
+        drawingMenu.add(fillMenuItem);
+
         return drawingMenu;
     }
 
-
+    public void setCurrentColor(Color colour) {
+        currentColor = colour;
+    }
 }

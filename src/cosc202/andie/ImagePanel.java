@@ -3,12 +3,12 @@ package cosc202.andie;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
-
 
 /**
  * <p>
@@ -16,50 +16,65 @@ import javax.swing.event.MouseInputListener;
  * </p>
  * 
  * <p>
- * This class extends {@link JPanel} to allow for rendering of an image, as well as zooming
- * in and out. 
+ * This class extends {@link JPanel} to allow for rendering of an image, as well
+ * as zooming
+ * in and out.
  * </p>
  * 
- * <p> 
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Steven Mills
  * @version 1.0
  */
-public class ImagePanel extends JPanel implements MouseInputListener { //m
-    
+public class ImagePanel extends JPanel implements MouseInputListener { // m
+
     /**
      * The image to display in the ImagePanel.
      */
+    private boolean isDrawingShape = false;
+    private boolean isDragging = false;
     private EditableImage image;
+    public static ArrayList<Shape> drawnShapes = new ArrayList<>();
 
     public static Shape preview;
-    public enum ShapeType { CIRCLE, RECTANGLE, SQUARE }
+    private boolean isRedCircleSelected = false;
+    private boolean shouldDrawBlueRectangle = true;
+
+    private Color currentColor = Color.RED; // Default color is set to red
+
+    public enum ShapeType {
+        CIRCLE, RECTANGLE, LINE
+    }
+
+    private boolean isShapeFilled = false;
+
+    public static boolean selection = true;
+    // put this in the DrawingAction class menu?
 
     public static ShapeType currentShapeType;
     public static Shape currentShape;
 
-
     public static Point first, second;
     public static Point origin;
-    public static  int selWidth, selHeight;
-        private boolean circleDrawn = false;
-
+    public static int selWidth, selHeight;
 
     /**
      * <p>
      * The zoom-level of the current view.
-     * A scale of 1.0 represents actual size; 0.5 is zoomed out to half size; 1.5 is zoomed in to one-and-a-half size; and so forth.
+     * A scale of 1.0 represents actual size; 0.5 is zoomed out to half size; 1.5 is
+     * zoomed in to one-and-a-half size; and so forth.
      * </p>
      * 
      * <p>
-     * Note that the scale is internally represented as a multiplier, but externally as a percentage.
+     * Note that the scale is internally represented as a multiplier, but externally
+     * as a percentage.
      * </p>
      */
     private double scale;
-    private ArrayList<Shape> shapes; // List to store drawn shapes
-
+    public static ArrayList<Shape> shapes; // List to store drawn shapes
 
     /**
      * <p>
@@ -96,12 +111,14 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
      * </p>
      * 
      * <p>
-     * The percentage zoom is used for the external interface, where 100% is the original size, 50% is half-size, etc. 
+     * The percentage zoom is used for the external interface, where 100% is the
+     * original size, 50% is half-size, etc.
      * </p>
+     * 
      * @return The current zoom level as a percentage.
      */
     public double getZoom() {
-        return 100*scale;
+        return 100 * scale;
     }
 
     /**
@@ -110,9 +127,11 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
      * </p>
      * 
      * <p>
-     * The percentage zoom is used for the external interface, where 100% is the original size, 50% is half-size, etc. 
+     * The percentage zoom is used for the external interface, where 100% is the
+     * original size, 50% is half-size, etc.
      * The zoom level is restricted to the range [50, 200].
      * </p>
+     * 
      * @param zoomPercent The new zoom level as a percentage.
      */
     public void setZoom(double zoomPercent) {
@@ -125,14 +144,14 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
         scale = zoomPercent / 100;
     }
 
-
     /**
      * <p>
      * Gets the preferred size of this component for UI layout.
      * </p>
      * 
      * <p>
-     * The preferred size is the size of the image (scaled by zoom level), or a default size if no image is present.
+     * The preferred size is the size of the image (scaled by zoom level), or a
+     * default size if no image is present.
      * </p>
      * 
      * @return The preferred size of this component.
@@ -140,8 +159,8 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
     @Override
     public Dimension getPreferredSize() {
         if (image.hasImage()) {
-            return new Dimension((int) Math.round(image.getCurrentImage().getWidth()*scale), 
-                                 (int) Math.round(image.getCurrentImage().getHeight()*scale));
+            return new Dimension((int) Math.round(image.getCurrentImage().getWidth() * scale),
+                    (int) Math.round(image.getCurrentImage().getHeight() * scale));
         } else {
             return new Dimension(450, 450);
         }
@@ -157,103 +176,158 @@ public class ImagePanel extends JPanel implements MouseInputListener { //m
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        super.paintComponent(g);
         if (image.hasImage()) {
-            Graphics2D g2  = (Graphics2D) g.create();
+            Graphics2D g2 = (Graphics2D) g.create();
             g2.scale(scale, scale);
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
-            for (Shape shape : shapes) {
-                g2.setColor(Color.RED);
-                g2.draw(shape);
-            }
 
-                // Draw the currentShape
-    if (currentShape != null) {
-        g2.setColor(Color.RED);
-        g2.draw(currentShape);
-    }
-        
-            // Draw rectangle here
-            if (currentShape == null && origin != null) {
-                g2.setColor(Color.BLUE);
+            // for (Shape shape : drawnShapes) {
+            // g2.setColor(Color.RED);
+            // g2.draw(shape);
+            // }
+
+            if (shouldDrawBlueRectangle && origin != null) {
+                Stroke dashedStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f,
+                        new float[] { 5.0f, 5.0f }, 0.0f);
+
+                // Set the stroke of the graphics object to the dashed stroke
+                g2.setStroke(dashedStroke);
+                g2.setColor(Color.BLACK);
                 g2.drawRect(origin.x, origin.y, selWidth, selHeight);
             }
-           
+
+            // if (currentShape != null) {
+            // g2.setColor(currentColor);
+            // if (isShapeFilled) {
+            // g2.fill(currentShape);
+            // g2.setColor(Color.RED);
+            // }
+            // g2.draw(currentShape);
+            // }
+            if (preview != null && isDragging && isDrawingShape) {
+                g2.setColor(currentColor);
+                g2.draw(preview);
+                // Remove repaint() here
+            }
             g2.dispose();
-
-
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-            (circleDrawn) = false;
-            // return; // Ignore mouse press if a circle has already been drawn
-        // }
+        if (isRedCircleSelected == false) {
+            shouldDrawBlueRectangle = true;
+        }
+
         Point point = e.getPoint();
 
-        first = new Point((int)(point.getX() / scale), (int)(point.getY() / scale));
+        first = new Point((int) (point.getX() / scale), (int) (point.getY() / scale));
 
-        switch (currentShapeType) {
-            case CIRCLE:
-                currentShape = new Ellipse2D.Double(first.x, first.y, 0, 0);
-                break;
-            case RECTANGLE:
-                currentShape = new Rectangle2D.Double(first.x, first.y, 0, 0);
-                break;
-            case SQUARE:
-                currentShape = new Rectangle2D.Double(first.x, first.y, 0, 0);
-                break;
+        if (currentShapeType != null) {
+
+            switch (currentShapeType) {
+                case CIRCLE:
+                    currentShape = new Ellipse2D.Double(first.x, first.y, 0, 0);
+                    ImagePanel.selection = false;
+                    isRedCircleSelected = true;
+                    shouldDrawBlueRectangle = false;
+                    isDrawingShape = true;
+                    break;
+
+                case RECTANGLE:
+                    currentShape = new Rectangle2D.Double(first.x, first.y, 0, 0);
+                    isRedCircleSelected = true;
+                    shouldDrawBlueRectangle = false;
+                    ImagePanel.selection = false;
+                    isDrawingShape = true;
+                    break;
+
+                case LINE:
+                    currentShape = new Line2D.Double(first.x, first.y, first.x, first.y);
+                    isRedCircleSelected = true;
+                    shouldDrawBlueRectangle = false;
+                    ImagePanel.selection = false;
+                    isDrawingShape = true;
+                    break;
+
+                default:
+                    break;
+
+            }
         }
-     
     }
 
-@Override
-public void mouseReleased(MouseEvent e) {
-    if (circleDrawn) {
-            return; // Ignore mouse release if a circle has already been drawn
+    @Override
+
+    public void mouseReleased(MouseEvent e) {
+
+        Point point = e.getPoint();
+
+        second = new Point((int) (point.getX() / scale), (int) (point.getY() / scale));
+
+        if (currentShapeType != null) {
+            switch (currentShapeType) {
+                case CIRCLE:
+                    double radiusX = Math.abs(second.x - first.x) / scale;
+                    double radiusY = Math.abs(second.y - first.y) / scale;
+                    double radius = Math.max(radiusX, radiusY);
+                    double centerX = first.x + (second.x - first.x) / 2.0;
+                    double centerY = first.y + (second.y - first.y) / 2.0;
+                    double x = centerX - radius;
+                    double y = centerY - radius;
+                    currentShape = new Ellipse2D.Double(x, y, radius * 2, radius * 2);
+                    // shapes.add(currentShape);
+                    // applyShapeToImage(currentShape);
+                    image.apply(new DrawOperation(currentShape, isShapeFilled, currentColor));
+                    ImagePanel.selection = false;
+                    isRedCircleSelected = false;
+                    shouldDrawBlueRectangle = false;
+                    isDrawingShape = false;
+                    break;
+
+                case RECTANGLE:
+                    int width = Math.abs(first.x - second.x);
+                    int height = Math.abs(first.y - second.y);
+                    currentShape = new Rectangle2D.Double(Math.min(first.x, second.x), Math.min(first.y, second.y),
+                            width, height);
+                    // shapes.add(currentShape);
+                    // applyShapeToImage(currentShape);
+                    image.apply(new DrawOperation(currentShape, isShapeFilled, currentColor));
+                    ImagePanel.selection = false;
+                    isRedCircleSelected = false;
+                    shouldDrawBlueRectangle = false;
+                    isDrawingShape = false;
+                    break;
+
+                case LINE:
+                    currentShape = new Line2D.Double(first.x, first.y, second.x, second.y);
+                    // shapes.add(currentShape);
+                    // applyShapeToImage(currentShape);
+                    image.apply(new DrawOperation(currentShape, isShapeFilled, currentColor));
+                    ImagePanel.selection = false;
+                    isRedCircleSelected = false;
+                    shouldDrawBlueRectangle = false;
+                    isDrawingShape = false;
+                    break;
+                default:
+                    break;
+
+            }
+
         }
-    Point point = e.getPoint();
+        RecTangleTime();
+        repaint();
 
-    second = new Point((int)(point.getX() / scale), (int)(point.getY() / scale));
-    RecTangleTime();
-
-    switch (currentShapeType) {
-        case CIRCLE:
-        
-            double radiusX = Math.abs(second.x - first.x) / scale;
-            double radiusY = Math.abs(second.y - first.y) / scale;
-            double radius = Math.max(radiusX, radiusY);
-            double centerX = first.x + (second.x - first.x) / 2.0;
-            double centerY = first.y + (second.y - first.y) / 2.0;
-            double x = centerX - radius;
-            double y = centerY - radius;
-            currentShape = new Ellipse2D.Double(x, y, radius * 2, radius * 2);
-             shapes.add(currentShape);
-                circleDrawn = true; // Set the flag to true indicating a circle has been drawn
-                
-            break;
-        case RECTANGLE:
-            currentShape = new Rectangle2D.Double(first.x, first.y, second.x/scale, second.y/scale);
-            shapes.add(currentShape);
-            break;
-        case SQUARE:
-            currentShape = new Rectangle2D.Double(first.x, first.y, second.x/scale, second.y/scale);
-            shapes.add(currentShape);
-            break;
+        currentShape = null;
+        currentShapeType = null;
+        ImagePanel.selection = false;
     }
-
-    // Clear the currentShape reference
-    currentShape = null;
-
-    repaint();
-    //RecTangleTime();
-}
-
 
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -276,59 +350,113 @@ public void mouseReleased(MouseEvent e) {
      */
     @Override
     public void mouseDragged(MouseEvent e) {
-                if (circleDrawn) {
-            return; // Ignore mouse press if a circle has already been drawn
-        }
+        isDragging = true;
         second = e.getPoint();
-        switch (currentShapeType) {
-            case CIRCLE:
-                double radiusX = Math.abs(second.x - first.x) / scale;
-                double radiusY = Math.abs(second.y - first.y) / scale;
-                double radius = Math.max(radiusX, radiusY);
-                double centerX = first.x + (second.x - first.x) / 2.0;
-                double centerY = first.y + (second.y - first.y) / 2.0;
-                double x = centerX - radius;
-                double y = centerY - radius;
-                currentShape = new Ellipse2D.Double(x, y, radius * 2, radius * 2);
-                break;
-            case RECTANGLE:
-                ((Rectangle2D.Double) currentShape).setFrameFromDiagonal(first.x, first.y, second.x, second.y);
-                break;
-            case SQUARE:
-                int size = Math.max(Math.abs(second.x - first.x), Math.abs(second.y - first.y));
-                ((Rectangle2D.Double) currentShape).setFrame(first.x, first.y, size, size);
-                break;
+        int scaledFirstX = (int) (first.x / scale);
+        int scaledFirstY = (int) (first.y / scale);
+        int scaledSecondX = (int) (second.x / scale);
+        int scaledSecondY = (int) (second.y / scale);
+        if (shouldDrawBlueRectangle) {
+            origin = new Point(Math.min(scaledFirstX, scaledSecondX), Math.min(scaledFirstY, scaledSecondY));
+            selWidth = Math.abs(scaledFirstX - scaledSecondX);
+            selHeight = Math.abs(scaledFirstY - scaledSecondY);
+            repaint();
         }
-        
-        repaint();
-    }
-    
 
-    
+        if (currentShapeType != null) {
+            switch (currentShapeType) {
+                case CIRCLE:
+                    double radiusX = Math.abs(scaledSecondX - scaledFirstX);
+                    double radiusY = Math.abs(scaledSecondY - scaledFirstY);
+                    double radius = Math.max(radiusX, radiusY);
+                    double centerX = scaledFirstX + (scaledSecondX - scaledFirstX) / 2.0;
+                    double centerY = scaledFirstY + (scaledSecondY - scaledFirstY) / 2.0;
+                    double x = centerX - radius;
+                    double y = centerY - radius;
+                    preview = new Ellipse2D.Double(x, y, radius * 2, radius * 2);
+                    repaint();
+                    break;
+
+                case RECTANGLE:
+                    int width = Math.abs(scaledSecondX - scaledFirstX);
+                    int height = Math.abs(scaledSecondY - scaledFirstY);
+                    int xx = Math.min(scaledFirstX, scaledSecondX);
+                    int yx = Math.min(scaledFirstY, scaledSecondY);
+                    preview = new Rectangle2D.Double(xx, yx, width, height);
+                    repaint();
+                    break;
+
+                case LINE:
+                    preview = new Line2D.Double(scaledFirstX, scaledFirstY, scaledSecondX, scaledSecondY);
+
+                default:
+                    break;
+
+            }
+        }
+
+        repaint();
+
+    }
 
     @Override
     public void mouseMoved(MouseEvent e) {
     }
 
     public void RecTangleTime() {
+
+        if (isRedCircleSelected == false && shouldDrawBlueRectangle == true) {
             origin = new Point(Math.min(first.x, second.x), Math.min(first.y, second.y));
             selWidth = Math.abs(first.x - second.x);
             selHeight = Math.abs(first.y - second.y);
-            System.out.println("here");
-            //getImage().apply(new RectangularShowSelection());
+            // System.out.println("here");
+            // getImage().apply(new RectangularShowSelection());
             repaint();
             getParent().revalidate();
 
+        } else
+            return;
     }
 
     public void setCurrentShapeType(ShapeType shapeType) {
-    currentShapeType = shapeType;
+        currentShapeType = shapeType;
         currentShape = null;
 
-    // System.out.println("Shape type: " + shapeType);
-}
+        // System.out.println("Shape type: " + shapeType);
+    }
 
+    private void applyShapeToImage(Shape shape) {
+        Graphics2D g2 = image.getCurrentImage().createGraphics();
 
+        g2.setColor(currentColor);
 
-   
+        if (isShapeFilled) {
+            g2.fill(shape);
+            drawnShapes.add(shape);
+
+        } else {
+            g2.draw(shape);
+            drawnShapes.add(shape);
+
+        }
+        g2.dispose();
+
+    }
+
+    public void setShapeType(ShapeType shapeType) {
+        currentShapeType = shapeType;
+    }
+
+    public void setCurrentColor(Color color) {
+        currentColor = color;
+    }
+
+    public void setShapeFilled(boolean filled) {
+        isShapeFilled = filled;
+        repaint(); // Redraw the panel to reflect the changes
+    }
+
+    public static ArrayList<Shape> getDrawnShapes() {
+        return drawnShapes;
+    }
 }
