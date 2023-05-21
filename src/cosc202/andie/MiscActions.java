@@ -5,6 +5,20 @@ import java.util.prefs.Preferences;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * <p>
+ * Actions provided by the Miscellaneous menu.
+ * </p>
+ * 
+ * <p>
+ * Not so much as actions performed on the image itself, 
+ * but miscellaneous actions not related to image editing.
+ * </p>
+ * 
+ * @author Meg Albarico
+ * @version 1.0
+ */
+
 public class MiscActions {
     protected ArrayList<Action> actions;
 
@@ -31,11 +45,44 @@ public class MiscActions {
         return miscMenu;
     }
 
+    /**
+     * <p>
+     * Action to make a puzzle out of an image. Also accounts for operations made on the image.
+     * </p>
+     * 
+     * @see PuzzleGame
+     */
+
     public class PuzzleGame extends ImageAction{
+
+        /**
+         * <p>
+         * Create a new puzzle action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
 
         PuzzleGame(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
+
+        /**
+         * <p>
+         * Callback for when the puzzle action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the PuzzleGameAction is triggered.
+         * It prompts the user for the difficulty, and creates a
+         * {@link PuzzleGameAction} with the appropriate amount of cells in the puzzle.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
 
         public void actionPerformed(ActionEvent e){
             String[] options = {"2 X 2", "3 X 3", "4 X 4"};
