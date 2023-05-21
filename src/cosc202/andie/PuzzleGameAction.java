@@ -11,6 +11,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.event.*;
 
+/**
+ * <p>
+ * A simple puzzle game.
+ * </p>
+ * 
+ * <p>
+ * Depending on the difficulty chosen by the player, 2 X 2, 3 X 3, or 4 X 4, 
+ * sets up a separate JFrame with the complete image on the left and a shuffled puzzle on the right.
+ * The player then clicks and changes around sections of the puzzle until in the correct order,
+ * in which it will show the moves taken to finish the puzzle.
+ * </p>
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Meg Albarico
+ * @version 1.0
+ */
+
 public class PuzzleGameAction implements ActionListener{
     private ArrayList<JButton> buttons = new ArrayList<JButton>();
     private JLabel status = new JLabel("Selected piece: " + "Not selected");
@@ -76,6 +96,9 @@ public class PuzzleGameAction implements ActionListener{
             puzzle.setLayout(new GridLayout(pieces, pieces));
             Random r = new Random();
             
+            /*
+             * Puzzle creation for the three difficulties.
+             */
             
             if (pieces <= 2){
                 int sectionWidth = useThis.getWidth() / 2;
@@ -227,6 +250,10 @@ public class PuzzleGameAction implements ActionListener{
             puzzleSide.add(showIsSelected, verticalFormat);
             puzzleSide.add(showMoves, verticalFormat);
             
+            /*
+             * Most common in 2 by 2, if the puzzle is already finished (by random shuffling), this will appear.
+             */
+
             for(int i = 0; i < selection.size(); i++){
                 if(selection.get(i).equals(correctArrangement.get(i))){
                     completed++;
@@ -261,6 +288,10 @@ public class PuzzleGameAction implements ActionListener{
         }
         
     }
+
+    /*
+     * The act of clicking and swapping buttons, as well as recording moves and if the puzzle is completed.
+     */
 
     public void actionPerformed(ActionEvent e){
         JButton selected = (JButton)e.getSource();
