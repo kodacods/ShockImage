@@ -29,7 +29,7 @@ public class MiscActions {
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
         actions = new ArrayList<Action>();
-        actions.add(new PuzzleGame("Puzzle Game (needs bundle transl.)", null, "A small puzzle game.", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new PuzzleGame(bundle.getString("PuzzleGame"), null, "A small puzzle game.", Integer.valueOf(KeyEvent.VK_M)));
     }
 
     public JMenu createMenu(){
@@ -37,7 +37,7 @@ public class MiscActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
-        JMenu miscMenu = new JMenu("Misc. (needs transl.)");
+        JMenu miscMenu = new JMenu(bundle.getString("Games"));
 
         for(Action action: actions){
             miscMenu.add(new JMenuItem(action));
