@@ -7,12 +7,12 @@ import javax.swing.*;
 
 /**
  * <p>
- * Actions provided by the Miscellaneous menu.
+ * Actions provided by the Games menu.
  * </p>
  * 
  * <p>
  * Not so much as actions performed on the image itself, 
- * but miscellaneous actions not related to image editing.
+ * but miscellaneous game actions not related to image editing.
  * </p>
  * 
  * @author Meg Albarico
