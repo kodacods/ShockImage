@@ -73,7 +73,7 @@ public class TransformActions {
 
         JMenu transformMenu = new JMenu(bundle.getString("Transform"));
         MyActionListener actionListener = new MyActionListener();
-        
+
         for (Action action : actions) {
             JMenuItem jmi = new JMenuItem(action);
             jmi.addActionListener(actionListener);
@@ -135,9 +135,6 @@ public class TransformActions {
                 JOptionPane.showMessageDialog(null, "You need to open an image first!");
                 return;
             }
-
-            // Determine the scale factor - ask the user.
-
             // Pop-up dialog box to ask for the factor value.
             SpinnerNumberModel scaleModel = new SpinnerNumberModel(1.0, 0.0, 10.0, 0.1);
             JSpinner scaleSpinner = new JSpinner(scaleModel);
