@@ -58,7 +58,7 @@ public class MacroRecorder implements Serializable {
 
     
     @SuppressWarnings("unchecked")
-    public static void replayFromFile(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException, AWTException {
+    public static void replayFromFile(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException, AWTException, InterruptedException {
         List<String> readEvents = new ArrayList<>();
 
         try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(fileName + ".ops"))) {
@@ -78,6 +78,8 @@ public class MacroRecorder implements Serializable {
                 System.out.println(r.toString());
                 Thread thread = new Thread(r);
                 thread.start();
+                Thread.sleep(1000);
+
                 System.out.println("done");
             }
         

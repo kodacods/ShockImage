@@ -88,6 +88,8 @@ public class MacrosAction {
             } 
             catch (AWTException | ClassNotFoundException | IOException ex){
                 System.err.println("Error reading file");
+            } catch (InterruptedException e1) {
+                System.out.println("Interupted");
             }
 
         }

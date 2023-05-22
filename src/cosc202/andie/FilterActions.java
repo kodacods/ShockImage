@@ -86,13 +86,13 @@ public class FilterActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
-        MyActionListener actionListener = new MyActionListener();
+        MyActionListener myActionListener = new MyActionListener();
 
         JMenu filterMenu = new JMenu(bundle.getString("Filter"));
 
         for (Action action : actions) {
             JMenuItem jmi = new JMenuItem(action);
-            jmi.addActionListener(actionListener);
+            jmi.addActionListener(myActionListener);
             filterMenu.add(jmi);
         }
 
@@ -665,6 +665,13 @@ public class FilterActions {
          */
         EmbossFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            Runnable r = new Runnable(){
+                public void run(){
+                    EmbossFilterPopup();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
@@ -762,6 +769,13 @@ public class FilterActions {
          */
         SobelFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            Runnable r = new Runnable(){
+                public void run(){
+                    sobelFilterPopup();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
