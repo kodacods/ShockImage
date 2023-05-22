@@ -1,6 +1,8 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.util.Locale;
+import java.util.prefs.Preferences;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -164,6 +166,12 @@ public class Andie {
      * @see #createAndShowGUI()
      */
     public static void main(String[] args) throws Exception {
+        Locale current = Locale.getDefault();
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        if (!current.equals(Locale.ENGLISH)||!current.equals(Locale.GERMAN)){
+            Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        }
+        
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
