@@ -570,6 +570,14 @@ public class FilterActions {
         SharpenFilterAction(String name, ImageIcon icon,
                 String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
@@ -580,6 +588,17 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
+            // Create and apply the filter
+            target.getImage().apply(new SharpenFilter());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed() {
             if (!target.getImage().hasImage()) {
                 JOptionPane.showMessageDialog(null, "You need to open an image first!");
                 return;

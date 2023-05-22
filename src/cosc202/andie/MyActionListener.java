@@ -8,7 +8,7 @@ public class MyActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (isRecording==true)
-        System.out.println("action");
+        //System.out.println("action");
         MacroRecorder.addEvent(e);
     }
 

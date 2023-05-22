@@ -72,9 +72,12 @@ public class TransformActions {
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
         JMenu transformMenu = new JMenu(bundle.getString("Transform"));
-
+        MyActionListener actionListener = new MyActionListener();
+        
         for (Action action : actions) {
-            transformMenu.add(new JMenuItem(action));
+            JMenuItem jmi = new JMenuItem(action);
+            jmi.addActionListener(actionListener);
+            transformMenu.add(jmi);
         }
         return transformMenu;
     }
@@ -88,6 +91,8 @@ public class TransformActions {
      */
 
     public class ResizeTransformAction extends ImageAction {
+        double scaleFactor;
+
         /**
          * <p>
          * Create a new resize action.
@@ -101,6 +106,14 @@ public class TransformActions {
 
         ResizeTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
@@ -124,7 +137,6 @@ public class TransformActions {
             }
 
             // Determine the scale factor - ask the user.
-            double scaleFactor = 1.0;
 
             // Pop-up dialog box to ask for the factor value.
             SpinnerNumberModel scaleModel = new SpinnerNumberModel(1.0, 0.0, 10.0, 0.1);
@@ -141,6 +153,12 @@ public class TransformActions {
             }
 
             // Create and apply the transform
+            target.getImage().apply(new ResizeTransform(scaleFactor));
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed(){
             target.getImage().apply(new ResizeTransform(scaleFactor));
             target.repaint();
             target.getParent().revalidate();

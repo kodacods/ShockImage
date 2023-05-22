@@ -26,7 +26,7 @@ public class MacroRecorder implements Serializable {
     }
 
     public static void startRecording() {
-        System.out.println(actionMap);
+        //System.out.println(actionMap);
         if (commands!=null){
             commands.clear();
             }
