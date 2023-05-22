@@ -54,8 +54,7 @@ public class TransformActions {
                 Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new FlipHorzTransformAction(bundle.getString("FlipHorizontal"), null, "Flip image horizontally",
                 Integer.valueOf(KeyEvent.VK_M)));
-        // TODO: translation
-        actions.add(new StampAction("Stamp", null, "Stamp image onto current image", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new StampAction(bundle.getString("Stamp"), null, "Stamp image onto current image", Integer.valueOf(KeyEvent.VK_M)));
     }
 
     /**
