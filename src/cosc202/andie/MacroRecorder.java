@@ -1,8 +1,7 @@
 package cosc202.andie;
 
+
 import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.Desktop.Action;
 import java.awt.event.ActionEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,19 +10,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JMenuItem;
+
 
 public class MacroRecorder implements Serializable {
     private static List<String> commands= new ArrayList<>();
-    private static Map<String, String> actionMap = new HashMap<>();
+    private static Map<String, Runnable> actionMap = new HashMap<>();
 
-    public static void addActionMapping(String actionCommand, String action) {
+    public static void addActionMapping(String actionCommand, Runnable action) {
         actionMap.put(actionCommand, action);
     }
 
@@ -48,6 +46,7 @@ public class MacroRecorder implements Serializable {
     }
     
     public static void saveToFile(String fileName) {
+        System.out.println(actionMap);
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".ops"))) {
             out.writeObject(commands);
             out.close();
@@ -57,13 +56,13 @@ public class MacroRecorder implements Serializable {
         }
     }
 
-    /*
+    
     @SuppressWarnings("unchecked")
     public static void replayFromFile(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException, AWTException {
-        List<ActionEvent> readEvents = new ArrayList<>();
+        List<String> readEvents = new ArrayList<>();
 
         try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(fileName + ".ops"))) {
-            readEvents = (List<ActionEvent>)input.readObject();
+            readEvents = (List<String>)input.readObject();
         } catch (IOException e){
              System.err.println("Error reading file");
         } catch (ClassNotFoundException cnfe){
@@ -72,29 +71,19 @@ public class MacroRecorder implements Serializable {
         
         System.out.println(readEvents.toString());
 
-            Robot bot = new Robot();
-            for (ActionEvent event : readEvents) {
 
-                System.out.println(txt + "\n" + mod + "\n" + source + "\n" + event.paramString());
-                
-                Object source = event.getSource();
-                System.out.println("test");
-                if(source instanceof JMenuItem){
-                    System.out.println("hi");
-                    JMenuItem menuItem = (JMenuItem)source;
-                    System.out.println(menuItem.toString());
-                    int actionCommand = menuItem.getMnemonic();
-                    bot.keyPress(actionCommand);
-                    bot.keyRelease(actionCommand);
-                }
-                
-
+            for (String event : readEvents) {
+                System.out.println(event);
+                Runnable r = actionMap.get(event);
+                System.out.println(r.toString());
+                Thread thread = new Thread(r);
+                thread.start();
+                System.out.println("done");
             }
         
             
             
     }
 
-    */
     
 }
