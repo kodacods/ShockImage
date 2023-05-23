@@ -71,9 +71,12 @@ public class TransformActions {
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
         JMenu transformMenu = new JMenu(bundle.getString("Transform"));
+        MyActionListener myActionListener = new MyActionListener();
 
         for (Action action : actions) {
-            transformMenu.add(new JMenuItem(action));
+            JMenuItem jmi = new JMenuItem(action);
+            jmi.addActionListener(myActionListener);
+            transformMenu.add(jmi);
         }
         return transformMenu;
     }
@@ -87,6 +90,8 @@ public class TransformActions {
      */
 
     public class ResizeTransformAction extends ImageAction {
+        double scaleFactor;
+
         /**
          * <p>
          * Create a new resize action.
@@ -100,6 +105,14 @@ public class TransformActions {
 
         ResizeTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
@@ -121,10 +134,6 @@ public class TransformActions {
                 JOptionPane.showMessageDialog(null, "You need to open an image first!");
                 return;
             }
-
-            // Determine the scale factor - ask the user.
-            double scaleFactor = 1.0;
-
             // Pop-up dialog box to ask for the factor value.
             SpinnerNumberModel scaleModel = new SpinnerNumberModel(1.0, 0.0, 10.0, 0.1);
             JSpinner scaleSpinner = new JSpinner(scaleModel);
@@ -140,6 +149,12 @@ public class TransformActions {
             }
 
             // Create and apply the transform
+            target.getImage().apply(new ResizeTransform(scaleFactor));
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed(){
             target.getImage().apply(new ResizeTransform(scaleFactor));
             target.repaint();
             target.getParent().revalidate();
@@ -168,9 +183,23 @@ public class TransformActions {
          */
         RotateAntiClock90TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new RotateAntiClock90Transform());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed() {
             target.getImage().apply(new RotateAntiClock90Transform());
             target.repaint();
             target.getParent().revalidate();
@@ -199,9 +228,23 @@ public class TransformActions {
          */
         RotateClock90TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new RotateClock90Transform());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed() {
             target.getImage().apply(new RotateClock90Transform());
             target.repaint();
             target.getParent().revalidate();
@@ -221,9 +264,23 @@ public class TransformActions {
         // baller .
         Rotate180TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new Rotate180Transform());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed() {
             target.getImage().apply(new Rotate180Transform());
             target.repaint();
             target.getParent().revalidate();
@@ -243,9 +300,23 @@ public class TransformActions {
 
         FlipVertTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new FlipVertTransform());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed() {
             target.getImage().apply(new FlipVertTransform());
             target.repaint();
             target.getParent().revalidate();
@@ -264,9 +335,23 @@ public class TransformActions {
 
         FlipHorzTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
+            target.getImage().apply(new FlipHorzTransform());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed() {
             target.getImage().apply(new FlipHorzTransform());
             target.repaint();
             target.getParent().revalidate();
