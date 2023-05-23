@@ -79,12 +79,10 @@ public class DrawingAction extends ImageAction {
 
         JMenu drawingMenu = new JMenu(bundle.getString("Drawing"));
         String[] shapeTypes = { "Circle", "Rectangle", "Line" };
-        MyActionListener actionListener = new MyActionListener();
 
         for (String shapeType : shapeTypes) {
             JMenuItem shapeMenuItem = new JMenuItem(shapeType);
             shapeMenuItem.addActionListener(this);
-            shapeMenuItem.addActionListener(actionListener);
             drawingMenu.add(shapeMenuItem);
         }
 

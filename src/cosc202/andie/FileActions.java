@@ -83,13 +83,10 @@ public class FileActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
-        MyActionListener actionListener = new MyActionListener();
-
         JMenu fileMenu = new JMenu(bundle.getString("File"));
 
         for(Action action: actions) {
             JMenuItem jmi = new JMenuItem(action);
-            jmi.addActionListener(actionListener);
             fileMenu.add(jmi);
         }
 

@@ -3,7 +3,10 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.AWTException;
 import java.awt.event.*;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import javax.swing.*;
 import java.util.prefs.Preferences;
 
@@ -93,7 +96,7 @@ public class MacrosAction {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            MacroRecorder.startRecording();
+            EditableImage.setRecording(true);
         }
     }
 
@@ -109,8 +112,8 @@ public class MacrosAction {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            MacroRecorder.stopRecording();
-            MacroRecorder.saveToFile("macro2");
+            EditableImage.setRecording(false);
+            EditableImage.saveToFile("macro2");
 
         }
     }
@@ -124,18 +127,22 @@ public class MacrosAction {
             super(name, icon, desc, mnemonic);
         }
 
-
-        @Override
+        @SuppressWarnings("unchecked")
         public void actionPerformed(ActionEvent e) {
-            try{
-                MacroRecorder.replayFromFile("macro2");
-            } 
-            catch (AWTException | ClassNotFoundException | IOException ex){
-                System.err.println("Error reading file");
-            } catch (InterruptedException e1) {
-                System.out.println("Interupted");
-            }
+            List<ImageOperation> readEvents = new ArrayList<>();
 
+            try (FileInputStream fis = (new FileInputStream("macro2" + ".ops"))) {
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                readEvents = (List<ImageOperation>)ois.readObject();
+            } catch (ClassNotFoundException | IOException e1) {
+                System.err.println("error at fis/ois");
+            }
+            for (ImageOperation event : readEvents){
+                System.out.println(event);
+                target.getImage().apply(event);
+                target.repaint();
+                target.getParent().revalidate();
+            }
         }
     }
     

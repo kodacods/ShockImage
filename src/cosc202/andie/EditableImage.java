@@ -45,7 +45,7 @@ class EditableImage {
     /**
      * The current image, the result of applying {@link ops} to {@link original}.
      */
-    private BufferedImage current;
+    private static BufferedImage current;
     /** The sequence of operations currently applied to the image. */
     private Stack<ImageOperation> ops;
     /** A memory of 'undone' operations to support 'redo'. */
@@ -54,6 +54,10 @@ class EditableImage {
     private String imageFilename;
     /** The file where the operation sequence is stored. */
     private String opsFilename;
+
+    private static List<ImageOperation> macros = new ArrayList<>();
+
+    private static boolean recording = false;
 
     /**
      * <p>
@@ -272,6 +276,8 @@ class EditableImage {
             JOptionPane.showMessageDialog(null, "You need to open an image first!");
         }
         ops.add(op);
+
+        if (recording==true) macros.add(op);
     }
 
     /**
@@ -332,6 +338,27 @@ class EditableImage {
         current = deepCopy(original);
         for (ImageOperation op : ops) {
             current = op.apply(current);
+        }
+    }
+
+    public static void setRecording(Boolean r){
+        if(r == true) recording=true;
+        if (r== false) recording=false;
+    }
+
+    /**
+     * Saves the List of commands to a .ops file
+     * 
+     * @param fileName
+     */
+    public static void saveToFile(String fileName) {
+        System.out.println(macros);
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".ops"))) {
+            out.writeObject(macros);
+            out.close();
+            System.out.println("Macro saved to " + fileName + ".");
+        } catch (IOException e) {
+            System.err.println("Error saving to file");
         }
     }
 
