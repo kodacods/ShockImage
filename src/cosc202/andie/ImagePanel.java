@@ -349,6 +349,8 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
      */
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (image.getCurrentImage() == null)
+            return;
         isDragging = true;
         second = e.getPoint();
         int scaledFirstX = (int) (first.x);
