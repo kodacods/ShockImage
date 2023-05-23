@@ -54,7 +54,8 @@ public class TransformActions {
                 Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new FlipHorzTransformAction(bundle.getString("FlipHorizontal"), null, "Flip image horizontally",
                 Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new StampAction(bundle.getString("Stamp"), null, "Stamp image onto current image", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new StampAction(bundle.getString("Stamp"), null, "Stamp image onto current image",
+                Integer.valueOf(KeyEvent.VK_M)));
     }
 
     /**
@@ -106,8 +107,8 @@ public class TransformActions {
         ResizeTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
 
-            Runnable r = new Runnable(){
-                public void run(){
+            Runnable r = new Runnable() {
+                public void run() {
                     actionPerformed();
                 }
             };
@@ -154,7 +155,7 @@ public class TransformActions {
             target.getParent().revalidate();
         }
 
-        public void actionPerformed(){
+        public void actionPerformed() {
             target.getImage().apply(new ResizeTransform(scaleFactor));
             target.repaint();
             target.getParent().revalidate();
@@ -184,8 +185,8 @@ public class TransformActions {
         RotateAntiClock90TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
 
-            Runnable r = new Runnable(){
-                public void run(){
+            Runnable r = new Runnable() {
+                public void run() {
                     actionPerformed();
                 }
             };
@@ -229,8 +230,8 @@ public class TransformActions {
         RotateClock90TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
 
-            Runnable r = new Runnable(){
-                public void run(){
+            Runnable r = new Runnable() {
+                public void run() {
                     actionPerformed();
                 }
             };
@@ -265,8 +266,8 @@ public class TransformActions {
         Rotate180TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
 
-            Runnable r = new Runnable(){
-                public void run(){
+            Runnable r = new Runnable() {
+                public void run() {
                     actionPerformed();
                 }
             };
@@ -301,8 +302,8 @@ public class TransformActions {
         FlipVertTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
 
-            Runnable r = new Runnable(){
-                public void run(){
+            Runnable r = new Runnable() {
+                public void run() {
                     actionPerformed();
                 }
             };
@@ -336,8 +337,8 @@ public class TransformActions {
         FlipHorzTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
 
-            Runnable r = new Runnable(){
-                public void run(){
+            Runnable r = new Runnable() {
+                public void run() {
                     actionPerformed();
                 }
             };
@@ -416,6 +417,7 @@ public class TransformActions {
         public void disable() {
             target.removeMouseListener(this);
             target.addMouseListener(target);
+            target.addMouseMotionListener(target);
         }
 
         /**
@@ -454,6 +456,7 @@ public class TransformActions {
                     target.registerKeyboardAction(action, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
                     target.addMouseListener(this);
                     target.removeMouseListener(target);
+                    target.removeMouseMotionListener(target);
                 } catch (Exception ex) {
                     // If file is not valid, give the user an error message and restart the file
                     // opening process.
