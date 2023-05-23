@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -21,6 +20,14 @@ import javax.swing.event.MouseInputListener;
  * in and out.
  * </p>
  * 
+ * 
+ * <p>
+ * This class also implements {@link MouseInputListener} to allow for drawing
+ * and retrives/updates the desired x and y co-ordinates.
+ * </p>
+ * 
+ * 
+ * 
  * <p>
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
  * 4.0</a>
@@ -31,9 +38,6 @@ import javax.swing.event.MouseInputListener;
  */
 public class ImagePanel extends JPanel implements MouseInputListener { // m
 
-    /**
-     * The image to display in the ImagePanel.
-     */
     private boolean isDrawingShape = false;
     private boolean isDragging = false;
     private EditableImage image;
@@ -73,7 +77,6 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
      * </p>
      */
     private double scale;
-    public static ArrayList<Shape> shapes; // List to store drawn shapes
 
     /**
      * <p>
@@ -89,7 +92,6 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
         scale = 1.0;
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-        shapes = new ArrayList<>(); // Initialize the shapes list
 
     }
 
@@ -191,23 +193,41 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
             } else if (preview != null && isDragging && isDrawingShape && isShapeFilled) {
                 g2.setColor(currentColor);
                 g2.fill(preview);
-                // Remove repaint() here
+
             }
 
             else if (preview != null && isDragging && isDrawingShape) {
                 g2.setColor(currentColor);
                 g2.draw(preview);
-                // Remove repaint() here
+
             }
             g2.dispose();
         }
     }
 
+    /**
+     * <p>
+     * Mouse event handler for mouse clicks.
+     * </p>
+     * 
+     * @param MouseEvent e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
 
     }
 
+    /**
+     * <p>
+     * Mouse event handler for mouse pressed.
+     * </p>
+     * 
+     * <p>
+     * sets the first point of the shape to be drawn
+     * </p>
+     * 
+     * @param MouseEvent e
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (isRedCircleSelected == false) {
@@ -252,6 +272,17 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
         }
     }
 
+    /**
+     * <p>
+     * Mouse event handler for mouse released.
+     * </p>
+     * 
+     * <p>
+     * sets the second point of the shape to be drawn
+     * </p>
+     * 
+     * @param MouseEvent e
+     */
     @Override
 
     public void mouseReleased(MouseEvent e) {
@@ -311,7 +342,7 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
                     isRedCircleSelected = false;
                     shouldDrawBlueRectangle = false;
                     isDrawingShape = false;
-                    // repaint();
+
                     break;
                 default:
                     break;
@@ -320,18 +351,32 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
             repaint();
 
         }
-        // RecTangleTime();
-        // repaint();
 
         currentShape = null;
         currentShapeType = null;
         ImagePanel.selection = false;
     }
 
+    /**
+     * <p>
+     * Mouse event handler for mouse entered.
+     * </p>
+     * 
+     * 
+     * @param MouseEvent e
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
     }
 
+    /**
+     * <p>
+     * Mouse event handler for mouse exited.
+     * </p>
+     * 
+     * 
+     * @param MouseEvent e
+     */
     @Override
     public void mouseExited(MouseEvent e) {
     }
@@ -411,10 +456,26 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
 
     }
 
+    /**
+     * <p>
+     * Mouse event handler for mouse moved.
+     * </p>
+     * 
+     * 
+     * @param MouseEvent e
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
     }
 
+    /**
+     * <p>
+     * Method to draw the rectangle.
+     * </p>
+     * 
+     * 
+     * 
+     */
     public void RecTangleTime() {
 
         if (isRedCircleSelected == false && shouldDrawBlueRectangle == true) {
@@ -429,20 +490,56 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
             return;
     }
 
+    /**
+     * <p>
+     * this method sets the current shape type.
+     * <p/>
+     * 
+     * 
+     * @param ShapeType shapeType
+     * 
+     */
     public void setCurrentShapeType(ShapeType shapeType) {
         currentShapeType = shapeType;
         currentShape = null;
 
     }
 
+    /**
+     * <p>
+     * this method sets the shape type.
+     * <p/>
+     * 
+     * 
+     * @param ShapeType shapeType
+     * 
+     */
     public void setShapeType(ShapeType shapeType) {
         currentShapeType = shapeType;
     }
 
+    /**
+     * <p>
+     * this method sets the current colour.
+     * <p/>
+     * 
+     * 
+     * @param Color color
+     * 
+     */
     public void setCurrentColor(Color color) {
         currentColor = color;
     }
 
+    /**
+     * <p>
+     * this method sets if setShapeFilled is true.
+     * <p/>
+     * 
+     * 
+     * @param boolean filled
+     * 
+     */
     public void setShapeFilled(boolean filled) {
         isShapeFilled = filled;
         repaint(); // Redraw the panel to reflect the changes

@@ -10,6 +10,27 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
+/**
+ * 
+ * <p>
+ * This class extends ImageAction to allow for drawing of shapes on the image.
+ * </p>
+ * 
+ * <p>
+ * This class creates a drawing menu with options to draw circles, rectangles,
+ * and lines as well as fill and colour.
+ * </p>
+ * 
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
+ * @author Stella Yan
+ * @version 1.0
+ */
+
 public class DrawingAction extends ImageAction {
 
     private ImagePanel imagePanel;
@@ -17,11 +38,27 @@ public class DrawingAction extends ImageAction {
 
     private boolean fillShape = false;
 
+    /**
+     * <p>
+     * Create a new drawing action.
+     * </p>
+     * 
+     */
     DrawingAction(String name, ImageIcon icon, String desc, Integer mnemonic, ImagePanel imagePanel) {
         super(name, icon, desc, mnemonic);
         this.imagePanel = imagePanel;
     }
 
+    /**
+     * <p>
+     * Create a new menu using Jmenu for shapes,fill and color using action event.
+     * </p>
+     * 
+     * 
+     * 
+     * 
+     * @param e the ActionEvent that triggered this method
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         JMenuItem menuItem = (JMenuItem) e.getSource();
@@ -43,7 +80,6 @@ public class DrawingAction extends ImageAction {
                 break;
 
             case "Line":
-                // fillShape = false;
                 imagePanel.setCurrentShapeType(ImagePanel.ShapeType.LINE);
                 imagePanel.setShapeType(ImagePanel.ShapeType.LINE);
                 ImagePanel.selection = false;
@@ -72,6 +108,15 @@ public class DrawingAction extends ImageAction {
         }
     }
 
+    /**
+     * <p>
+     * Creates menu items to add to the menu using action listener.
+     * </p>
+     * 
+     * 
+     * 
+     * 
+     */
     public JMenu createDrawingMenu() {
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
