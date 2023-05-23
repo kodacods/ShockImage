@@ -280,13 +280,12 @@ class EditableImage {
      * </p>
      */
     public void undo() {
-        try {
+
+        if (!ops.isEmpty()) {
             redoOps.push(ops.pop());
             refresh();
-        } catch (EmptyStackException ex) {
+        } else {
             JOptionPane.showMessageDialog(null, "No changes to undo!");
-        } catch (Exception e) {
-            System.out.println(e);
         }
     }
 
