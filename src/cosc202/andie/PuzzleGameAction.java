@@ -285,7 +285,10 @@ public class PuzzleGameAction implements ActionListener{
             frame.add(puzzleSide);
             frame.pack();
             frame.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "There isn't an image open.", "Game Error",JOptionPane.ERROR_MESSAGE);
         }
+
         
     }
 
