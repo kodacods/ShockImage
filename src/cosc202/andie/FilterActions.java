@@ -86,13 +86,13 @@ public class FilterActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
-        MyActionListener actionListener = new MyActionListener();
+        MyActionListener myActionListener = new MyActionListener();
 
         JMenu filterMenu = new JMenu(bundle.getString("Filter"));
 
         for (Action action : actions) {
             JMenuItem jmi = new JMenuItem(action);
-            jmi.addActionListener(actionListener);
+            jmi.addActionListener(myActionListener);
             filterMenu.add(jmi);
         }
 
@@ -570,6 +570,14 @@ public class FilterActions {
         SharpenFilterAction(String name, ImageIcon icon,
                 String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
@@ -580,6 +588,17 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
+            // Create and apply the filter
+            target.getImage().apply(new SharpenFilter());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed() {
             if (!target.getImage().hasImage()) {
                 JOptionPane.showMessageDialog(null, "You need to open an image first!");
                 return;
@@ -646,6 +665,13 @@ public class FilterActions {
          */
         EmbossFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            Runnable r = new Runnable(){
+                public void run(){
+                    EmbossFilterPopup();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
@@ -743,6 +769,13 @@ public class FilterActions {
          */
         SobelFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            Runnable r = new Runnable(){
+                public void run(){
+                    sobelFilterPopup();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**

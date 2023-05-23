@@ -32,7 +32,8 @@ import javax.swing.*;
 public class ColourActions {
 
     /** A list of actions for the Colour menu. */
-    protected ArrayList<Action> actions;
+    protected static ArrayList<Action> actions;
+    MyActionListener actionListener = new MyActionListener();
 
     /**
      * <p>
@@ -40,6 +41,7 @@ public class ColourActions {
      * </p>
      */
     public ColourActions() {
+        
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
@@ -48,6 +50,7 @@ public class ColourActions {
         actions.add(new ConvertToGreyAction(bundle.getString("Greyscale"), null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
         actions.add(new ContrastAction(bundle.getString("Contrast"), null, "Adjust contrast", Integer.valueOf(KeyEvent.VK_G)));
         actions.add(new BrightnessAction(bundle.getString("Brightness"), null, "Adjust brightness", Integer.valueOf(KeyEvent.VK_G)));
+
     }
 
     /**
@@ -61,9 +64,7 @@ public class ColourActions {
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
-        
-        MyActionListener actionListener = new MyActionListener();
-        
+                
         JMenu colourMenu = new JMenu(bundle.getString("Colour"));
 
         for (Action action : actions) {
@@ -98,6 +99,13 @@ public class ColourActions {
             super(name, icon, desc, mnemonic);
             this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping("Greyscale", r);
         }
 
         /**
@@ -116,6 +124,14 @@ public class ColourActions {
             target.getImage().apply(new ConvertToGrey());
             target.repaint();
             target.getParent().revalidate();
+
+        }
+
+        public void actionPerformed() {
+            target.getImage().apply(new ConvertToGrey());
+            target.repaint();
+            target.getParent().revalidate();
+
         }
 
     }
