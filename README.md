@@ -21,7 +21,7 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | Puzzle game | Meg |
 | **Exception handling** | Alex |
 | Crop | Meg & Stella |
-| Selection | Stella |
+| Selection | Meg & Stella |
 | Drawing | Stella |
 | Keyboard Short cuts | Stella |
 
@@ -167,6 +167,22 @@ To flip the image Horizontal, select 'Flip Horizontal' under the 'Transform' men
 **Change the language of ANDIE**
 
 To change the language of the interface, select 'Change language / Sprache ändern' under the 'Language / Sprache' menu. You will be presented with a pop up menu that will allow you to select either 'English' or 'Deutsch'. Once you have selected your preferred language press 'Ok'. The pop up menu will close. You will then need to exit the application and re-open it. Once it is re-opened all words will be changed to the language that was selected. You can change language at any time repeating the steps above.
+
+**Selection**
+
+Selection is automatic, click and drag anywhere on the screen to make a rectangle based selection.
+
+**Crop**
+
+Select an area to crop and apply using the 'Crop' button.
+
+**Drawing**
+
+To draw on the image, use the 'Drawing' menu and select desired shape, colour, fill. Only one shape is drawn for each selection.
+
+**KeyBoard Shortcuts**
+
+To access keyboard shortcuts, apply the controls shown next to the desired application e.g. to save use ctrl + s.
 
 ---
 
