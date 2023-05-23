@@ -2,6 +2,56 @@
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
+# Part 2
+
+## Who did what
+| Deliverables                         | Completed by  |
+| ------------------------------------ | ------------- |
+| **Filters**                          |               |
+| Emboss Filter                       | Alex          |
+| Sobel Filter| Alex |
+| **ToolBar**| Beka |
+| **Keyboard shortcuts** | Stella |
+| **Mouse selection**| Meg |
+| **Crop** | |
+| **Drawing functions** | Stella |
+| **Macros** | Beka |
+| **Extras** | |
+| Stamp | Alex |
+| Puzzle game | Meg |
+| **Exception handling** | Alex |
+
+---
+
+## Testing
+
+---
+
+## User Guide
+(Additional to Part 1)
+
+**Edge Detection Filters**
+
+- *Sobel Filter*:
+The sobel filter is an edge detection filter that has two options, vertical or horizontal. The image is then enhanced when there is large changes in colour/brightness, e.g. at edges.
+
+- *Emboss Filter*:
+The emboss filter is an edge detection filter that has eight options, which are each direction and their diagonals. The image is then enhanced when there is large changes in colour/brightness, e.g. at edges.
+
+**Extras**
+
+*Stamp*
+
+The stamp function (in the translate menu) is an added function which allows you to add an image on top of the current image, kind of like a sticker. When the stamp option is chosen, and the image you wish to stamp is selected, you can click anywhere on the image to stamp it. If you want to stop stamping the image, then you press escape.
+
+*Puzzle Game*
+
+The puzzle game function in the games menu is a simple puzzle game that includes 3 difficulties (2 * 2, 3 * 3, 4 * 4 in terms of how many cells the image is subdivided into), wherein the player swaps randomly shuffled cells of subdivided image to match the original image displayed to the left of the puzzle. It also records how many moves were made and how many were done upon finishing the puzzle.
+
+-----
+
+# Part 1
+
 ## Who did what
 
 | Deliverables                         | Completed by  |
@@ -10,8 +60,6 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | Sharpen filter                       | Alex          |
 | Gaussian blur filter                 | Alex          |
 | Median filter                        | Stella & Alex |
-| Emboss filter                        | Alex          |
-| Sobel filter                         | Alex          |
 | **Colour**                           |               |
 | Contrast                             | Beka          |
 | Brightness                           | Beka          |
@@ -24,13 +72,11 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | **Image export**                     | Meg           |
 | **Other error avoidance/prevention** | Alex          |
 | **Testing**                          | Stella & Alex |
-| **Extras**                           |               |
-| Stamp                                | Alex          |
-| Puzzle game                          | Meg           |
 
 ---
 
 ## Testing
+
 
 **Overall User Evaluation**
 All file and filter actions produce an expected output at a satisfactory response rate.
@@ -86,14 +132,6 @@ A Gaussian blur is a more complex blur which makes a weighted average of neighbo
 - *Median Blur*:
 A Median blur is a blur that gets the surrounding pixels, gets the median of each of the neighbouring pixels (based on a radius) individual RGB values. This results in a different kind of blur compared to the Mean and Gaussian filters.
 
-**Edge Detection Filters**
-
-- *Sobel Filter*:
-The sobel filter is an edge detection filter that has two options, vertical or horizontal. The image is then enhanced when there is large changes in colour/brightness, e.g. at edges.
-
-- *Emboss Filter*:
-The emboss filter is an edge detection filter that has eight options, which are each direction and their diagonals. The image is then enhanced when there is large changes in colour/brightness, e.g. at edges.
-
 **Sharpen Filter**
 
 The Sharpen filter is almost like an inverse blur, it makes each pixel more different than its surrounding neighbours. This filter does not use a radius, but can be applied more than once for a stronger effect.
@@ -125,16 +163,6 @@ To flip the image Horizontal, select 'Flip Horizontal' under the 'Transform' men
 **Change the language of ANDIE**
 
 To change the language of the interface, select 'Change language / Sprache ändern' under the 'Language / Sprache' menu. You will be presented with a pop up menu that will allow you to select either 'English' or 'Deutsch'. Once you have selected your preferred language press 'Ok'. The pop up menu will close. You will then need to exit the application and re-open it. Once it is re-opened all words will be changed to the language that was selected. You can change language at any time repeating the steps above.
-
-**Extras**
-
-*Stamp*
-
-The stamp function (in the translate menu) is an added function which allows you to add an image on top of the current image, kind of like a sticker. When the stamp option is chosen, and the image you wish to stamp is selected, you can click anywhere on the image to stamp it. If you want to stop stamping the image, then you press escape.
-
-*Puzzle Game*
-
-The puzzle game function in the games menu is a simple puzzle game that includes 3 difficulties (2 * 2, 3 * 3, 4 * 4 in terms of how many cells the image is subdivided into), wherein the player swaps randomly shuffled cells of subdivided image to match the original image displayed to the left of the puzzle. It also records how many moves were made and how many were done upon finishing the puzzle.
 
 ---
 
