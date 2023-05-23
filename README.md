@@ -20,6 +20,10 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | Stamp | Alex |
 | Puzzle game | Meg |
 | **Exception handling** | Alex |
+| Crop | Meg & Stella |
+| Selection | Stella |
+| Drawing | Stella |
+| Keyboard Short cuts | Stella |
 
 ---
 
