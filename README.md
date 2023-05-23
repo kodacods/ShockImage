@@ -26,7 +26,7 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | **Testing**                          | Stella & Alex |
 | **Extras**                           |               |
 | Stamp                                | Alex          |
-| Puzzle game                          | Meg          |
+| Puzzle game                          | Meg           |
 
 ---
 
@@ -131,6 +131,10 @@ To change the language of the interface, select 'Change language / Sprache ände
 *Stamp*
 
 The stamp function (in the translate menu) is an added function which allows you to add an image on top of the current image, kind of like a sticker. When the stamp option is chosen, and the image you wish to stamp is selected, you can click anywhere on the image to stamp it. If you want to stop stamping the image, then you press escape.
+
+*Puzzle Game*
+
+The puzzle game function in the games menu is a simple puzzle game that includes 3 difficulties (2 * 2, 3 * 3, 4 * 4 in terms of how many cells the image is subdivided into), wherein the player swaps randomly shuffled cells of subdivided image to match the original image displayed to the left of the puzzle. It also records how many moves were made and how many were done upon finishing the puzzle.
 
 ---
 
