@@ -113,9 +113,6 @@ public class DrawingAction extends ImageAction {
      * Creates menu items to add to the menu using action listener.
      * </p>
      * 
-     * 
-     * 
-     * 
      */
     public JMenu createDrawingMenu() {
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
@@ -143,6 +140,15 @@ public class DrawingAction extends ImageAction {
         return drawingMenu;
     }
 
+    /**
+     * <p>
+     * Sets the current color.
+     * </p>
+     * 
+     * 
+     * 
+     * @param colour the color to set.
+     */
     public void setCurrentColor(Color colour) {
         currentColor = colour;
     }
