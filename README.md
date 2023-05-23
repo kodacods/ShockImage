@@ -26,6 +26,7 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | **Testing**                          | Stella & Alex |
 | **Extras**                           |               |
 | Stamp                                | Alex          |
+| Puzzle game                          | Meg          |
 
 ---
 
