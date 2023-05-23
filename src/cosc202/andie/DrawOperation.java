@@ -6,17 +6,47 @@ import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * 
+ * <p>
+ * This class implements Image Operation to apply the drawn shapes to the image.
+ * </p>
+ * 
+ * 
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
+ * </p>
+ * 
+ * @author Stella Yan
+ * @version 1.0
+ */
+
 public class DrawOperation implements ImageOperation {
     private Shape shape;
     private boolean isShapeFilled;
     private Color color;
 
+    /**
+     * <p>
+     * Create a new drawing operation.
+     * </p>
+     * 
+     */
     public DrawOperation(Shape shape, boolean isShapeFilled, Color color) {
         this.shape = shape;
         this.isShapeFilled = isShapeFilled;
         this.color = color;
     }
 
+    /**
+     * <p>
+     * Creates an apply method to apply the drawn shapes to the image based on
+     * conditions set in @ImagePanel.
+     * </p>
+     * 
+     * @param input the image to apply the operation to.
+     */
     @Override
     public BufferedImage apply(BufferedImage input) {
         BufferedImage output = new BufferedImage(input.getWidth(), input.getHeight(), input.getType());
