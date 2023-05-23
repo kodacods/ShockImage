@@ -3,9 +3,12 @@ package cosc202.andie;
 import java.util.*;
 import java.util.prefs.Preferences;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -40,18 +43,29 @@ public class FilterActions {
      * Create a set of Filter menu actions.
      * </p>
      */
-    public FilterActions() {
+    public FilterActions() throws IOException {
 
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
+        // <a href="https://www.flaticon.com/free-icons/dots" title="dots icons">Dots
+        // icons created by icon wind - Flaticon</a>
+        Image blurImage = ImageIO.read(Andie.class.getClassLoader().getResource("blur.png"));
+        ImageIcon blurIcon = new ImageIcon(blurImage);
+
+        // <a href="https://www.flaticon.com/free-icons/blur" title="blur icons">Blur
+        // icons created by Google - Flaticon</a>
+        Image edgeDetectionImage = ImageIO.read(Andie.class.getClassLoader().getResource("edgedetection.png"));
+        ImageIcon edgeDetectionIcon = new ImageIcon(edgeDetectionImage);
+
         actions = new ArrayList<Action>();
         actions.add(new SharpenFilterAction(bundle.getString("SharpenFilter"), null, "Apply a Sharpen filter",
                 Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new EdgeDetectionFiltersAction(bundle.getString("EdgeFilters"), null, "Apply a Sharpen filter",
+        actions.add(new EdgeDetectionFiltersAction(bundle.getString("EdgeFilters"), edgeDetectionIcon,
+                "Apply a Sharpen filter",
                 Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new BlurFiltersAction(bundle.getString("BlurFilters"), null, "Apply a Sharpen filter",
+        actions.add(new BlurFiltersAction(bundle.getString("BlurFilters"), blurIcon, "Apply a Sharpen filter",
                 Integer.valueOf(KeyEvent.VK_M)));
     }
 
@@ -72,13 +86,17 @@ public class FilterActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
-        JMenu fileMenu = new JMenu(bundle.getString("Filter"));
+        MyActionListener myActionListener = new MyActionListener();
+
+        JMenu filterMenu = new JMenu(bundle.getString("Filter"));
 
         for (Action action : actions) {
-            fileMenu.add(new JMenuItem(action));
+            JMenuItem jmi = new JMenuItem(action);
+            jmi.addActionListener(myActionListener);
+            filterMenu.add(jmi);
         }
 
-        return fileMenu;
+        return filterMenu;
     }
 
     /**
@@ -168,6 +186,10 @@ public class FilterActions {
          * pressed all changes made inside of the popup are undone.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
             operations = new int[] { -1, -1 };
             og = target.getImage().getCurrentImage();
             JPanel optionsMenu = new JPanel();
@@ -322,6 +344,10 @@ public class FilterActions {
          * pressed all changes made inside of the popup are undone.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
             operations = new int[3];
             JPanel optionsMenu = new JPanel();
             optionsMenu.setLayout(new GridLayout(3, 2));
@@ -470,10 +496,7 @@ public class FilterActions {
         public void actionPerformed(ActionEvent e) {
             int radius = getRadius();
 
-            int x = target.getX();
-            int y = target.getY();
-
-            //target.getImage().apply(new DrawingOperation(x,y,));
+            // target.getImage().apply(new DrawingOperation(x,y,));
             // Create and apply the filter
             target.getImage().apply(new MeanFilter(radius));
             target.repaint();
@@ -547,6 +570,14 @@ public class FilterActions {
         SharpenFilterAction(String name, ImageIcon icon,
                 String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+
+            Runnable r = new Runnable(){
+                public void run(){
+                    actionPerformed();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
@@ -557,6 +588,21 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
+            // Create and apply the filter
+            target.getImage().apply(new SharpenFilter());
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+        public void actionPerformed() {
+            if (!target.getImage().hasImage()) {
+                JOptionPane.showMessageDialog(null, "You need to open an image first!");
+                return;
+            }
             // Create and apply the filter
             target.getImage().apply(new SharpenFilter());
             target.repaint();
@@ -619,6 +665,13 @@ public class FilterActions {
          */
         EmbossFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            Runnable r = new Runnable(){
+                public void run(){
+                    EmbossFilterPopup();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
@@ -716,6 +769,13 @@ public class FilterActions {
          */
         SobelFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
+            Runnable r = new Runnable(){
+                public void run(){
+                    sobelFilterPopup();
+                }
+            };
+
+            MacroRecorder.addActionMapping(name, r);
         }
 
         /**

@@ -1,6 +1,9 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.util.Locale;
+import java.util.prefs.Preferences;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.imageio.*;
@@ -64,13 +67,12 @@ public class Andie {
         frame.setIconImage(image);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // The main content area is an ImagePanel
         ImagePanel imagePanel = new ImagePanel();
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        // Add in menus for various types of action the user may perform.
+
         JMenuBar menuBar = new JMenuBar();
 
         // File menus are pretty standard, so things that usually go in File menus go
@@ -106,6 +108,9 @@ public class Andie {
         DrawingAction drawingAction = new DrawingAction(null, null, null, null, imagePanel);
         menuBar.add(drawingAction.createDrawingMenu());
 
+        MacrosAction macrosAction = new MacrosAction();
+        menuBar.add(macrosAction.createMenu());
+
         // Add toolbar
         JToolBar toolBar = new JToolBar();
         toolBar.setBorder(new EtchedBorder());
@@ -132,6 +137,8 @@ public class Andie {
         toolBar.add(blurButton);
 
 
+        MiscActions miscActions = new MiscActions();
+        menuBar.add(miscActions.createMenu());
 
         CropSelection cropSelection = new CropSelection(0, 0, 0, 0);
         JButton cropButton = cropSelection.createButton();
@@ -159,6 +166,12 @@ public class Andie {
      * @see #createAndShowGUI()
      */
     public static void main(String[] args) throws Exception {
+        Locale current = Locale.getDefault();
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        if (!current.equals(Locale.ENGLISH)||!current.equals(Locale.GERMAN)){
+            Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        }
+        
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {

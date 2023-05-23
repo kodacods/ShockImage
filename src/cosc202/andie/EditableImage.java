@@ -157,6 +157,8 @@ class EditableImage {
         File imageFile = new File(imageFilename);
         original = ImageIO.read(imageFile);
         current = deepCopy(original);
+        ops.clear();
+        redoOps.clear();
 
         try {
             FileInputStream fileIn = new FileInputStream(this.opsFilename);
@@ -201,11 +203,9 @@ class EditableImage {
         if (this.opsFilename == null) {
             this.opsFilename = this.imageFilename + ".ops";
         }
-
-        // Save the current image instead of the original image
+        // Write image file based on file extension
         String extension = imageFilename.substring(1 + imageFilename.lastIndexOf(".")).toLowerCase();
-        ImageIO.write(current, extension, new File(imageFilename));
-
+        ImageIO.write(original, extension, new File(imageFilename));
         // Write operations file
         FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
         ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
@@ -284,8 +284,10 @@ class EditableImage {
         if (!ops.isEmpty()) {
             redoOps.push(ops.pop());
             refresh();
-        } else {
+        } catch (EmptyStackException ex) {
             JOptionPane.showMessageDialog(null, "No changes to undo!");
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 

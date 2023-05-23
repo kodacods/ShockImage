@@ -6,6 +6,9 @@ import java.awt.Color;
 import javax.swing.JColorChooser;
 
 import java.awt.event.ActionEvent;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class DrawingAction extends ImageAction {
 
@@ -70,12 +73,18 @@ public class DrawingAction extends ImageAction {
     }
 
     public JMenu createDrawingMenu() {
-        JMenu drawingMenu = new JMenu("Drawing");
-        String[] shapeTypes = { "Circle", "Rectangle", "Line" };
+        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+        Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
+        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+        
+        JMenu drawingMenu = new JMenu(bundle.getString("Drawing"));
+        String[] shapeTypes = {"Circle", "Rectangle", "Square"};
+        MyActionListener actionListener = new MyActionListener();
 
         for (String shapeType : shapeTypes) {
             JMenuItem shapeMenuItem = new JMenuItem(shapeType);
             shapeMenuItem.addActionListener(this);
+            shapeMenuItem.addActionListener(actionListener);
             drawingMenu.add(shapeMenuItem);
         }
 
