@@ -26,7 +26,7 @@ import javax.swing.event.MouseInputListener;
  * 4.0</a>
  * </p>
  * 
- * @author Steven Mills
+ * @author Steven Mills & Stella Yan
  * @version 1.0
  */
 public class ImagePanel extends JPanel implements MouseInputListener { // m
@@ -37,7 +37,6 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
     private boolean isDrawingShape = false;
     private boolean isDragging = false;
     private EditableImage image;
-    public static ArrayList<Shape> drawnShapes = new ArrayList<>();
 
     public static Shape preview;
     private boolean isRedCircleSelected = false;
@@ -176,16 +175,10 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        super.paintComponent(g);
         if (image.hasImage()) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.scale(scale, scale);
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
-
-            // for (Shape shape : drawnShapes) {
-            // g2.setColor(Color.RED);
-            // g2.draw(shape);
-            // }
 
             if (shouldDrawBlueRectangle && origin != null) {
                 Stroke dashedStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f,
@@ -195,17 +188,13 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
                 g2.setStroke(dashedStroke);
                 g2.setColor(Color.BLACK);
                 g2.drawRect(origin.x, origin.y, selWidth, selHeight);
+            } else if (preview != null && isDragging && isDrawingShape && isShapeFilled) {
+                g2.setColor(currentColor);
+                g2.fill(preview);
+                // Remove repaint() here
             }
 
-            // if (currentShape != null) {
-            // g2.setColor(currentColor);
-            // if (isShapeFilled) {
-            // g2.fill(currentShape);
-            // g2.setColor(Color.RED);
-            // }
-            // g2.draw(currentShape);
-            // }
-            if (preview != null && isDragging && isDrawingShape) {
+            else if (preview != null && isDragging && isDrawingShape) {
                 g2.setColor(currentColor);
                 g2.draw(preview);
                 // Remove repaint() here
@@ -274,55 +263,65 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
         if (currentShapeType != null) {
             switch (currentShapeType) {
                 case CIRCLE:
-                    double radiusX = Math.abs(second.x - first.x) / scale;
-                    double radiusY = Math.abs(second.y - first.y) / scale;
+                    double radiusX = Math.abs(second.x - first.x);
+                    double radiusY = Math.abs(second.y - first.y);
                     double radius = Math.max(radiusX, radiusY);
                     double centerX = first.x + (second.x - first.x) / 2.0;
                     double centerY = first.y + (second.y - first.y) / 2.0;
-                    double x = centerX - radius;
-                    double y = centerY - radius;
-                    currentShape = new Ellipse2D.Double(x, y, radius * 2, radius * 2);
-                    // shapes.add(currentShape);
-                    // applyShapeToImage(currentShape);
+                    double x = Math.max(0, centerX - radius);
+                    double y = Math.max(0, centerY - radius);
+                    double maxX = image.getCurrentImage().getWidth() - 1;
+                    double maxY = image.getCurrentImage().getHeight() - 1;
+                    double clippedWidth = Math.min(maxX - x, radius * 2);
+                    double clippedHeight = Math.min(maxY - y, radius * 2);
+                    currentShape = new Ellipse2D.Double(x, y, clippedWidth, clippedHeight);
+
                     image.apply(new DrawOperation(currentShape, isShapeFilled, currentColor));
                     ImagePanel.selection = false;
                     isRedCircleSelected = false;
                     shouldDrawBlueRectangle = false;
                     isDrawingShape = false;
+
                     break;
 
                 case RECTANGLE:
                     int width = Math.abs(first.x - second.x);
                     int height = Math.abs(first.y - second.y);
-                    currentShape = new Rectangle2D.Double(Math.min(first.x, second.x), Math.min(first.y, second.y),
-                            width, height);
-                    // shapes.add(currentShape);
-                    // applyShapeToImage(currentShape);
+                    int xx = Math.min(first.x, second.x);
+                    int yx = Math.min(first.y, second.y);
+                    int maxXx = image.getCurrentImage().getWidth() - 1;
+                    int maxYx = image.getCurrentImage().getHeight() - 1;
+                    int clippedWidthx = Math.min(maxXx - xx, width);
+                    int clippedHeightx = Math.min(maxYx - yx, height);
+                    currentShape = new Rectangle2D.Double(xx, yx, clippedWidthx, clippedHeightx);
+
                     image.apply(new DrawOperation(currentShape, isShapeFilled, currentColor));
                     ImagePanel.selection = false;
                     isRedCircleSelected = false;
                     shouldDrawBlueRectangle = false;
                     isDrawingShape = false;
+
                     break;
 
                 case LINE:
                     currentShape = new Line2D.Double(first.x, first.y, second.x, second.y);
-                    // shapes.add(currentShape);
-                    // applyShapeToImage(currentShape);
+
                     image.apply(new DrawOperation(currentShape, isShapeFilled, currentColor));
                     ImagePanel.selection = false;
                     isRedCircleSelected = false;
                     shouldDrawBlueRectangle = false;
                     isDrawingShape = false;
+                    // repaint();
                     break;
                 default:
                     break;
 
             }
+            repaint();
 
         }
-        RecTangleTime();
-        repaint();
+        // RecTangleTime();
+        // repaint();
 
         currentShape = null;
         currentShapeType = null;
@@ -352,10 +351,17 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
     public void mouseDragged(MouseEvent e) {
         isDragging = true;
         second = e.getPoint();
-        int scaledFirstX = (int) (first.x / scale);
-        int scaledFirstY = (int) (first.y / scale);
+        int scaledFirstX = (int) (first.x);
+        int scaledFirstY = (int) (first.y);
         int scaledSecondX = (int) (second.x / scale);
         int scaledSecondY = (int) (second.y / scale);
+        // Limit the rectangle within the picture dimensions
+        int maxX = image.getCurrentImage().getWidth() - 1;
+        int maxY = image.getCurrentImage().getHeight() - 1;
+        scaledFirstX = Math.max(0, Math.min(scaledFirstX, maxX));
+        scaledFirstY = Math.max(0, Math.min(scaledFirstY, maxY));
+        scaledSecondX = Math.max(0, Math.min(scaledSecondX, maxX));
+        scaledSecondY = Math.max(0, Math.min(scaledSecondY, maxY));
         if (shouldDrawBlueRectangle) {
             origin = new Point(Math.min(scaledFirstX, scaledSecondX), Math.min(scaledFirstY, scaledSecondY));
             selWidth = Math.abs(scaledFirstX - scaledSecondX);
@@ -371,18 +377,22 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
                     double radius = Math.max(radiusX, radiusY);
                     double centerX = scaledFirstX + (scaledSecondX - scaledFirstX) / 2.0;
                     double centerY = scaledFirstY + (scaledSecondY - scaledFirstY) / 2.0;
-                    double x = centerX - radius;
-                    double y = centerY - radius;
-                    preview = new Ellipse2D.Double(x, y, radius * 2, radius * 2);
+                    double x = Math.max(0, centerX - radius);
+                    double y = Math.max(0, centerY - radius);
+                    double clippedWidth = Math.min(maxX - x, radius * 2);
+                    double clippedHeight = Math.min(maxY - y, radius * 2);
+                    preview = new Ellipse2D.Double(x, y, clippedWidth, clippedHeight);
                     repaint();
                     break;
 
                 case RECTANGLE:
+
                     int width = Math.abs(scaledSecondX - scaledFirstX);
                     int height = Math.abs(scaledSecondY - scaledFirstY);
                     int xx = Math.min(scaledFirstX, scaledSecondX);
                     int yx = Math.min(scaledFirstY, scaledSecondY);
                     preview = new Rectangle2D.Double(xx, yx, width, height);
+
                     repaint();
                     break;
 
@@ -409,8 +419,7 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
             origin = new Point(Math.min(first.x, second.x), Math.min(first.y, second.y));
             selWidth = Math.abs(first.x - second.x);
             selHeight = Math.abs(first.y - second.y);
-            // System.out.println("here");
-            // getImage().apply(new RectangularShowSelection());
+
             repaint();
             getParent().revalidate();
 
@@ -421,25 +430,6 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
     public void setCurrentShapeType(ShapeType shapeType) {
         currentShapeType = shapeType;
         currentShape = null;
-
-        // System.out.println("Shape type: " + shapeType);
-    }
-
-    private void applyShapeToImage(Shape shape) {
-        Graphics2D g2 = image.getCurrentImage().createGraphics();
-
-        g2.setColor(currentColor);
-
-        if (isShapeFilled) {
-            g2.fill(shape);
-            drawnShapes.add(shape);
-
-        } else {
-            g2.draw(shape);
-            drawnShapes.add(shape);
-
-        }
-        g2.dispose();
 
     }
 
@@ -456,7 +446,4 @@ public class ImagePanel extends JPanel implements MouseInputListener { // m
         repaint(); // Redraw the panel to reflect the changes
     }
 
-    public static ArrayList<Shape> getDrawnShapes() {
-        return drawnShapes;
-    }
 }
