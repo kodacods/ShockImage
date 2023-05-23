@@ -28,6 +28,8 @@ import javax.swing.*;
 public class TransformActions {
     /** List of actions for Transform menu */
     protected ArrayList<Action> actions;
+    Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+    ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
     /**
      * <p>
@@ -36,10 +38,8 @@ public class TransformActions {
      */
 
     public TransformActions() {
-
-        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
-        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+        
 
         actions = new ArrayList<Action>();
         actions.add(new ResizeTransformAction(bundle.getString("Resize"), null, "Resize image",
@@ -67,16 +67,12 @@ public class TransformActions {
      */
 
     public JMenu createMenu() {
-        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
-        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
         JMenu transformMenu = new JMenu(bundle.getString("Transform"));
-        MyActionListener myActionListener = new MyActionListener();
 
         for (Action action : actions) {
             JMenuItem jmi = new JMenuItem(action);
-            jmi.addActionListener(myActionListener);
             transformMenu.add(jmi);
         }
         return transformMenu;
@@ -92,6 +88,7 @@ public class TransformActions {
 
     public class ResizeTransformAction extends ImageAction {
         double scaleFactor;
+        //double saveScaleFactor;
 
         /**
          * <p>
@@ -106,14 +103,6 @@ public class TransformActions {
 
         ResizeTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-
-            Runnable r = new Runnable() {
-                public void run() {
-                    actionPerformed();
-                }
-            };
-
-            MacroRecorder.addActionMapping(name, r);
         }
 
         /**
@@ -155,12 +144,6 @@ public class TransformActions {
             target.getParent().revalidate();
         }
 
-        public void actionPerformed() {
-            target.getImage().apply(new ResizeTransform(scaleFactor));
-            target.repaint();
-            target.getParent().revalidate();
-        }
-
     }
 
     /**
@@ -184,23 +167,9 @@ public class TransformActions {
          */
         RotateAntiClock90TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-
-            Runnable r = new Runnable() {
-                public void run() {
-                    actionPerformed();
-                }
-            };
-
-            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new RotateAntiClock90Transform());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-
-        public void actionPerformed() {
             target.getImage().apply(new RotateAntiClock90Transform());
             target.repaint();
             target.getParent().revalidate();
@@ -229,23 +198,9 @@ public class TransformActions {
          */
         RotateClock90TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-
-            Runnable r = new Runnable() {
-                public void run() {
-                    actionPerformed();
-                }
-            };
-
-            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new RotateClock90Transform());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-
-        public void actionPerformed() {
             target.getImage().apply(new RotateClock90Transform());
             target.repaint();
             target.getParent().revalidate();
@@ -265,23 +220,9 @@ public class TransformActions {
         // baller .
         Rotate180TransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-
-            Runnable r = new Runnable() {
-                public void run() {
-                    actionPerformed();
-                }
-            };
-
-            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new Rotate180Transform());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-
-        public void actionPerformed() {
             target.getImage().apply(new Rotate180Transform());
             target.repaint();
             target.getParent().revalidate();
@@ -301,23 +242,9 @@ public class TransformActions {
 
         FlipVertTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-
-            Runnable r = new Runnable() {
-                public void run() {
-                    actionPerformed();
-                }
-            };
-
-            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new FlipVertTransform());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-
-        public void actionPerformed() {
             target.getImage().apply(new FlipVertTransform());
             target.repaint();
             target.getParent().revalidate();
@@ -336,23 +263,9 @@ public class TransformActions {
 
         FlipHorzTransformAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
-
-            Runnable r = new Runnable() {
-                public void run() {
-                    actionPerformed();
-                }
-            };
-
-            MacroRecorder.addActionMapping(name, r);
         }
 
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new FlipHorzTransform());
-            target.repaint();
-            target.getParent().revalidate();
-        }
-
-        public void actionPerformed() {
             target.getImage().apply(new FlipHorzTransform());
             target.repaint();
             target.getParent().revalidate();
