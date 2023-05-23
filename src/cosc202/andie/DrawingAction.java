@@ -76,9 +76,9 @@ public class DrawingAction extends ImageAction {
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
-        
+
         JMenu drawingMenu = new JMenu(bundle.getString("Drawing"));
-        String[] shapeTypes = {"Circle", "Rectangle", "Square"};
+        String[] shapeTypes = { "Circle", "Rectangle", "Line" };
         MyActionListener actionListener = new MyActionListener();
 
         for (String shapeType : shapeTypes) {
