@@ -13,17 +13,14 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | **ToolBar**| Beka |
 | **Keyboard shortcuts** | Stella |
 | **Mouse selection**| Meg |
-| **Crop** | |
+| **Crop** | Stella & Meg |
 | **Drawing functions** | Stella |
 | **Macros** | Beka |
 | **Extras** | |
 | Stamp | Alex |
 | Puzzle game | Meg |
 | **Exception handling** | Alex |
-| Crop | Meg & Stella |
-| Selection | Meg & Stella |
-| Drawing | Stella |
-| Keyboard Short cuts | Stella |
+| **Selection** | Meg & Stella |
 
 ---
 
