@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class CropSelection implements ImageOperation, java.io.Serializable {
     private int x;
@@ -47,16 +48,18 @@ public class CropSelection implements ImageOperation, java.io.Serializable {
          */
         public void actionPerformed(ActionEvent e) {
             // Create and apply CropSelection
-            target.getImage().apply(new CropSelection(ImagePanel.origin.x, ImagePanel.origin.y, ImagePanel.selWidth,
-                    ImagePanel.selHeight));
-            target.repaint();
-            target.getParent().revalidate();
-            // Reset selection rectangle
-            ImagePanel.origin = null;
-            ImagePanel.selWidth = 0;
-            ImagePanel.selHeight = 0;
-
-            ;
+            try {
+                target.getImage().apply(new CropSelection(ImagePanel.origin.x, ImagePanel.origin.y, ImagePanel.selWidth,
+                        ImagePanel.selHeight));
+                target.repaint();
+                target.getParent().revalidate();
+                // Reset selection rectangle
+                ImagePanel.origin = null;
+                ImagePanel.selWidth = 0;
+                ImagePanel.selHeight = 0;
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Select an area first!");
+            }
         }
 
     }
