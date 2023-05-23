@@ -59,6 +59,8 @@ class EditableImage {
 
     private static boolean recording = false;
 
+    private static String macrosOpsFileName;
+
     /**
      * <p>
      * Create a new EditableImage.
@@ -350,16 +352,16 @@ class EditableImage {
      * Saves the List of commands to a .ops file
      * 
      * @param fileName
+     * @throws IOException
+     * @throws FileNotFoundException
      */
-    public static void saveToFile(String fileName) {
+    public static void saveMacrosToFile(String fileName) throws FileNotFoundException, IOException {
+        macrosOpsFileName = fileName+".ops";
+
         System.out.println(macros);
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".ops"))) {
-            out.writeObject(macros);
-            out.close();
-            System.out.println("Macro saved to " + fileName + ".");
-        } catch (IOException e) {
-            System.err.println("Error saving to file");
-        }
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(macrosOpsFileName));
+        out.writeObject(macros);
+        out.close();
     }
 
 }

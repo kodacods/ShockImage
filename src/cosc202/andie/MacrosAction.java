@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.util.prefs.Preferences;
 
 /**
@@ -113,8 +115,20 @@ public class MacrosAction {
         @Override
         public void actionPerformed(ActionEvent e) {
             EditableImage.setRecording(false);
-            EditableImage.saveToFile("macro2");
+            
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(null);
 
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try{
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    EditableImage.saveMacrosToFile(imageFilepath);
+                } catch (NullPointerException ex) {
+                    JOptionPane.showMessageDialog(null, "No image has been opened!");
+                } catch (Exception ex) {
+                    System.exit(1);
+                }
+            }
         }
     }
     
@@ -131,20 +145,35 @@ public class MacrosAction {
         public void actionPerformed(ActionEvent e) {
             List<ImageOperation> readEvents = new ArrayList<>();
 
-            try (FileInputStream fis = (new FileInputStream("macro2" + ".ops"))) {
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                readEvents = (List<ImageOperation>)ois.readObject();
-            } catch (ClassNotFoundException | IOException e1) {
-                System.err.println("error at fis/ois");
-            }
-            for (ImageOperation event : readEvents){
-                System.out.println(event);
-                target.getImage().apply(event);
-                target.repaint();
-                target.getParent().revalidate();
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter( "Ops files", "ops");
+            fileChooser.setFileFilter(filter);
+
+            int result = fileChooser.showOpenDialog(target);
+
+            if(result == JFileChooser.APPROVE_OPTION){
+                try {
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+
+                    FileInputStream fis = (new FileInputStream(imageFilepath));
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    readEvents = (List<ImageOperation>)ois.readObject();
+                    ois.close();
+
+                } catch (ClassNotFoundException | IOException e1) {
+                    System.err.println("error at fis/ois");
+                }
+
+                for (ImageOperation event : readEvents){
+                    System.out.println(event);
+                    target.getImage().apply(event);
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+                
             }
         }
-    }
     
-
+    }
 }
