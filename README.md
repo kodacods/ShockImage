@@ -8,6 +8,7 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | Deliverables                         | Completed by  |
 | ------------------------------------ | ------------- |
 | **Filters**                          |               |
+| Extended filters | Alex |
 | Emboss Filter                       | Alex          |
 | Sobel Filter| Alex |
 | **ToolBar**| Beka |
@@ -32,13 +33,31 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 
 **Additional filters**
 
-Edge Detection Filters
+*Sobel Filter*:
 
-- *Sobel Filter*:
 The sobel filter is an edge detection filter that has two options, vertical or horizontal. The image is then enhanced when there is large changes in colour/brightness, e.g. at edges.
 
-- *Emboss Filter*:
+*Emboss Filter*:
+
 The emboss filter is an edge detection filter that has eight options, which are each direction and their diagonals. The image is then enhanced when there is large changes in colour/brightness, e.g. at edges.
+
+**Macros**
+
+*Start Recording Macros*
+
+To start recording macros, either access via Macros menu or button on the tool bar. All operations will be recorded and stored until Stop Recording is selected. When Start Recording Macros is selected, all previous recorded macros will be cleared unless saved previously to a file.
+
+*Stop Recording*
+
+To stop recording macros, either access via Macros menu or button on the tool bar. The application will stop recording any further operations. 
+
+*Save Macros to File*
+
+To save macros to a file, select Save Macros to File in the menu. Enter the file name and the operations that have been stored will be saved as a .ops file to your selected path.
+
+*Replay Macros*
+
+To replay any previously save macros, access Replay Macros in the menu. Select the .ops file you wish to replay and all operations will be applied to the image.
 
 **Extras**
 
