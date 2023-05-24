@@ -114,6 +114,8 @@ public class Andie {
         // Add toolbar
         JToolBar toolBar = new JToolBar();
         toolBar.setBorder(new EtchedBorder());
+        toolBar.addMouseListener(imagePanel);
+
 
         // Creates buttons and add them to tool bar
         JButton openButton = new JButton(fileActions.getAction(0));
@@ -136,10 +138,22 @@ public class Andie {
         toolBar.add(edgeDetectionButton);
         toolBar.add(blurButton);
 
+        
+        JButton startRecordBtn = new JButton("Record Macros");
+        startRecordBtn.setToolTipText("Record Macros");
+        startRecordBtn.setAction(macrosAction.getAction(0));
+        JButton stopRecord = new JButton(macrosAction.getAction(1));
+        JButton saveMacro = new JButton(macrosAction.getAction(2));
+        JButton replay = new JButton(macrosAction.getAction(3));
+        toolBar.add(startRecordBtn);
+        toolBar.add(stopRecord);
+        toolBar.add(saveMacro);
+        toolBar.add(replay);
 
         MiscActions miscActions = new MiscActions();
         menuBar.add(miscActions.createMenu());
 
+        
         CropSelection cropSelection = new CropSelection(0, 0, 0, 0);
         JButton cropButton = cropSelection.createButton();
         // Add the toolbar to the gui frame

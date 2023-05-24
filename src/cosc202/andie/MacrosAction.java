@@ -2,11 +2,13 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.AWTException;
+import java.awt.Image;
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -37,17 +39,26 @@ public class MacrosAction {
      * <p>
      * Create a set of Macro menu actions.
      * </p>
+     * @throws IOException
      */
-    public MacrosAction() throws AWTException {
+    public MacrosAction() throws AWTException, IOException {
 
         Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
+        // <a href="https://www.flaticon.com/free-icons/dot" title="dot icons">Dot icons created by Google - Flaticon</a>
+        Image recordImage = ImageIO.read(Andie.class.getClassLoader().getResource("button.png"));
+        ImageIcon recordIcon = new ImageIcon(recordImage);
+
+        // <a href="https://www.flaticon.com/free-icons/stop-button" title="stop button icons">Stop button icons created by Pixel perfect - Flaticon</a>
+        Image stopRecordImage = ImageIO.read(Andie.class.getClassLoader().getResource("stop-button.png"));
+        ImageIcon stopRecordIcon = new ImageIcon(stopRecordImage);
+
         actions = new ArrayList<Action>();
-        actions.add(new StartRecordingAction(bundle.getString("RecordEdits"), null, "Records macros of editing", null));
-        actions.add(new StopRecordingAction(bundle.getString("StopRecording"), null, "Stops recording macros", null ));
-        //actions.add(new SaveMacrosAction(bundle.getString("SaveEditRecording"), null, "Save a copy", null);
+        actions.add(new StartRecordingAction(bundle.getString("RecordEdits"), recordIcon, "Records macros of editing", null));
+        actions.add(new StopRecordingAction(bundle.getString("StopRecording"), stopRecordIcon, "Stops recording macros", null ));
+        actions.add(new SaveMacrosAction(bundle.getString("SaveEditRecording"), null, "Save a copy", null));
         actions.add(new ReplayAction(bundle.getString("ReplayEditRecording"), null, "Export Image", null));
     
     }
@@ -103,19 +114,31 @@ public class MacrosAction {
     }
 
     /**
-     * Class that stops the recording of Macros and saves it to a file
+     * Class the stops the recording of macros
      */
     public class StopRecordingAction extends ImageAction{
-        
+
         StopRecordingAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e){
+            EditableImage.setRecording(false);
+        }
+    }
+
+    /**
+     * Class that saves macros recorded in List to a file
+     */
+    public class SaveMacrosAction extends ImageAction{
+        
+        SaveMacrosAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EditableImage.setRecording(false);
-            
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(null);
 

@@ -12,7 +12,7 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | Sobel Filter| Alex |
 | **ToolBar**| Beka |
 | **Keyboard shortcuts** | Stella |
-| **Mouse selection**| Meg |
+| **Mouse selection**| Stella & Meg |
 | **Crop** | Stella & Meg |
 | **Drawing functions** | Stella |
 | **Macros** | Beka |
@@ -20,7 +20,6 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 | Stamp | Alex |
 | Puzzle game | Meg |
 | **Exception handling** | Alex |
-| **Selection** | Meg & Stella |
 
 ---
 
@@ -31,7 +30,9 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 ## User Guide
 (Additional to Part 1)
 
-**Edge Detection Filters**
+**Additional filters**
+
+Edge Detection Filters
 
 - *Sobel Filter*:
 The sobel filter is an edge detection filter that has two options, vertical or horizontal. The image is then enhanced when there is large changes in colour/brightness, e.g. at edges.

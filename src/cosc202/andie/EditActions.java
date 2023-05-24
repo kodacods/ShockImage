@@ -47,9 +47,11 @@ public class EditActions {
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
+        //<a href="https://www.flaticon.com/free-icons/undo" title="undo icons">Undo icons created by Creatype - Flaticon</a>
         Image undoImage = ImageIO.read(Andie.class.getClassLoader().getResource("undo.png"));
         ImageIcon undoIcon = new ImageIcon(undoImage);
 
+        //<a href="https://www.flaticon.com/free-icons/redo" title="redo icons">Redo icons created by Creatype - Flaticon</a>
         Image redoImage = ImageIO.read(Andie.class.getClassLoader().getResource("redo.png"));
         ImageIcon redoIcon = new ImageIcon(redoImage);
 

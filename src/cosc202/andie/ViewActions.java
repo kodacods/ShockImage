@@ -29,6 +29,9 @@ import javax.swing.*;
  */
 public class ViewActions {
     
+    Preferences prefs = Preferences.userNodeForPackage(Andie.class);
+    ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
+
     /**
      * A list of actions for the View menu.
      */
@@ -42,13 +45,14 @@ public class ViewActions {
      */
     public ViewActions() throws IOException {
 
-        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
-        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
+        //<a href="https://www.flaticon.com/free-icons/zoom-in" title="zoom in icons">Zoom in icons created by Freepik - Flaticon</a>
         Image zoominImage = ImageIO.read(Andie.class.getClassLoader().getResource("zoomin.png"));
-        Image zoomoutImage = ImageIO.read(Andie.class.getClassLoader().getResource("zoomout.png"));
         ImageIcon zoominIcon = new ImageIcon(zoominImage);
+
+        //<a href="https://www.flaticon.com/free-icons/zoom-out" title="zoom out icons">Zoom out icons created by Freepik - Flaticon</a>
+        Image zoomoutImage = ImageIO.read(Andie.class.getClassLoader().getResource("zoomout.png"));
         ImageIcon zoomoutIcon = new ImageIcon(zoomoutImage);
         
         actions = new ArrayList<Action>();
@@ -69,9 +73,7 @@ public class ViewActions {
      * @return The view menu UI element.
      */
     public JMenu createMenu() {
-        Preferences prefs = Preferences.userNodeForPackage(Andie.class);
         Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
-        ResourceBundle bundle = ResourceBundle.getBundle("TMessageBundle");
 
         JMenu viewMenu = new JMenu(bundle.getString("View"));
 
