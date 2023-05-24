@@ -6,7 +6,9 @@ import java.awt.Image;
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -189,6 +191,7 @@ public class MacrosAction {
             int result = fileChooser.showOpenDialog(target);
 
             if(result == JFileChooser.APPROVE_OPTION){
+                
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
 
@@ -198,9 +201,13 @@ public class MacrosAction {
                     readEvents = (List<ImageOperation>)ois.readObject();
                     ois.close();
 
-                } catch (ClassNotFoundException | IOException e1) {
-                    System.err.println("error at fis/ois");
+                } catch (ClassNotFoundException cnf) {
+                    System.err.println("Class not found");
+                } catch (IOException ioe){
+                    System.err.println(ioe);
                 }
+                    
+            }
 
                 // Applies operations to the image
                 for (ImageOperation event : readEvents){
@@ -213,5 +220,5 @@ public class MacrosAction {
             }
         }
     
-    }
+    
 }

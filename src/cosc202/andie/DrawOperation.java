@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  * 
@@ -22,7 +23,7 @@ import java.awt.image.BufferedImage;
  * @version 1.0
  */
 
-public class DrawOperation implements ImageOperation {
+public class DrawOperation implements ImageOperation, Serializable {
     private Shape shape;
     private boolean isShapeFilled;
     private Color color;
