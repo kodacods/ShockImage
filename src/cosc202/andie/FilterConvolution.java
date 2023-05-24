@@ -5,8 +5,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
+import java.io.Serializable;
 
-public class FilterConvolution {
+public class FilterConvolution implements Serializable {
     /**
      * Apply a convolution to an image with no offset.
      * 
