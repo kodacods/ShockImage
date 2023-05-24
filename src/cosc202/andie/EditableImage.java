@@ -278,7 +278,7 @@ class EditableImage {
             JOptionPane.showMessageDialog(null, "You need to open an image first!");
         }
         ops.add(op);
-        
+        System.out.println(op);
         // adds ImageOperations the macros array list when recording is set to true
         if (recording==true) macros.add(op);
     }

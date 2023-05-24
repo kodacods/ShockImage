@@ -45,7 +45,7 @@ The emboss filter is an edge detection filter that has eight options, which are 
 
 *Start Recording Macros*
 
-To start recording macros, either access via Macros menu or button on the tool bar. All operations will be recorded and stored until Stop Recording is selected. When Start Recording Macros is selected, all previous recorded macros will be cleared unless saved previously to a file.
+To start recording macros, either access via Macros menu or button on the tool bar. All operations will be recorded and stored until Stop Recording is selected.
 
 *Stop Recording*
 
@@ -63,7 +63,7 @@ To replay any previously save macros, access Replay Macros in the menu. Select t
 
 *Stamp*
 
-The stamp function (in the translate menu) is an added function which allows you to add an image on top of the current image, kind of like a sticker. When the stamp option is chosen, and the image you wish to stamp is selected, you can click anywhere on the image to stamp it. If you want to stop stamping the image, then you press escape.
+The stamp function (in the transform menu) is an added function which allows you to add an image on top of the current image, kind of like a sticker. When the stamp option is chosen, and the image you wish to stamp is selected, you can click anywhere on the image to stamp it. If you want to stop stamping the image, then you press escape.
 
 *Puzzle Game*
 
