@@ -104,10 +104,9 @@ public class MacrosAction {
         }
 
         /**
-         * Calls the startRecording method in MacroRecorder when an event has taken place
+         * Sets recording in EditableImage to true.
          * @param e
          */
-        @Override
         public void actionPerformed(ActionEvent e) {
             EditableImage.setRecording(true);
         }
@@ -122,6 +121,10 @@ public class MacrosAction {
             super(name, icon, desc, mnemonic);
         }
 
+        /**
+         * Sets recording in EditableImage to false.
+         * @param e
+         */
         public void actionPerformed(ActionEvent e){
             EditableImage.setRecording(false);
         }
@@ -136,7 +139,11 @@ public class MacrosAction {
             super(name, icon, desc, mnemonic);
         }
 
-
+        /**
+         *  Allows the user to select the filename and path to save .op file.
+         *  Passes onto saveMacrosToFile methos in EditableImage class
+         * @param e
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
@@ -164,6 +171,13 @@ public class MacrosAction {
             super(name, icon, desc, mnemonic);
         }
 
+        /**
+         * 
+         * Allows the user to select a .ops file 
+         * Loads the .ops file and executes operations to an image
+         * 
+         * @param e
+         */
         @SuppressWarnings("unchecked")
         public void actionPerformed(ActionEvent e) {
             List<ImageOperation> readEvents = new ArrayList<>();
@@ -188,6 +202,7 @@ public class MacrosAction {
                     System.err.println("error at fis/ois");
                 }
 
+                // Applies operations to the image
                 for (ImageOperation event : readEvents){
                     System.out.println(event);
                     target.getImage().apply(event);

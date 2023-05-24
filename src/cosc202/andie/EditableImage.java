@@ -278,7 +278,8 @@ class EditableImage {
             JOptionPane.showMessageDialog(null, "You need to open an image first!");
         }
         ops.add(op);
-
+        
+        // adds ImageOperations the macros array list when recording is set to true
         if (recording==true) macros.add(op);
     }
 
@@ -343,13 +344,18 @@ class EditableImage {
         }
     }
 
+    /**
+     * Sets the recording variable to true for when recording is to occur
+     * Sets the recording variable to false for when recording is to stop
+     * @param r
+     */
     public static void setRecording(Boolean r){
         if(r == true) recording=true;
         if (r== false) recording=false;
     }
 
     /**
-     * Saves the List of commands to a .ops file
+     * Takes a filename and save the ArrayList of ImageOperations to a .ops file to the specified pathway
      * 
      * @param fileName
      * @throws IOException

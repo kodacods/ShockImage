@@ -102,14 +102,21 @@ public class Andie {
         TransformActions transformActions = new TransformActions();
         menuBar.add(transformActions.createMenu());
 
+        // Actions that changes the language of the application
         LanguageAction languageAction = new LanguageAction();
         menuBar.add(languageAction.createMenu());
 
+        // Action that draws basic shapes onto images
         DrawingAction drawingAction = new DrawingAction(null, null, null, null, imagePanel);
         menuBar.add(drawingAction.createDrawingMenu());
 
+        // Action that records operations on images
         MacrosAction macrosAction = new MacrosAction();
         menuBar.add(macrosAction.createMenu());
+
+        // Action that provides games
+        MiscActions miscActions = new MiscActions();
+        menuBar.add(miscActions.createMenu());
 
         // Add toolbar
         JToolBar toolBar = new JToolBar();
@@ -138,14 +145,11 @@ public class Andie {
         toolBar.add(edgeDetectionButton);
         toolBar.add(blurButton);
 
-        
+
         JButton startRecordBtn = new JButton(macrosAction.getAction(0));
         JButton stopRecord = new JButton(macrosAction.getAction(1));
         toolBar.add(startRecordBtn);
         toolBar.add(stopRecord);
-
-        MiscActions miscActions = new MiscActions();
-        menuBar.add(miscActions.createMenu());
 
         
         CropSelection cropSelection = new CropSelection(0, 0, 0, 0);
