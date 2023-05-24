@@ -6,10 +6,7 @@ import java.awt.Image;
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
